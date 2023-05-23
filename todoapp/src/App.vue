@@ -1,0 +1,16 @@
+<script setup lang="ts">
+import TodoList from './components/TodoList.vue'
+</script>
+
+<template>
+  <div class="app">
+    <TodoList></TodoList>
+  </div>
+</template>
+
+<style scoped>
+.app {
+  width: 100vw;
+  height: 100vh;
+}
+</style>

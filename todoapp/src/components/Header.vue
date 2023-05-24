@@ -14,3 +14,5 @@ function deleteTasks() {
     <DeleteTasks @deleteTasks="deleteTasks"></DeleteTasks>
   </div>
 </template>
+
+<style scoped></style>

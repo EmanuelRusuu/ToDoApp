@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-const props = defineProps(['todos'])
+import type { TextString } from '../types/text'
+const props = defineProps<{
+  todos: TextString[]
+}>()
 const emits = defineEmits(['removeTodo'])
 
 function removeTodo(todo: string) {
@@ -12,7 +15,7 @@ function removeTodo(todo: string) {
   <ul class="todo-ul">
     <li class="todo" v-for="todo in todos" :key="todo.text">
       - {{ todo.text }}
-      <button @click="removeTodo(todo)">remove</button>
+      <button @click="removeTodo(todo.text)">remove</button>
     </li>
   </ul>
 </template>

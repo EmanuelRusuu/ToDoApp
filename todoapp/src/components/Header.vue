@@ -1,15 +1,16 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import DeleteTasks from './DeleteTasks.vue'
-import { defineEmits } from 'vue'
-const emits = defineEmits(['deleteTasks'])
+
+const emit = defineEmits(['deleteTasks'])
 
 function deleteTasks() {
-  emits('deleteTasks')
+  emit('deleteTasks')
 }
 </script>
 <template>
   <div class="title-cleartasks">
-    <h1>To Do APP</h1>
+    <h1>To do list</h1>
     <DeleteTasks @deleteTasks="deleteTasks"></DeleteTasks>
   </div>
 </template>

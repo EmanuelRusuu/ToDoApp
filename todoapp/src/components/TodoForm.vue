@@ -1,20 +1,32 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from 'vue'
+import { computed } from 'vue'
 
-const props = defineProps(['todos', 'inputContent'])
-const emits = defineEmits(['addTodo'])
-const inputContentRef = ref(props.inputContent)
+const props = defineProps<{
+  modelValue: string
+}>()
+const emit = defineEmits<{
+  addTodo: any
+  'update:modelValue': any
+}>()
+
+const inputValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(newValue) {
+    emit('update:modelValue', newValue)
+  }
+})
 
 function handleAdd() {
-  emits('addTodo', inputContentRef.value)
-  // console.log('handleAdd called - ', inputContentRef.value)
-  inputContentRef.value = ''
+  emit('addTodo', inputValue.value)
+  inputValue.value = ''
 }
 </script>
 
 <template>
   <form @submit.prevent="handleAdd" class="todoapp-form">
-    <input type="text" placeholder="add tasks" v-model="inputContentRef" />
+    <input type="text" placeholder="add tasks" v-model="inputValue" />
     <button>Add todo</button>
   </form>
 </template>

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
+import type { TextString } from '../types/text'
+
 import TodoForm from './TodoForm.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 
-const todos = ref<{ text: string }[]>([])
+const todos = ref<TextString[]>([])
 const inputContent = ref('')
 
 function addTodo(inputContent: string) {
@@ -12,10 +14,14 @@ function addTodo(inputContent: string) {
     return
   }
 
-  todos.value.push({
-    text: inputContent
-  })
-  inputContent = ''
+  const concatenateIndexWText = todos.value.length + inputContent
+  const index = concatenateIndexWText
+  const newTodo: TextString = {
+    text: inputContent,
+    id: index
+  }
+
+  todos.value.push(newTodo)
 }
 
 function deleteTasks() {
@@ -23,7 +29,7 @@ function deleteTasks() {
   localStorage.removeItem('todos')
 }
 
-function removeTodo(todo: { text: string }) {
+function removeTodo(todo: TextString) {
   todos.value = todos.value.filter((t) => t.text !== todo.text)
 }
 
@@ -44,7 +50,7 @@ watch(
   <div class="todoapp-container">
     <Header @deleteTasks="deleteTasks"></Header>
     <div class="todos-container">
-      <TodoForm :todos="todos" :inputContent="inputContent" @addTodo="addTodo"></TodoForm>
+      <TodoForm v-model="inputContent" @addTodo="addTodo"></TodoForm>
       <Todos :todos="todos" @removeTodo="removeTodo"></Todos>
     </div>
   </div>

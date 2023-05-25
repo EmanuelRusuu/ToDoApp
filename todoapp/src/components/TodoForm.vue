@@ -27,7 +27,6 @@ function handleAdd() {
 <template>
   <form @submit.prevent="handleAdd" class="todoapp-form">
     <input type="text" placeholder="add tasks" v-model="inputValue" />
-    <button>Add todo</button>
   </form>
 </template>
 

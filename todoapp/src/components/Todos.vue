@@ -1,16 +1,14 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import TodoUl from './TodoUl.vue'
-import type { TextString } from '../types/text'
+import type { TextIdString } from '../types/text'
 
 const props = defineProps<{
-  todos: TextString[]
+  todos: TextIdString[]
 }>()
 const emits = defineEmits(['removeTodo'])
 
-type Task = { text: string }
-
-function removeTodo(todo: Task) {
+function removeTodo(todo: { text: string }) {
   emits('removeTodo', todo)
 }
 </script>

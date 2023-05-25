@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { TextString } from '../types/text'
+import Todo from './Todo.vue'
+import type { TextIdString } from '../types/text'
 const props = defineProps<{
-  todos: TextString[]
+  todos: TextIdString[]
 }>()
+
 const emits = defineEmits(['removeTodo'])
 
-type Task = { text: string }
-
-function removeTodo(todo: Task) {
+function removeTodo(todo: TextIdString) {
   emits('removeTodo', todo)
 }
 </script>

@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import type { TextString } from '../types/text'
+import type { TextIdString } from '../types/text'
 
 import TodoForm from './TodoForm.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 
-const todos = ref<TextString[]>([])
+const todos = ref<TextIdString[]>([])
 const inputContent = ref('')
 
 function addTodo(inputContent: string) {
-  if (inputContent.trim() === '') {
-    return
-  }
-
   const concatenateIndexWText = todos.value.length + inputContent
   const index = concatenateIndexWText
-  const newTodo: TextString = {
+  const newTodo: TextIdString = {
     text: inputContent,
     id: index
   }
@@ -24,13 +20,8 @@ function addTodo(inputContent: string) {
   todos.value.push(newTodo)
 }
 
-function deleteTasks() {
-  todos.value = []
-  localStorage.removeItem('todos')
-}
-
-function removeTodo(todo: TextString) {
-  todos.value = todos.value.filter((t) => t.text !== todo.text)
+function removeTodo(todo: TextIdString) {
+  todos.value = todos.value.filter((t) => t.id !== todo.id)
 }
 
 onMounted(() => {
@@ -48,10 +39,10 @@ watch(
 
 <template>
   <div class="todoapp-container">
-    <Header @delete-tasks="deleteTasks" />
+    <Header v-model="inputContent" :todos="todos" @add-todo="addTodo" />
     <div class="todos-container">
-      <TodoForm v-model="inputContent" @addTodo="addTodo"></TodoForm>
-      <Todos :todos="todos" @removeTodo="removeTodo"></Todos>
+      <TodoForm v-model="inputContent" @add-todo="addTodo" />
+      <Todos :todos="todos" @removeTodo="removeTodo" />
     </div>
   </div>
 </template>

@@ -8,7 +8,9 @@ const props = defineProps<{
 }>()
 const emits = defineEmits(['removeTodo'])
 
-function removeTodo(todo: string) {
+type Task = { text: string }
+
+function removeTodo(todo: Task) {
   emits('removeTodo', todo)
 }
 </script>
@@ -17,7 +19,7 @@ function removeTodo(todo: string) {
   <div class="todos">
     <p v-if="todos.length > 0">These are your tasks:</p>
     <p v-else>You have no tasks</p>
-    <TodoUl :todos="todos" @removeTodo="removeTodo"></TodoUl>
+    <TodoUl :todos="todos" @remove-todo="removeTodo" />
   </div>
 </template>
 

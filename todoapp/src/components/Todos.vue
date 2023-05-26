@@ -1,17 +1,17 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import TodoUl from './TodoUl.vue'
-import type { TextIdString } from '../types/text'
+import type { TextString } from '../types/text'
 
 const props = defineProps<{
-  todos: TextIdString[]
+  todos: TextString[]
 }>()
 const emits = defineEmits<{
-  (e: 'removeTodo', todo: TextIdString): void
+  (e: 'removeTodo', index: number): void
 }>()
 
-function removeTodo(todo: TextIdString) {
-  emits('removeTodo', todo)
+function removeTodo(index: number) {
+  emits('removeTodo', index)
 }
 </script>
 
@@ -23,9 +23,4 @@ function removeTodo(todo: TextIdString) {
   </div>
 </template>
 
-<style>
-.todos {
-  height: 30rem;
-  overflow-y: scroll;
-}
-</style>
+<style scoped></style>

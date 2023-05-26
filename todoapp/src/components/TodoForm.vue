@@ -5,8 +5,8 @@ const props = defineProps<{
   modelValue: string
 }>()
 const emit = defineEmits<{
-  (e: 'addTodo', todo: string): void
-  (e: 'update:modelValue', value: any): void
+  (e: 'addTodo'): void
+  (e: 'update:modelValue', value: string): void
 }>()
 
 const inputValue = computed({
@@ -19,8 +19,7 @@ const inputValue = computed({
 })
 
 function handleAdd() {
-  emit('addTodo', inputValue.value)
-  inputValue.value = ''
+  emit('addTodo')
 }
 </script>
 
@@ -30,21 +29,16 @@ function handleAdd() {
   </form>
 </template>
 
-<style>
+<style scoped>
 .todoapp-form {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
-  gap: 1rem;
   margin-bottom: 2rem;
 }
 
 .todoapp-form input {
   height: 2.5rem;
-}
-
-.todoapp-form button {
-  height: 1.5rem;
 }
 </style>

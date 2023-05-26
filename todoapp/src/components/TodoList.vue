@@ -1,27 +1,23 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import type { TextIdString } from '../types/text'
+import type { TextString } from '../types/text'
 
 import TodoForm from './TodoForm.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 
-const todos = ref<TextIdString[]>([])
+const todos = ref<TextString[]>([])
 const inputContent = ref('')
 
-function addTodo(inputContent: string) {
-  const concatenateIndexWText = todos.value.length + inputContent
-  const index = concatenateIndexWText
-  const newTodo: TextIdString = {
-    text: inputContent,
-    id: index
+function addTodo() {
+  const newTodo: TextString = {
+    text: inputContent.value
   }
-
   todos.value.push(newTodo)
 }
 
-function removeTodo(todo: TextIdString) {
-  todos.value = todos.value.filter((t) => t.id !== todo.id)
+function removeTodo(index: number) {
+  todos.value.splice(index, 1)
 }
 
 onMounted(() => {
@@ -39,7 +35,7 @@ watch(
 
 <template>
   <div class="todoapp-container">
-    <Header v-model="inputContent" :todos="todos" @add-todo="addTodo" />
+    <Header v-model="inputContent" @add-todo="addTodo" />
     <div class="todos-container">
       <TodoForm v-model="inputContent" @add-todo="addTodo" />
       <Todos :todos="todos" @removeTodo="removeTodo" />
@@ -47,13 +43,7 @@ watch(
   </div>
 </template>
 
-<style>
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
+<style scoped>
 .todoapp-container {
   margin-top: 170px;
   width: 610px;

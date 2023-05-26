@@ -1,37 +1,20 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import plus from '../assets/plus.svg'
-import type { TextIdString } from '../types/text'
-import { computed } from 'vue'
-const props = defineProps<{
-  todos: TextIdString[]
-  modelValue: string
-}>()
 
 const emit = defineEmits<{
-  (e: 'addTodo', todo: string): void
-  (e: 'update:modelValue', value: any): void
+  (e: 'addTodo'): void
 }>()
 
-const inputValue = computed({
-  get() {
-    return props.modelValue
-  },
-  set(newValue) {
-    emit('update:modelValue', newValue)
-  }
-})
-
 function handleAdd() {
-  emit('addTodo', inputValue.value)
-  inputValue.value = ''
+  emit('addTodo')
 }
 </script>
 
 <template>
   <div class="header">
     <h1 class="header-title">To do list</h1>
-    <button @click="handleAdd" class="add-todo">
+    <button @click="handleAdd" class="add-todo-btn">
       <img :src="plus" />
     </button>
   </div>
@@ -57,7 +40,7 @@ function handleAdd() {
   color: #000000;
 }
 
-.add-todo {
+.add-todo-btn {
   border: 0;
   display: flex;
   justify-content: center;

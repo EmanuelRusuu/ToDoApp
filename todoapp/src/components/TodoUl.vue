@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import Todo from './Todo.vue'
-import type { TextIdString } from '../types/text'
+import type { TextString } from '../types/text'
 const props = defineProps<{
-  todos: TextIdString[]
+  todos: TextString[]
 }>()
 
 const emits = defineEmits<{
-  (e: 'removeTodo', todo: TextIdString): void
+  (e: 'removeTodo', index: number): void
 }>()
 
-function removeTodo(todo: TextIdString) {
-  emits('removeTodo', todo)
+function removeTodo(index: number) {
+  emits('removeTodo', index)
 }
 </script>
 
@@ -20,17 +20,10 @@ function removeTodo(todo: TextIdString) {
   </ul>
 </template>
 
-<style>
-.todo {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  overflow-wrap: break-word;
-}
-
+<style scoped>
 .todo-ul {
   height: 100%;
   width: 100%;
+  padding-bottom: 10rem;
 }
 </style>

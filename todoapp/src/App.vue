@@ -14,5 +14,6 @@ import TodoList from './components/TodoList.vue'
   height: 100vh;
   display: flex;
   justify-content: center;
+  overflow-x: hidden;
 }
 </style>

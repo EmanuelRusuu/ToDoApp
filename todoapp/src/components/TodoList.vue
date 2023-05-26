@@ -48,15 +48,6 @@ watch(
 </template>
 
 <style>
-body {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
 *,
 *::before,
 *::after {
@@ -64,26 +55,14 @@ body {
 }
 
 .todoapp-container {
-  width: 100%;
-  height: 100%;
+  margin-top: 170px;
+  width: 610px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 4rem;
-  background-color: white;
-  margin: auto;
 }
 
 .todos-container {
-  width: 25%;
-}
-
-.title-cleartasks {
-  display: flex;
-  margin: 2rem 0;
-  gap: 2rem;
-  display: flex;
-  justify-content: space-between;
   width: 100%;
 }
 </style>

@@ -9,8 +9,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  addTodo: any
-  'update:modelValue': any
+  (e: 'addTodo', todo: string): void
+  (e: 'update:modelValue', value: any): void
 }>()
 
 const inputValue = computed({
@@ -44,20 +44,28 @@ function handleAdd() {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 65px;
 }
 .header-title {
-  font-size: 2rem;
+  width: 275px;
+  height: 86px;
+  font-family: 'Neue Haas Grotesk Display Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 72px;
+  line-height: 86px;
+  color: #000000;
 }
 
 .add-todo {
-  background-color: var(--add-todo-button);
   border: 0;
-  height: 3.5rem;
-  width: 3.5rem;
-  border-radius: var(--br-add-todo-button);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  width: 59.64px;
+  height: 59.64px;
+  border-radius: 50%;
+  background-color: var(--add-todo-btn);
 }
 </style>

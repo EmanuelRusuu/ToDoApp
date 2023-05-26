@@ -1,7 +1,7 @@
 /* background-color:  */
 :root {
-  --add-todo-button:  #38CB89;
-
+  --add-todo-btn:  #38CB89;
+  --log-out-btn: #e6e6e6;
 }
 
 /* color:  */
@@ -9,10 +9,10 @@
   --white: #fff;
   --black: #000;
 }
-/* border-radius:  */
-:root {
-  --br-add-todo-button: 50%
-}
+
+
+
+@import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro');
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -34,6 +34,8 @@
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
+  font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+                                                
 }
 
 body {

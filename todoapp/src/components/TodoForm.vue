@@ -5,8 +5,8 @@ const props = defineProps<{
   modelValue: string
 }>()
 const emit = defineEmits<{
-  addTodo: any
-  'update:modelValue': any
+  (e: 'addTodo', todo: string): void
+  (e: 'update:modelValue', value: any): void
 }>()
 
 const inputValue = computed({

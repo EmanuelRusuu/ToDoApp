@@ -6,7 +6,9 @@ import type { TextIdString } from '../types/text'
 const props = defineProps<{
   todos: TextIdString[]
 }>()
-const emits = defineEmits(['removeTodo'])
+const emits = defineEmits<{
+  (e: 'removeTodo', todo: TextIdString): void
+}>()
 
 function removeTodo(todo: TextIdString) {
   emits('removeTodo', todo)

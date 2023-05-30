@@ -35,7 +35,7 @@ watch(
 
 <template>
   <div class="todoapp-container">
-    <Header v-model="inputContent" @add-todo="addTodo" />
+    <Header @add-todo="addTodo" />
     <div class="todos-container">
       <TodoForm v-model="inputContent" @add-todo="addTodo" />
       <Todos :todos="todos" @removeTodo="removeTodo" />

@@ -1,16 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import addTodo from '../assets/addbutton.svg'
-
 const emit = defineEmits<{
   (e: 'addTodo'): void
 }>()
-
 function handleAdd() {
   emit('addTodo')
 }
 </script>
-
 <template>
   <div class="header">
     <h1 class="header-title">To do list</h1>
@@ -19,7 +16,6 @@ function handleAdd() {
     </button>
   </div>
 </template>
-
 <style scoped>
 .header {
   width: 100%;
@@ -36,7 +32,6 @@ function handleAdd() {
   line-height: 29px;
   color: #000000;
 }
-
 .add-todo-btn {
   border: 0;
   display: flex;
@@ -47,5 +42,19 @@ function handleAdd() {
   height: 32px;
   border-radius: 50%;
   background-color: var(--add-todo-btn);
+}
+
+@media screen and (min-width: 650px) {
+  .header-title {
+    width: 275px;
+    height: 86px;
+    font-size: 72px;
+    line-height: 86px;
+  }
+
+  .add-todo-btn {
+    width: 60px;
+    height: 60px;
+  }
 }
 </style>

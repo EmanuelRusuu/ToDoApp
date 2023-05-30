@@ -1,25 +1,21 @@
 <script setup lang="ts">
 import Todo from './Todo.vue'
-import type { TextString } from '../types/text'
+import type { TodoTypes } from '../types/text'
 const props = defineProps<{
-  todos: TextString[]
+  todos: TodoTypes[]
 }>()
-
 const emits = defineEmits<{
   (e: 'removeTodo', index: number): void
 }>()
-
 function removeTodo(index: number) {
   emits('removeTodo', index)
 }
 </script>
-
 <template>
   <ul class="todo-ul">
     <Todo :todos="todos" @remove-todo="removeTodo" />
   </ul>
 </template>
-
 <style scoped>
 .todo-ul {
   height: 100%;

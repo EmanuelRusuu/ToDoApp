@@ -1,21 +1,28 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import addTodo from '../assets/addbutton.svg'
+import addTodoDesktop from '../assets/addTaskDesktop.svg'
+
+const props = defineProps<{ isMobile: boolean }>()
+
 const emit = defineEmits<{
   (e: 'addTodo'): void
 }>()
+
 function handleAdd() {
   emit('addTodo')
 }
 </script>
+
 <template>
   <div class="header">
     <h1 class="header-title">To do list</h1>
     <button @click="handleAdd" class="add-todo-btn">
-      <img :src="addTodo" />
+      <img :src="isMobile ? addTodo : addTodoDesktop" />
     </button>
   </div>
 </template>
+
 <style scoped>
 .header {
   width: 100%;

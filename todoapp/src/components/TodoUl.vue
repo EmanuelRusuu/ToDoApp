@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import Todo from './Todo.vue'
 import type { TodoTypes } from '../types/text'
+
 const props = defineProps<{
   todos: TodoTypes[]
+  isMobile: boolean
 }>()
-const emits = defineEmits<{
-  (e: 'removeTodo', index: number): void
-}>()
-function removeTodo(index: number) {
-  emits('removeTodo', index)
-}
 </script>
 <template>
   <ul class="todo-ul">
-    <Todo :todos="todos" @remove-todo="removeTodo" />
+    <Todo :is-mobile="isMobile" :todos="todos" />
   </ul>
 </template>
 <style scoped>

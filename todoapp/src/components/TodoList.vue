@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import type { TodoTypes } from '../types/text'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
+
 const todos = ref<TodoTypes[]>([])
+const isMobile = ref(false)
+
+function handleResize() {
+  isMobile.value = window.innerWidth < 650
+}
+
 function addTodo() {
   const currentDate = new Date()
   const day = currentDate.getDate()
@@ -18,12 +25,19 @@ function addTodo() {
   }
   todos.value.push(newTodo)
 }
-function removeTodo(index: number) {
-  todos.value.splice(index, 1)
-}
+
 onMounted(() => {
   todos.value = JSON.parse(localStorage.getItem('todos')!) || []
 })
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
 watch(
   todos,
   (newVal) => {
@@ -32,12 +46,14 @@ watch(
   { deep: true }
 )
 </script>
+
 <template>
   <div class="todoapp-container">
-    <Header @add-todo="addTodo" />
-    <Todos :todos="todos" @removeTodo="removeTodo" />
+    <Header :is-mobile="isMobile" @add-todo="addTodo" />
+    <Todos :is-mobile="isMobile" :todos="todos" />
   </div>
 </template>
+
 <style scoped>
 .todoapp-container {
   margin-top: 136px;

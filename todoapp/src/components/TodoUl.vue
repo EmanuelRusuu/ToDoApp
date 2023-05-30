@@ -24,6 +24,6 @@ function removeTodo(index: number) {
 .todo-ul {
   height: 100%;
   width: 100%;
-  padding-bottom: 10rem;
+  list-style: none;
 }
 </style>

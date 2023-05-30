@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import plus from '../assets/plus.svg'
+import addTodo from '../assets/addbutton.svg'
 
 const emit = defineEmits<{
   (e: 'addTodo'): void
@@ -15,7 +15,7 @@ function handleAdd() {
   <div class="header">
     <h1 class="header-title">To do list</h1>
     <button @click="handleAdd" class="add-todo-btn">
-      <img :src="plus" />
+      <img :src="addTodo" />
     </button>
   </div>
 </template>
@@ -27,16 +27,13 @@ function handleAdd() {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 65px;
+  margin-bottom: 49px;
 }
 .header-title {
-  width: 275px;
-  height: 86px;
-  font-family: 'Neue Haas Grotesk Display Pro';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 72px;
-  line-height: 86px;
+  width: 92px;
+  height: 26px;
+  font-size: 24px;
+  line-height: 29px;
   color: #000000;
 }
 
@@ -46,8 +43,8 @@ function handleAdd() {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  width: 59.64px;
-  height: 59.64px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: var(--add-todo-btn);
 }

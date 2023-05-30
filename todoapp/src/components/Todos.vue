@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import TodoUl from './TodoUl.vue'
+import NoTodosMobile from '../assets/notodosmobile.svg'
 import type { TextString } from '../types/text'
 
 const props = defineProps<{
@@ -17,10 +18,15 @@ function removeTodo(index: number) {
 
 <template>
   <div class="todos">
-    <p v-if="todos.length > 0">These are your tasks:</p>
-    <p v-else>You have no tasks</p>
     <TodoUl :todos="todos" @remove-todo="removeTodo" />
+    <img :src="NoTodosMobile" v-if="todos.length < 1" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.todos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

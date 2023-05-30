@@ -24,13 +24,14 @@ function removeTodo(index: number) {
 
 <style scoped>
 .todo {
-  width: 610px;
-  min-height: 163px;
+  width: 291px;
+  height: 82px;
   background-color: var(--todo);
   border: 2px solid #000000;
   border-radius: 16px;
   padding: 1rem;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  list-style: none;
 }
 
 .remove-todo-btn {

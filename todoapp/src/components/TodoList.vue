@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import type { TextString } from '../types/text'
-
-import TodoForm from './TodoForm.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 
@@ -36,23 +34,16 @@ watch(
 <template>
   <div class="todoapp-container">
     <Header @add-todo="addTodo" />
-    <div class="todos-container">
-      <TodoForm v-model="inputContent" @add-todo="addTodo" />
-      <Todos :todos="todos" @removeTodo="removeTodo" />
-    </div>
+    <Todos :todos="todos" @removeTodo="removeTodo" />
   </div>
 </template>
 
 <style scoped>
 .todoapp-container {
-  margin-top: 170px;
-  width: 610px;
+  margin-top: 136px;
+  width: 288px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.todos-container {
-  width: 100%;
 }
 </style>

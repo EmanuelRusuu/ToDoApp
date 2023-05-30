@@ -1,36 +1,29 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import Todo from './Todo.vue'
 import type { TextString } from '../types/text'
 const props = defineProps<{
   todos: TextString[]
 }>()
-const emits = defineEmits(['removeTodo'])
 
-function removeTodo(todo: string) {
-  emits('removeTodo', todo)
+const emits = defineEmits<{
+  (e: 'removeTodo', index: number): void
+}>()
+
+function removeTodo(index: number) {
+  emits('removeTodo', index)
 }
 </script>
 
 <template>
   <ul class="todo-ul">
-    <li class="todo" v-for="todo in todos" :key="todo.text">
-      - {{ todo.text }}
-      <button @click="removeTodo(todo.text)">remove</button>
-    </li>
+    <Todo :todos="todos" @remove-todo="removeTodo" />
   </ul>
 </template>
 
-<style>
-.todo {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  overflow-wrap: break-word;
-}
-
+<style scoped>
 .todo-ul {
   height: 100%;
   width: 100%;
+  padding-bottom: 10rem;
 }
 </style>

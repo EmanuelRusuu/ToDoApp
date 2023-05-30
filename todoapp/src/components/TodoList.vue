@@ -9,28 +9,15 @@ import Todos from './Todos.vue'
 const todos = ref<TextString[]>([])
 const inputContent = ref('')
 
-function addTodo(inputContent: string) {
-  if (inputContent.trim() === '') {
-    return
-  }
-
-  const concatenateIndexWText = todos.value.length + inputContent
-  const index = concatenateIndexWText
+function addTodo() {
   const newTodo: TextString = {
-    text: inputContent,
-    id: index
+    text: inputContent.value
   }
-
   todos.value.push(newTodo)
 }
 
-function deleteTasks() {
-  todos.value = []
-  localStorage.removeItem('todos')
-}
-
-function removeTodo(todo: TextString) {
-  todos.value = todos.value.filter((t) => t.text !== todo.text)
+function removeTodo(index: number) {
+  todos.value.splice(index, 1)
 }
 
 onMounted(() => {
@@ -48,51 +35,24 @@ watch(
 
 <template>
   <div class="todoapp-container">
-    <Header @deleteTasks="deleteTasks"></Header>
+    <Header @add-todo="addTodo" />
     <div class="todos-container">
-      <TodoForm v-model="inputContent" @addTodo="addTodo"></TodoForm>
-      <Todos :todos="todos" @removeTodo="removeTodo"></Todos>
+      <TodoForm v-model="inputContent" @add-todo="addTodo" />
+      <Todos :todos="todos" @removeTodo="removeTodo" />
     </div>
   </div>
 </template>
 
-<style>
-body {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
+<style scoped>
 .todoapp-container {
-  width: 100%;
-  height: 100%;
+  margin-top: 170px;
+  width: 610px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 4rem;
-  background-color: white;
-  margin: auto;
 }
 
 .todos-container {
-  width: 25%;
-}
-
-.title-cleartasks {
-  display: flex;
-  margin: 2rem 0;
-  gap: 2rem;
-  display: flex;
-  justify-content: space-between;
   width: 100%;
 }
 </style>

@@ -6,10 +6,12 @@ import type { TextString } from '../types/text'
 const props = defineProps<{
   todos: TextString[]
 }>()
-const emits = defineEmits(['removeTodo'])
+const emits = defineEmits<{
+  (e: 'removeTodo', index: number): void
+}>()
 
-function removeTodo(todo: string) {
-  emits('removeTodo', todo)
+function removeTodo(index: number) {
+  emits('removeTodo', index)
 }
 </script>
 
@@ -17,13 +19,8 @@ function removeTodo(todo: string) {
   <div class="todos">
     <p v-if="todos.length > 0">These are your tasks:</p>
     <p v-else>You have no tasks</p>
-    <TodoUl :todos="todos" @removeTodo="removeTodo"></TodoUl>
+    <TodoUl :todos="todos" @remove-todo="removeTodo" />
   </div>
 </template>
 
-<style>
-.todos {
-  height: 30rem;
-  overflow-y: scroll;
-}
-</style>
+<style scoped></style>

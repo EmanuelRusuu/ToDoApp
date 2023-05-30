@@ -4,7 +4,7 @@ import TodoList from './components/TodoList.vue'
 
 <template>
   <div class="app">
-    <TodoList></TodoList>
+    <TodoList />
   </div>
 </template>
 
@@ -12,5 +12,8 @@ import TodoList from './components/TodoList.vue'
 .app {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
 }
 </style>

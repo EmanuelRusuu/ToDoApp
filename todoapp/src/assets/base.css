@@ -1,0 +1,23 @@
+/* background-color:  */
+:root {
+  --add-todo-btn:  #38CB89;
+  --log-out-btn: #e6e6e6;
+  --todo: #ffffff;
+}
+/* color:  */
+:root {
+  --white: #fff;
+  --black: #000;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-family: 'Neue Haas Grotesk Display Pro', sans-serif;                                    
+}
+

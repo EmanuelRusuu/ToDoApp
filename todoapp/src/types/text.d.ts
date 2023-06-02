@@ -1,7 +1,7 @@
-export type TodoTypes = {
+export type TodoType = {
     title: string
     text: string
-    priority: number
+    priority: tuple
     status: boolean
     created_at: string
 };

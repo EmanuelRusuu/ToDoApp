@@ -1,10 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import addTodo from '../assets/addbutton.svg'
-import addTodoDesktop from '../assets/addTaskDesktop.svg'
-
-const props = defineProps<{ isMobile: boolean }>()
-
 const emit = defineEmits<{
   (e: 'addTodo'): void
 }>()
@@ -18,7 +13,9 @@ function handleAdd() {
   <div class="header">
     <h1 class="header-title">To do list</h1>
     <button @click="handleAdd" class="add-todo-btn">
-      <img :src="isMobile ? addTodo : addTodoDesktop" />
+      <svg viewBox="-4 -4 32 32" stroke="currentColor">
+        <path d="M12 6v12m6-6H6" />
+      </svg>
     </button>
   </div>
 </template>
@@ -49,9 +46,28 @@ function handleAdd() {
   height: 32px;
   border-radius: 50%;
   background-color: var(--add-todo-btn);
+  color: WHITE;
 }
 
-@media screen and (min-width: 650px) {
+.add-todo-icon {
+  color: white;
+}
+
+@media screen and (min-width: 480px) {
+  .header-title {
+    width: 275px;
+    height: 60px;
+    font-size: 55px;
+    line-height: 55px;
+  }
+
+  .add-todo-btn {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+@media screen and (min-width: 768px) {
   .header-title {
     width: 275px;
     height: 86px;

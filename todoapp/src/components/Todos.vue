@@ -1,20 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import TodoUl from './TodoUl.vue'
-import NoTodosMobile from '../assets/notodosmobile.svg'
-import NoTodos from '../assets/notodos.svg'
-import type { TodoTypes } from '../types/text'
+import EmptyState from './EmptyState.vue'
+import type { TodoType } from '../types/text'
 
 const props = defineProps<{
-  todos: TodoTypes[]
-  isMobile: boolean
+  todos: TodoType[]
 }>()
 </script>
 
 <template>
   <div class="todos">
-    <TodoUl :is-mobile="isMobile" :todos="todos" />
-    <img :src="isMobile ? NoTodosMobile : NoTodos" v-if="todos.length < 1" />
+    <TodoUl :todos="todos" />
+    <EmptyState :todos="todos" />
   </div>
 </template>
 
@@ -23,15 +21,24 @@ const props = defineProps<{
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
-.todos img {
-  margin-top: 49px;
+.todoimage {
+  margin-top: 40px;
+  width: 100%;
 }
 
-@media screen and (min-height: 650px) {
-  .todos img {
+@media screen and (min-width: 480px) and (max-width: 768px) {
+  .todoimage {
+    margin-top: 60px;
+    width: 60%;
+  }
+}
+@media screen and (min-width: 768px) {
+  .todoimage {
     margin-top: 72px;
+    width: 65%;
   }
 }
 </style>

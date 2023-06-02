@@ -1,165 +1,86 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import type { TodoTypes } from '../types/text'
+import type { TodoType } from '../types/text'
 import Incomplete from '../assets/eclipseblack.svg'
 import Complete from '../assets/completedTask.png'
 
 const props = defineProps<{
-  todos: TodoTypes[]
-  isMobile: boolean
+  todos: TodoType[]
 }>()
 
-function handleImportance(priority: number) {
-  if (priority === 0) {
-    return 'low'
-  } else if (priority === 1) {
-    return 'medium'
-  } else if (priority === 2) {
-    return 'high'
-  } else {
-    return ''
-  }
+const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
+
+function handleImportance(index: keyof typeof priority) {
+  return priority[index]
 }
 
-function statusState(todo: TodoTypes) {
-  if (todo.status === false) {
-    todo.status = true
-  } else {
-    todo.status = false
-  }
+function toggleTodoState(todo: TodoType) {
+  todo.status = !todo.status
 }
 </script>
 <template>
-  <div v-for="(todo, index) in todos" :key="index">
-    <div class="todo" v-if="isMobile">
-      <div @click="statusState(todo)" class="status-container">
-        <div v-if="!todo.status">
-          <img class="status" :src="Incomplete" alt="incomplete" />
-        </div>
-        <div v-else>
-          <img class="status" :src="Complete" alt="complete" />
-        </div>
-      </div>
-      <div class="todo-importance-wrap">
-        <div class="todo-content">
-          <p class="todo-title">
-            {{ todo.title }}
-          </p>
-          <p class="todo-created_at">
-            {{ todo.created_at }}
-          </p>
-        </div>
-        <div class="todo-importance-container">
-          <p :class="handleImportance(todo.priority)" class="todo-importance"></p>
-        </div>
-      </div>
+  <div class="todo" v-for="(todo, index) in todos" :key="index">
+    <div @click="toggleTodoState(todo)" class="status-container">
+      <img v-if="!todo.status" class="status" :src="Incomplete" alt="incomplete" />
+      <img v-else class="status" :src="Complete" alt="complete" />
     </div>
-
-    <div class="todo-desktop" v-else>
-      <div class="todo-content-desktop">
-        <p class="todo-title-desktop">
+    <div class="todo-importance-wrap">
+      <div class="todo-content">
+        <p class="todo-title">
           {{ todo.title }}
         </p>
-        <p class="todo-text-desktop">
-          {{ todo.text }}
+        <p class="todo-text">{{ todo.text }}</p>
+        <p class="todo-created_at">
+          {{ todo.created_at }}
         </p>
       </div>
-      <div class="todo-imp-status-rem">
-        <div class="todo-importance-container-desktop">
-          <p v-if="todo.priority === 0" class="todo-importance-desktop low">Low</p>
-          <p v-else-if="todo.priority === 1" class="todo-importance-desktop medium">Medium</p>
-          <p v-else class="todo-importance-desktop high">High</p>
-        </div>
-        <div @click="statusState(todo)" class="status-container-desktop">
-          <div v-if="!todo.status">
-            <img class="status" :src="Incomplete" alt="incomplete" />
-          </div>
-          <div v-else>
-            <img class="status" :src="Complete" alt="complete" />
-          </div>
-        </div>
+      <div :class="handleImportance(todo.priority)" class="todo-importance-container">
+        <p class="todo-importance">{{ handleImportance(todo.priority) }}</p>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
-.todo,
-.todo-desktop {
+.todo {
   display: flex;
   align-items: center;
   background-color: var(--todo);
   border: 2px solid #000000;
   border-radius: 16px;
-  padding: 1rem;
-}
-.todo {
-  width: 291px;
-  height: 82px;
+  padding: 20px 22px;
+  max-width: 291px;
+  width: 100%;
+  min-height: 82px;
   margin-bottom: 30px;
 }
 
-.todo-desktop {
-  width: 610px;
-  height: 163px;
-  margin-bottom: 50px;
-}
-
-.remove-todo-btn {
-  height: 2rem;
-  margin: 1rem;
-}
-.status-container img {
+.status-container {
   width: 24px;
   height: 24px;
   margin-right: 18px;
 }
 
-.status-container-desktop img {
-  width: 40px;
-  height: 40px;
-}
-
-.todo-imp-status-rem {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
+.status-container img {
+  width: 100%;
   height: 100%;
+  margin-right: 18px;
 }
 
-.todo-importance-container-desktop {
-  color: white;
-}
-
-.todo-importance-desktop {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 29px;
-  text-align: center;
-  padding: 0 20px;
-  border-radius: 500px;
-}
-
-.high {
+.High {
   background: #ff481f;
 }
 
-.medium {
+.Medium {
   background: #ffab00;
 }
 
-.low {
+.Low {
   background: #38cbcb;
 }
 
-.todo-content,
-.todo-content-desktop {
+.todo-content {
   display: flex;
   flex-direction: column;
-}
-
-.todo-content-desktop {
-  flex-grow: 1;
 }
 
 .todo-title {
@@ -168,15 +89,20 @@ function statusState(todo: TodoTypes) {
   line-height: 21px;
 }
 
-.todo-title-desktop {
-  font-size: 42px;
-  font-weight: 600;
-  line-height: 50px;
-  width: 275px;
-  height: 86px;
+.todo-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  color: #757575;
+  display: none;
+  width: 80%;
 }
 
-.todo-importance-wrap-desktop,
+.todo-importance {
+  display: none;
+  color: white;
+}
+
 .todo-importance-wrap {
   display: flex;
   align-items: center;
@@ -184,11 +110,7 @@ function statusState(todo: TodoTypes) {
   flex-grow: 1;
 }
 
-.todo-importance-wrap-desktop {
-  display: flex;
-}
-
-.todo-importance {
+.todo-importance-container {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -206,5 +128,86 @@ function statusState(todo: TodoTypes) {
   flex: none;
   order: 1;
   flex-grow: 0;
+}
+
+@media screen and (min-width: 480px) {
+  .todo {
+    max-width: 500px;
+    width: 100%;
+    min-height: 140px;
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .todo-title {
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 600;
+  }
+
+  .todo-text {
+    display: block;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 27px;
+    margin-top: 30px;
+  }
+  .todo-importance {
+    display: block;
+    font-size: 18px;
+    line-height: 34px;
+  }
+  .todo-importance-container {
+    width: fit-content;
+    height: 33px;
+    border-radius: 500px;
+    padding: 0 22px;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .status-container {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0;
+  }
+
+  .todo-created_at {
+    font-size: 18px;
+    position: absolute;
+    right: 0;
+    top: 4rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .todo {
+    max-width: 610px;
+    width: 100%;
+    min-height: 163px;
+    margin-bottom: 50px;
+  }
+
+  .todo-title {
+    font-size: 42px;
+    line-height: 50px;
+    width: fit-content;
+  }
+
+  .todo-text {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 34px;
+    margin-top: 39px;
+  }
+
+  .status-container {
+    width: 40px;
+    height: 40px;
+  }
 }
 </style>

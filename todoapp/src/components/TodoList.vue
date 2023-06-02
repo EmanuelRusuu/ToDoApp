@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import type { TextString } from '../types/text'
+import moment from 'moment'
+import type { TodoType } from '../types/text'
 
-import TodoForm from './TodoForm.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 
-const todos = ref<TextString[]>([])
-const inputContent = ref('')
+const todos = ref<TodoType[]>([])
 
 function addTodo() {
-  const newTodo: TextString = {
-    text: inputContent.value
+  const currentDate = moment().format('DD.MM.YYYY')
+  const newTodo: TodoType = {
+    title: 'Pay for rent',
+    text: 'Lorem ipsum dolor sit amet ipsum dolor sit amet',
+    priority: 0,
+    status: false,
+    created_at: ` ${currentDate}`
   }
   todos.value.push(newTodo)
-}
-
-function removeTodo(index: number) {
-  todos.value.splice(index, 1)
 }
 
 onMounted(() => {
@@ -36,23 +36,33 @@ watch(
 <template>
   <div class="todoapp-container">
     <Header @add-todo="addTodo" />
-    <div class="todos-container">
-      <TodoForm v-model="inputContent" @add-todo="addTodo" />
-      <Todos :todos="todos" @removeTodo="removeTodo" />
-    </div>
+    <Todos :todos="todos" />
   </div>
 </template>
 
 <style scoped>
 .todoapp-container {
-  margin-top: 170px;
-  width: 610px;
+  margin-top: 136px;
+  max-width: 288px;
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.todos-container {
-  width: 100%;
+@media screen and (min-width: 480px) {
+  .todoapp-container {
+    max-width: 500px;
+    width: 90%;
+    margin-top: 180px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .todoapp-container {
+    max-width: 610px;
+    width: 80%;
+    margin-top: 190px;
+  }
 }
 </style>

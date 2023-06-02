@@ -4,4 +4,5 @@ export type TodoType = {
     priority: tuple
     status: boolean
     created_at: string
+    editing: boolean
 };

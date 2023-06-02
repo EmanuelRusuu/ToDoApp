@@ -3,21 +3,24 @@
 import Todo from './Todo.vue'
 import EmptyState from './EmptyState.vue'
 import type { TodoType } from '../types/text'
-
 const props = defineProps<{
   todos: TodoType[]
 }>()
+const emit = defineEmits<{
+  (e: 'removeTask', index: number): void
+}>()
+function removeTask(index: number) {
+  emit('removeTask', index)
+}
 </script>
-
 <template>
   <div class="todos">
     <ul class="todo-ul">
-      <Todo :todos="todos" />
+      <Todo @remove-task="removeTask" :todos="todos" />
     </ul>
     <EmptyState :todos="todos" />
   </div>
 </template>
-
 <style scoped>
 .todos {
   display: flex;
@@ -26,7 +29,6 @@ const props = defineProps<{
   width: 100%;
   padding-bottom: 73px;
 }
-
 .todo-ul {
   height: 100%;
   width: 100%;
@@ -34,12 +36,10 @@ const props = defineProps<{
   flex-direction: column-reverse;
   gap: 30px;
 }
-
 .todoimage {
   margin-top: 40px;
   width: 100%;
 }
-
 @media screen and (min-width: 480px) and (max-width: 768px) {
   .todos {
     padding-bottom: 100px;
@@ -48,7 +48,6 @@ const props = defineProps<{
     margin-top: 60px;
     width: 60%;
   }
-
   .todo-ul {
     gap: 40px;
   }
@@ -61,7 +60,6 @@ const props = defineProps<{
     margin-top: 72px;
     width: 65%;
   }
-
   .todo-ul {
     gap: 50px;
   }

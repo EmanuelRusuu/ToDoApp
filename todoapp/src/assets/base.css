@@ -1,7 +1,9 @@
 /* background-color:  */
 :root {
   --add-todo-btn:  #38CB89;
+  --save-btn: #38CB89;
   --log-out-btn: #e6e6e6;
+  --delete-btn: #e5e5e5;
   --todo: #ffffff;
 }
 /* color:  */
@@ -9,8 +11,6 @@
   --white: #fff;
   --black: #000;
 }
-
-
 *,
 *::before,
 *::after {
@@ -20,4 +20,3 @@
   font-weight: 600;
   font-family: 'Neue Haas Grotesk Display Pro', sans-serif;                                    
 }
-

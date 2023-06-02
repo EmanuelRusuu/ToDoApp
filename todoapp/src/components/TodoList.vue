@@ -11,8 +11,8 @@ const todos = ref<TodoType[]>([])
 function addTodo() {
   const currentDate = moment().format('DD.MM.YYYY')
   const newTodo: TodoType = {
-    title: '',
-    text: '',
+    title: 'Add a title',
+    text: 'Add a description',
     priority: 0,
     status: false,
     created_at: ` ${currentDate}`

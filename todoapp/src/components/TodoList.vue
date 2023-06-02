@@ -11,6 +11,7 @@ function addTodo() {
     title: 'Add a title',
     text: 'Add a description',
     priority: 0,
+    priorityChange: false,
     status: false,
     created_at: ` ${currentDate}`,
     editing: false

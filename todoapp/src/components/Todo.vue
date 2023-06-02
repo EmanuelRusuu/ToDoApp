@@ -22,10 +22,20 @@ function isEditing(todo: TodoType) {
 
 function saveEditing(todo: TodoType) {
   todo.editing = false
+  todo.priorityChange = false
 }
 
 function removeTask(index: number) {
   emit('removeTask', index)
+}
+function changePriority(todo: TodoType) {
+  if (todo.editing) {
+    todo.priorityChange = !todo.priorityChange
+  }
+}
+function setPriority(todo: TodoType, number: number) {
+  todo.priority = number
+  todo.priorityChange = false
 }
 </script>
 <template>
@@ -46,7 +56,9 @@ function removeTask(index: number) {
           </p>
         </div>
         <div :class="handleImportance(todo.priority)" class="todo-importance-container">
-          <div class="todo-importance">{{ handleImportance(todo.priority) }}</div>
+          <div @click.stop="changePriority(todo)" class="todo-importance">
+            {{ handleImportance(todo.priority) }}
+          </div>
           <svg
             v-if="todo.editing"
             class="todo-importance-expand-arrow"
@@ -57,6 +69,11 @@ function removeTask(index: number) {
           >
             <path d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
           </svg>
+          <div v-if="todo.priorityChange" class="todo-priority-dropdown">
+            <p @click="setPriority(todo, 0)">Low</p>
+            <p @click="setPriority(todo, 1)">Medium</p>
+            <p @click="setPriority(todo, 2)">High</p>
+          </div>
         </div>
       </div>
     </div>
@@ -142,6 +159,16 @@ function removeTask(index: number) {
   height: 10px;
   border-radius: 50%;
   position: relative;
+}
+
+.todo-priority-dropdown {
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  border: 2px solid black;
+  background-color: white;
 }
 
 .todo-created_at {

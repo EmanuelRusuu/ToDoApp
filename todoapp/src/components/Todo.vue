@@ -51,13 +51,13 @@ function toggleTodoState(todo: TodoType) {
   max-width: 291px;
   width: 100%;
   min-height: 82px;
-  margin-bottom: 30px;
 }
 
 .status-container {
   width: 24px;
   height: 24px;
   margin-right: 18px;
+  cursor: pointer;
 }
 
 .status-container img {
@@ -136,7 +136,6 @@ function toggleTodoState(todo: TodoType) {
     width: 100%;
     min-height: 140px;
     position: relative;
-    margin-bottom: 40px;
   }
 
   .todo-title {
@@ -189,7 +188,6 @@ function toggleTodoState(todo: TodoType) {
     max-width: 610px;
     width: 100%;
     min-height: 163px;
-    margin-bottom: 50px;
   }
 
   .todo-title {

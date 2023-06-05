@@ -24,7 +24,10 @@ function addTodo() {
   todos.value.push(newTodo)
 }
 onMounted(() => {
-  todos.value = JSON.parse(localStorage.getItem('todos')!) || []
+  const storedTodos = localStorage.getItem('todos')
+  if (storedTodos !== null) {
+    todos.value = JSON.parse(storedTodos)
+  }
 })
 watch(
   todos,
@@ -39,21 +42,21 @@ function deleteTaskIndex(index: number) {
   selectedTaskIndex.value = index
 }
 
-function togglePopUP() {
+function togglePopUp() {
   popUp.value = !popUp.value
 }
 function removeTask(index: number) {
   todos.value.splice(index, 1)
-  togglePopUP()
+  togglePopUp()
 }
 </script>
 <template>
   <div class="delete-popup">
     <DeletePopUP
       v-if="popUp"
-      @togglePopUP="togglePopUP"
-      @remove-task="removeTask"
       :index="selectedTaskIndex"
+      @toggle-pop-up="togglePopUp"
+      @remove-task="removeTask"
     />
   </div>
   <div class="todoapp-container">

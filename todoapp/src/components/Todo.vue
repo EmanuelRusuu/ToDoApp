@@ -3,6 +3,7 @@
 import type { TodoType } from '../types/text'
 import Incomplete from '../assets/eclipseblack.svg'
 import Complete from '../assets/completedTask.png'
+import AddIcon from './Icons/AddIcon.vue'
 const props = defineProps<{
   todos: TodoType[]
 }>()
@@ -65,17 +66,12 @@ function setPriority(todo: TodoType, number: number) {
           ]"
         >
           <p class="desktop-priority-title">{{ handleImportance(todo.priority) }}</p>
-          <svg
+          <AddIcon
             v-if="todo.editing"
-            fill="none"
-            :stroke="todo.priorityChange ? 'black' : 'white'"
-            stroke-width="2.5"
-            viewBox="-1 0 27 27"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path d="M19.5 8.25l-8 8-8-8"></path>
-          </svg>
+            :editing="todo.editing"
+            :priorityChange="todo.priorityChange"
+            :todos="todos"
+          />
         </div>
         <div
           v-if="todo.editing"
@@ -295,10 +291,7 @@ function setPriority(todo: TodoType, number: number) {
   .todo-importance-option {
     background-color: transparent;
   }
-  .todo-importance-title svg {
-    width: 20px;
-    height: 20px;
-  }
+
   .todo-priority-dropdown {
     display: none;
   }

@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
+import ExclamationIcon from './Icons/ExclamationIcon.vue'
+import CloseIcon from './Icons/CloseIcon.vue'
 
 const props = defineProps<{ index: number }>()
 const emit = defineEmits<{
-  (e: 'togglePopUP'): void
+  (e: 'togglePopUp'): void
   (e: 'removeTask', index: number): void
 }>()
 
-function togglePopUP() {
-  emit('togglePopUP')
+function togglePopUp() {
+  emit('togglePopUp')
 }
 
 function removeTask() {
@@ -17,35 +19,10 @@ function removeTask() {
 </script>
 
 <template>
-  <div class="popup-main-container">
-    <div class="popup-second-container">
-      <div class="x" @click="togglePopUP">
-        <svg
-          fill="none"
-          stroke="darkgray"
-          stroke-width="1.5"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </div>
-      <svg
-        fill="red"
-        class="exclamation"
-        stroke="white"
-        stroke-width="1.5"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-        ></path>
-      </svg>
+  <div class="confirmation-dialog-container">
+    <div class="confirmation-dialog-content">
+      <CloseIcon @toggle-pop-up="togglePopUp" />
+      <ExclamationIcon />
       <div class="popup-title-text">
         <p class="popup-title">Confirm Deletion</p>
         <p class="popup-text">Are you sure you want to delete the selected task?</p>
@@ -54,7 +31,7 @@ function removeTask() {
         <button class="popup-btn delete-btn" @click="removeTask">
           <p class="btn-text">Delete</p>
         </button>
-        <button class="popup-btn cancel-btn" @click="togglePopUP">
+        <button class="popup-btn cancel-btn" @click="togglePopUp">
           <p class="btn-text">Cancel</p>
         </button>
       </div>
@@ -63,7 +40,7 @@ function removeTask() {
 </template>
 
 <style scoped>
-.popup-main-container {
+.confirmation-dialog-container {
   position: absolute;
   left: 0;
   top: 0;
@@ -79,7 +56,7 @@ function removeTask() {
   flex-direction: column;
 }
 
-.popup-second-container {
+.confirmation-dialog-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,16 +67,6 @@ function removeTask() {
   gap: 20px;
   position: relative;
   margin: 1rem;
-}
-
-.x {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 10;
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: pointer;
 }
 
 .popup-title-text {
@@ -117,11 +84,6 @@ function removeTask() {
   font-size: 12px;
   color: rgb(108, 108, 108);
   text-align: center;
-}
-
-.exclamation {
-  width: 2rem;
-  height: 2rem;
 }
 
 .popup-buttons {
@@ -161,7 +123,7 @@ function removeTask() {
 }
 
 @media screen and (min-width: 480px) {
-  .popup-second-container {
+  .confirmation-dialog-content {
     padding: 2.5rem 3rem;
     gap: 30px;
   }
@@ -195,7 +157,6 @@ function removeTask() {
     width: 105px;
   }
 
-
   .btn-text {
     width: 52px;
     height: 22px;
@@ -204,3 +165,4 @@ function removeTask() {
     line-height: 22px;
   }
 }
+</style>

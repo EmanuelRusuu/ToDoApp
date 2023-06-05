@@ -42,11 +42,11 @@ function setPriority(todo: TodoType, number: number) {
   <div class="todo" @click="isEditing(todo)" v-for="(todo, index) in todos" :key="index">
     <div class="status-content-priority">
       <div v-if="!todo.editing" @click.stop="toggleTodoState(todo)" class="status-container">
-        <img v-if="!todo.status" class="status" :src="Incomplete" alt="incomplete" />
-        <img v-else class="status" :src="Complete" alt="complete" />
+        <img v-if="!todo.status" :src="Incomplete" alt="incomplete" />
+        <img v-else :src="Complete" alt="complete" />
       </div>
       <div class="todo-importance-wrap">
-        <div class="todo-content">
+        <div :class="['todo-content', { 'todo-importance-dropdown': todo.priorityChange }]">
           <p class="todo-title">
             {{ todo.title }}
           </p>
@@ -55,31 +55,59 @@ function setPriority(todo: TodoType, number: number) {
             {{ todo.created_at }}
           </p>
         </div>
-        <div :class="handleImportance(todo.priority)" class="todo-importance-container">
-          <div @click.stop="changePriority(todo)" class="todo-importance">
-            {{ handleImportance(todo.priority) }}
-          </div>
+        <div
+          @click.stop="changePriority(todo)"
+          :class="[
+            'todo-importance-title',
+            { 'todo-priority': todo.editing },
+            { 'todo-dropdown-active': todo.priorityChange },
+            handleImportance(todo.priority)
+          ]"
+        >
+          <p class="desktop-priority-title">{{ handleImportance(todo.priority) }}</p>
           <svg
             v-if="todo.editing"
-            class="todo-importance-expand-arrow"
             fill="none"
-            stroke-width="2.3"
-            stroke="white"
-            viewBox="-6 -6 35 35"
+            :stroke="todo.priorityChange ? 'black' : 'white'"
+            stroke-width="2.5"
+            viewBox="-1 0 27 27"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
-            <path d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+            <path d="M19.5 8.25l-8 8-8-8"></path>
           </svg>
-          <div v-if="todo.priorityChange" class="todo-priority-dropdown">
-            <p @click="setPriority(todo, 0)">Low</p>
-            <p @click="setPriority(todo, 1)">Medium</p>
-            <p @click="setPriority(todo, 2)">High</p>
+        </div>
+        <div
+          v-if="todo.editing"
+          :class="['todo-priority-dropdown', { 'dropdown-toggle': todo.priorityChange }]"
+        >
+          <div
+            :class="['todo-importance-option', 'High', { selected: todo.priority === 2 }]"
+            @click="setPriority(todo, 2)"
+          >
+            <p class="desktop-priority">High</p>
+          </div>
+          <div
+            :class="['todo-importance-option', 'Medium', { selected: todo.priority === 1 }]"
+            @click="setPriority(todo, 1)"
+          >
+            <p class="desktop-priority">Medium</p>
+          </div>
+          <div
+            :class="['todo-importance-option', 'Low', { selected: todo.priority === 0 }]"
+            @click="setPriority(todo, 0)"
+          >
+            <p class="desktop-priority">Low</p>
           </div>
         </div>
       </div>
     </div>
-    <div v-if="todo.editing" class="save-delete">
-      <button @click.stop="saveEditing(todo)" class="save-btn">Save</button>
-      <button @click.stop="removeTask(index)" class="delete-btn">Delete</button>
+    <div
+      v-if="todo.editing"
+      :class="['save-delete', { 'todo-importance-dropdown': todo.priorityChange }]"
+    >
+      <button @click.stop="saveEditing(todo)" class="todo-btn save-btn">Save</button>
+      <button @click.stop="removeTask(index)" class="todo-btn delete-btn">Delete</button>
     </div>
   </div>
 </template>
@@ -87,14 +115,16 @@ function setPriority(todo: TodoType, number: number) {
 .todo {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 38px;
   background-color: var(--todo);
   border: 2px solid #000000;
   border-radius: 16px;
-  padding: 20px 22px;
+  padding: 17px;
   max-width: 291px;
   width: 100%;
   min-height: 82px;
+  position: relative;
 }
 .status-content-priority {
   display: flex;
@@ -112,20 +142,24 @@ function setPriority(todo: TodoType, number: number) {
   height: 100%;
   margin-right: 18px;
 }
-.High {
-  background: #ff481f;
+
+.todo-importance-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
 }
-.Medium {
-  background: #ffab00;
-}
-.Low {
-  background: #38cbcb;
-}
+
 .todo-content {
   display: flex;
   flex-direction: column;
   width: 80%;
 }
+
+.todo-importance-dropdown {
+  opacity: 0.3;
+}
+
 .todo-title {
   font-size: 18px;
   font-weight: 500;
@@ -138,37 +172,6 @@ function setPriority(todo: TodoType, number: number) {
   color: #757575;
   display: none;
   width: 100%;
-}
-.todo-importance {
-  display: none;
-  color: white;
-}
-.todo-importance-expand-arrow {
-  display: none;
-}
-.todo-importance-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-grow: 1;
-}
-.todo-importance-container {
-  display: flex;
-  justify-content: center;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  position: relative;
-}
-
-.todo-priority-dropdown {
-  width: 5rem;
-  height: 5rem;
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  border: 2px solid black;
-  background-color: white;
 }
 
 .todo-created_at {
@@ -184,13 +187,74 @@ function setPriority(todo: TodoType, number: number) {
   order: 1;
   flex-grow: 0;
 }
+
+.todo-importance-title,
+.todo-importance-option {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  gap: 8px;
+}
+
+.todo-importance-option {
+  display: flex;
+  align-items: center;
+}
+
+.todo-priority {
+  display: none;
+  width: 125px !important;
+  gap: 14px !important;
+}
+
+.todo-dropdown-active {
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid black;
+  font-size: 18px;
+  line-height: 29px;
+  width: 73.42px;
+  height: 33.4px;
+  gap: 1rem;
+}
+.desktop-priority-title {
+  display: none;
+}
+
+.todo-priority-dropdown {
+  position: absolute;
+  top: 9px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+
+.desktop-priority {
+  display: none;
+}
+
+.High {
+  background: #ff481f;
+}
+.Medium {
+  background: #ffab00;
+}
+.Low {
+  background: #38cbcb;
+}
+
+.selected {
+  border: 1px solid black;
+}
+
 .save-delete {
   display: flex;
   flex-direction: row;
   gap: 9px;
 }
-.save-btn,
-.delete-btn {
+
+.todo-btn {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -200,24 +264,75 @@ function setPriority(todo: TodoType, number: number) {
   border: 0;
   outline: none;
   padding: 5px 15px;
+  height: 27px;
+  cursor: pointer;
+  user-select: none;
 }
 .save-btn {
   width: 60px;
-  height: 27px;
   background-color: var(--save-btn);
   color: white;
 }
 .delete-btn {
   width: 69px;
-  height: 27px;
   background: var(--delete-btn);
 }
+
 @media screen and (min-width: 480px) {
+  .todo-importance-title {
+    position: absolute;
+    top: 23px;
+    right: 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .desktop-priority-title {
+    display: flex;
+  }
+  .todo-importance-option {
+    background-color: transparent;
+  }
+  .todo-importance-title svg {
+    width: 20px;
+    height: 20px;
+  }
+  .todo-priority-dropdown {
+    display: none;
+  }
+
+  .dropdown-toggle {
+    display: flex;
+    width: 125px;
+    height: 101px;
+    position: absolute;
+    top: 68px;
+    right: 20px;
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 7px 17px;
+  }
+
+  .desktop-priority {
+    display: block;
+    font-size: 18px;
+    line-height: 18px;
+    color: black;
+    width: 100%;
+    cursor: pointer;
+  }
+  .selected {
+    border: 0;
+  }
   .todo {
     max-width: 500px;
     width: 100%;
     min-height: 140px;
     position: relative;
+    padding: 20px 22px;
   }
   .todo-title {
     font-size: 30px;
@@ -236,18 +351,7 @@ function setPriority(todo: TodoType, number: number) {
     font-size: 18px;
     line-height: 34px;
   }
-  .todo-importance-expand {
-    display: flex;
-  }
-  .todo-importance-container {
-    width: fit-content;
-    height: 33px;
-    border-radius: 500px;
-    padding: 0 22px;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
+
   .status-container {
     width: 30px;
     height: 30px;
@@ -259,8 +363,41 @@ function setPriority(todo: TodoType, number: number) {
   .todo-created_at {
     font-size: 18px;
     position: absolute;
-    right: 0;
-    top: 4rem;
+    right: 8px;
+    top: 4.5rem;
+  }
+
+  .Low,
+  .Medium,
+  .High {
+    border-radius: 500px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Low {
+    width: 91px;
+    height: 33px;
+  }
+
+  .Medium {
+    width: 125px;
+    height: 33px;
+  }
+
+  .High {
+    width: 91px;
+    height: 33px;
+  }
+  .delete-btn,
+  .save-btn {
+    width: 95px;
+    height: 40px;
+    border-radius: 16px;
+    font-size: 17px;
+    line-height: 21px;
   }
 }
 @media screen and (min-width: 768px) {

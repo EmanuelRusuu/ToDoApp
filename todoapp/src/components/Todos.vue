@@ -30,7 +30,6 @@ function removeTask(index: number) {
   padding-bottom: 73px;
 }
 .todo-ul {
-  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
@@ -40,10 +39,7 @@ function removeTask(index: number) {
   margin-top: 40px;
   width: 100%;
 }
-@media screen and (min-width: 480px) and (max-width: 768px) {
-  .todos {
-    padding-bottom: 100px;
-  }
+@media screen and (min-width: 480px) {
   .todoimage {
     margin-top: 60px;
     width: 60%;
@@ -53,9 +49,6 @@ function removeTask(index: number) {
   }
 }
 @media screen and (min-width: 768px) {
-  .todos {
-    padding-bottom: 185px;
-  }
   .todoimage {
     margin-top: 72px;
     width: 65%;

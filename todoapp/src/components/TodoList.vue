@@ -29,18 +29,12 @@ watch(
   { deep: true }
 )
 
-// this function is temporary - to ease my work deleting/testing tasks
-function deleteTasks() {
-  todos.value = []
-  localStorage.removeItem('todos')
-}
 function removeTask(index: number) {
   todos.value.splice(index, 1)
 }
 </script>
 <template>
   <div class="todoapp-container">
-    <button @click="deleteTasks()">delete</button>
     <Header @add-todo="addTodo" />
     <Todos @remove-task="removeTask" :todos="todos" />
   </div>

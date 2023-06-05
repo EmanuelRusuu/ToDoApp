@@ -2,9 +2,14 @@
 import { onMounted, ref, watch } from 'vue'
 import moment from 'moment'
 import type { TodoType } from '../types/text'
+import DeletePopUP from './DeletePopUP.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
+
 const todos = ref<TodoType[]>([])
+const popUp = ref(false)
+const selectedTaskIndex = ref()
+
 function addTodo() {
   const currentDate = moment().format('DD.MM.YYYY')
   const newTodo: TodoType = {
@@ -29,14 +34,31 @@ watch(
   { deep: true }
 )
 
+function deleteTaskIndex(index: number) {
+  popUp.value = true
+  selectedTaskIndex.value = index
+}
+
+function togglePopUP() {
+  popUp.value = !popUp.value
+}
 function removeTask(index: number) {
   todos.value.splice(index, 1)
+  togglePopUP()
 }
 </script>
 <template>
+  <div class="delete-popup">
+    <DeletePopUP
+      v-if="popUp"
+      @togglePopUP="togglePopUP"
+      @remove-task="removeTask"
+      :index="selectedTaskIndex"
+    />
+  </div>
   <div class="todoapp-container">
     <Header @add-todo="addTodo" />
-    <Todos @remove-task="removeTask" :todos="todos" />
+    <Todos :todos="todos" @deleteTaskIndex="deleteTaskIndex" />
   </div>
 </template>
 <style scoped>
@@ -47,6 +69,7 @@ function removeTask(index: number) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 @media screen and (min-width: 480px) {
   .todoapp-container {

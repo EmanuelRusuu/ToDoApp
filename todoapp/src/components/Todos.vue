@@ -6,17 +6,17 @@ import type { TodoType } from '../types/text'
 const props = defineProps<{
   todos: TodoType[]
 }>()
-const emit = defineEmits<{
-  (e: 'removeTask', index: number): void
-}>()
-function removeTask(index: number) {
-  emit('removeTask', index)
+
+const emit = defineEmits<{ (e: 'deleteTaskIndex', index: number): void }>()
+
+function deleteTaskIndex(index: number) {
+  emit('deleteTaskIndex', index)
 }
 </script>
 <template>
   <div class="todos">
     <ul class="todo-ul">
-      <Todo @remove-task="removeTask" :todos="todos" />
+      <Todo :todos="todos" @deleteTaskIndex="deleteTaskIndex" />
     </ul>
     <EmptyState :todos="todos" />
   </div>

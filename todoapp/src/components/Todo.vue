@@ -7,7 +7,7 @@ const props = defineProps<{
   todos: TodoType[]
 }>()
 const emit = defineEmits<{
-  (e: 'removeTask', index: number): void
+  (e: 'deleteTaskIndex', index: number): void
 }>()
 const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
 function handleImportance(index: keyof typeof priority) {
@@ -25,8 +25,8 @@ function saveEditing(todo: TodoType) {
   todo.priorityChange = false
 }
 
-function removeTask(index: number) {
-  emit('removeTask', index)
+function deleteTaskIndex(index: number) {
+  emit('deleteTaskIndex', index)
 }
 function changePriority(todo: TodoType) {
   if (todo.editing) {
@@ -50,7 +50,7 @@ function setPriority(todo: TodoType, number: number) {
           <p class="todo-title">
             {{ todo.title }}
           </p>
-          <p class="todo-text">{{ todo.text }}</p>
+          <p :class="['todo-text', { 'show-text': todo.editing }]">{{ todo.text }}</p>
           <p class="todo-created_at">
             {{ todo.created_at }}
           </p>
@@ -107,7 +107,7 @@ function setPriority(todo: TodoType, number: number) {
       :class="['save-delete', { 'todo-importance-dropdown': todo.priorityChange }]"
     >
       <button @click.stop="saveEditing(todo)" class="todo-btn save-btn">Save</button>
-      <button @click.stop="removeTask(index)" class="todo-btn delete-btn">Delete</button>
+      <button @click.stop="deleteTaskIndex(index)" class="todo-btn delete-btn">Delete</button>
     </div>
   </div>
 </template>
@@ -154,6 +154,7 @@ function setPriority(todo: TodoType, number: number) {
   display: flex;
   flex-direction: column;
   width: 80%;
+  gap: 5px;
 }
 
 .todo-importance-dropdown {
@@ -172,6 +173,10 @@ function setPriority(todo: TodoType, number: number) {
   color: #757575;
   display: none;
   width: 100%;
+}
+
+.show-text {
+  display: block;
 }
 
 .todo-created_at {
@@ -204,7 +209,7 @@ function setPriority(todo: TodoType, number: number) {
 .todo-priority {
   display: none;
   width: 125px !important;
-  gap: 14px !important;
+  gap: 14px;
 }
 
 .todo-dropdown-active {
@@ -213,9 +218,6 @@ function setPriority(todo: TodoType, number: number) {
   border: 2px solid black;
   font-size: 18px;
   line-height: 29px;
-  width: 73.42px;
-  height: 33.4px;
-  gap: 1rem;
 }
 .desktop-priority-title {
   display: none;
@@ -364,16 +366,17 @@ function setPriority(todo: TodoType, number: number) {
     font-size: 18px;
     position: absolute;
     right: 8px;
-    top: 4.5rem;
+    top: 4rem;
+    font-size: 17px;
   }
 
   .Low,
   .Medium,
   .High {
     border-radius: 500px;
-    color: white;
     display: flex;
     justify-content: center;
+    color: white;
     align-items: center;
   }
 
@@ -428,6 +431,10 @@ function setPriority(todo: TodoType, number: number) {
     border-radius: 16px;
     font-size: 18px;
     line-height: 21px;
+  }
+  .todo-created_at {
+    font-size: 18px;
+    top: 4.5rem;
   }
 }
 </style>

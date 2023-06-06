@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import ExclamationIcon from './Icons/ExclamationIcon.vue'
 import CloseIcon from './Icons/CloseIcon.vue'
 
@@ -42,10 +41,7 @@ function removeTask() {
 <style scoped>
 .confirmation-dialog-container {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(188, 188, 188, 0.6);

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import type { TodoType } from '../../types/text'
 const props = defineProps<{

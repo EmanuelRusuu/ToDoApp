@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import Todo from './Todo.vue'
 import EmptyState from './EmptyState.vue'

@@ -1,9 +1,8 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import type { TodoType } from '../types/text'
 import Incomplete from '../assets/eclipseblack.svg'
 import Complete from '../assets/completedTask.png'
-import AddIcon from './Icons/AddIcon.vue'
+import ArrowDown from './Icons/ArrowDown.vue'
 const props = defineProps<{
   todos: TodoType[]
 }>()
@@ -66,7 +65,7 @@ function setPriority(todo: TodoType, number: number) {
           ]"
         >
           <p class="desktop-priority-title">{{ handleImportance(todo.priority) }}</p>
-          <AddIcon
+          <ArrowDown
             v-if="todo.editing"
             :editing="todo.editing"
             :priorityChange="todo.priorityChange"

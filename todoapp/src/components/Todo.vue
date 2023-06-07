@@ -9,6 +9,8 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
+  (e: 'markTodoDone', todo: TodoType): void
+  (e: 'markTodoNotDone', todo: TodoType): void
 }>()
 
 const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
@@ -16,9 +18,7 @@ const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
 function handleImportance(index: keyof typeof priority) {
   return priority[index]
 }
-function toggleTodoState(todo: TodoType) {
-  todo.status = !todo.status
-}
+
 function isEditing(todo: TodoType) {
   todo.editing = true
 }
@@ -42,6 +42,16 @@ function setPriority(todo: TodoType, number: number) {
   todo.priorityChange = false
 }
 
+function markTodoStatus(todo: TodoType) {
+  if (todo.status) {
+    emit('markTodoNotDone', todo)
+    todo.status = false
+  } else {
+    emit('markTodoDone', todo)
+    todo.status = true
+  }
+}
+
 function textEdit(todo: TodoType) {
   if (todo.editing) {
     todo.textEdit = true
@@ -51,9 +61,11 @@ function textEdit(todo: TodoType) {
 <template>
   <div class="todo" @click="isEditing(todo)" v-for="(todo, index) in todos" :key="index">
     <div class="status-content-priority">
-      <div v-if="!todo.editing" @click.stop="toggleTodoState(todo)" class="status-container">
-        <img v-if="!todo.status" :src="Incomplete" alt="incomplete" />
-        <img v-else :src="Complete" alt="complete" />
+      <div v-if="!todo.editing" @click.stop="markTodoStatus(todo)" class="status-container">
+        <img
+          :src="todo.status ? Complete : Incomplete"
+          :alt="todo.status ? 'complete' : 'incomplete'"
+        />
       </div>
       <div class="todo-importance-wrap">
         <div :class="['todo-content', { 'todo-importance-dropdown': todo.priorityChange }]">

@@ -8,18 +8,23 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
+  (e: 'markTodoDone', tddo: TodoType): void
 }>()
 
 function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)
 }
+
+function markTodoDone(todo: TodoType) {
+  emit('markTodoDone', todo)
+}
 </script>
 <template>
   <div class="todos">
     <ul class="todo-ul">
-      <Todo :todos="todos" @deleteTaskIndex="deleteTaskIndex" />
+      <Todo :todos="todos" @deleteTaskIndex="deleteTaskIndex" @mark-todo-done="markTodoDone" />
     </ul>
-    <EmptyState :todos="todos" />
+    <EmptyState v-if="todos.length < 1" :todos="todos" />
   </div>
 </template>
 <style scoped>

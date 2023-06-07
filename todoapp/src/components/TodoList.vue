@@ -5,8 +5,10 @@ import type { TodoType } from '../types/text'
 import DeletePopUP from './DeletePopUP.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
+import DoneTodos from './DoneTodos.vue'
 
 const todos = ref<TodoType[]>([])
+const doneTodos = ref<TodoType[]>([])
 const popUp = ref(false)
 const selectedTaskIndex = ref()
 
@@ -29,6 +31,10 @@ onMounted(() => {
   if (storedTodos !== null) {
     todos.value = JSON.parse(storedTodos)
   }
+  const storedDoneTodos = localStorage.getItem('doneTodos')
+  if (storedDoneTodos !== null) {
+    doneTodos.value = JSON.parse(storedDoneTodos)
+  }
 })
 watch(
   todos,
@@ -37,7 +43,13 @@ watch(
   },
   { deep: true }
 )
-
+watch(
+  doneTodos,
+  (newVal) => {
+    localStorage.setItem('doneTodos', JSON.stringify(newVal))
+  },
+  { deep: true }
+)
 function deleteTaskIndex(index: number) {
   popUp.value = true
   selectedTaskIndex.value = index
@@ -49,6 +61,23 @@ function togglePopUp() {
 function removeTask(index: number) {
   todos.value.splice(index, 1)
   togglePopUp()
+}
+
+function markTodoDone(todo: TodoType) {
+  const index = todos.value.findIndex((item) => item === todo)
+  if (index !== -1) {
+    const doneTodo = todos.value.splice(index, 1)[0]
+    doneTodos.value.push(doneTodo)
+  }
+}
+
+function markTodoNotDone(todo: TodoType) {
+  const index = doneTodos.value.findIndex((item) => item === todo)
+  if (index !== -1) {
+    const undoneTodo = doneTodos.value.splice(index, 1)[0]
+    undoneTodo.status = false
+    todos.value.push({ ...undoneTodo })
+  }
 }
 </script>
 <template>
@@ -62,7 +91,13 @@ function removeTask(index: number) {
   </div>
   <div class="todoapp-container">
     <Header @add-todo="addTodo" />
-    <Todos :todos="todos" @deleteTaskIndex="deleteTaskIndex" />
+    <Todos :todos="todos" @deleteTaskIndex="deleteTaskIndex" @mark-todo-done="markTodoDone" />
+    <DoneTodos
+      v-if="doneTodos.length > 0"
+      :todos="todos"
+      :doneTodos="doneTodos"
+      @mark-todo-not-done="markTodoNotDone"
+    />
   </div>
 </template>
 <style scoped>

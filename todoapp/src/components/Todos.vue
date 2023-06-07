@@ -6,7 +6,9 @@ const props = defineProps<{
   todos: TodoType[]
 }>()
 
-const emit = defineEmits<{ (e: 'deleteTaskIndex', index: number): void }>()
+const emit = defineEmits<{
+  (e: 'deleteTaskIndex', index: number): void
+}>()
 
 function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)

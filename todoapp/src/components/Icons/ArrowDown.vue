@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type { TodoType } from '../../types/text'
 const props = defineProps<{
-  todos: TodoType[]
-  editing: boolean
   priorityChange: boolean
 }>()
 </script>

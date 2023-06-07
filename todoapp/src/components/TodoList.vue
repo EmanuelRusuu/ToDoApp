@@ -15,6 +15,7 @@ function addTodo() {
   const newTodo: TodoType = {
     title: 'Add a title',
     text: 'Add a description',
+    textEdit: false,
     priority: 0,
     priorityChange: false,
     status: false,

@@ -44,11 +44,15 @@ function setPriority(todo: TodoType, number: number) {
 
 function markTodoStatus(todo: TodoType) {
   if (todo.status) {
-    emit('markTodoNotDone', todo)
     todo.status = false
+    setTimeout(() => {
+      emit('markTodoNotDone', todo)
+    }, 200)
   } else {
-    emit('markTodoDone', todo)
     todo.status = true
+    setTimeout(() => {
+      emit('markTodoDone', todo)
+    }, 600)
   }
 }
 
@@ -79,12 +83,12 @@ function textEdit(todo: TodoType) {
               placeholder="Add a title"
               @click.stop="isEditing(todo)"
             />
-            <p class="todo-title" v-else>
+            <p v-else class="todo-title">
               {{ todo.title }}
             </p>
           </div>
           <div class="todo-date">
-            <Calendar class="calendar" v-if="todo.editing" />
+            <Calendar :class="['calendar', { 'display-calendar': todo.editing }]" />
             <p class="todo-created_at">
               {{ todo.created_at }}
             </p>
@@ -256,11 +260,15 @@ function textEdit(todo: TodoType) {
 .calendar {
   height: 15px;
   width: 15px;
+  display: none;
+}
+
+.display-calendar {
+  display: block;
 }
 
 .todo-created_at {
   width: 97px;
-  height: 15px;
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
@@ -357,9 +365,68 @@ function textEdit(todo: TodoType) {
 }
 
 @media screen and (min-width: 480px) {
-  .calendar {
-    display: none;
+  .todo {
+    max-width: 500px;
+    width: 100%;
+    min-height: 140px;
+    position: relative;
+    padding: 25px 26px;
   }
+  .todo-title {
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 600;
+    width: fit-content;
+  }
+
+  .title-input {
+    width: 100%;
+    height: 30px;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 30px;
+  }
+  .todo-text {
+    display: block;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 27px;
+    margin-top: 30px;
+  }
+
+  .text-input {
+    height: 5.44rem;
+    width: 100%;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 27px;
+    margin-top: 30px;
+    overflow: hidden;
+  }
+
+  .todo-date {
+    align-items: center;
+    gap: 5px;
+  }
+
+  .calendar {
+    display: block;
+    height: 20px;
+    width: 20px;
+  }
+
+  .todo-created_at {
+    font-size: 18px;
+    color: black;
+    opacity: 1;
+  }
+
+  .todo-importance {
+    display: block;
+    font-size: 18px;
+    line-height: 34px;
+  }
+
   .todo-importance-title {
     position: absolute;
     top: 23px;
@@ -405,66 +472,6 @@ function textEdit(todo: TodoType) {
   .selected {
     border: 0;
   }
-  .todo {
-    max-width: 500px;
-    width: 100%;
-    min-height: 140px;
-    position: relative;
-    padding: 25px 26px;
-  }
-  .todo-title {
-    font-size: 30px;
-    line-height: 30px;
-    font-weight: 600;
-    width: fit-content;
-  }
-
-  .title-input {
-    width: 100%;
-    height: 30px;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 30px;
-  }
-  .todo-text {
-    display: block;
-    font-size: 23px;
-    font-weight: 600;
-    line-height: 27px;
-    margin-top: 30px;
-  }
-
-  .text-input {
-    height: 5.44rem;
-    width: 100%;
-    font-size: 23px;
-    font-weight: 600;
-    line-height: 27px;
-    margin-top: 30px;
-    overflow: hidden;
-  }
-
-  .todo-importance {
-    display: block;
-    font-size: 18px;
-    line-height: 34px;
-  }
-
-  .status-container {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    margin: 0;
-  }
-  .todo-created_at {
-    font-size: 18px;
-    position: absolute;
-    right: 8px;
-    top: 4rem;
-    font-size: 17px;
-  }
 
   .Low,
   .Medium,
@@ -490,6 +497,16 @@ function textEdit(todo: TodoType) {
     width: 91px;
     height: 33px;
   }
+
+  .status-container {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0;
+  }
+
   .delete-btn,
   .save-btn {
     width: 95px;
@@ -544,9 +561,10 @@ function textEdit(todo: TodoType) {
     font-size: 18px;
     line-height: 21px;
   }
-  .todo-created_at {
-    font-size: 18px;
-    top: 4.5rem;
+
+  .calendar {
+    height: 23px;
+    width: 23px;
   }
 }
 </style>

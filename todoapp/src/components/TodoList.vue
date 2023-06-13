@@ -81,7 +81,7 @@ function markTodoNotDone(todo: TodoType) {
 }
 </script>
 <template>
-  <div class="delete-popup">
+  <div>
     <DeletePopUP
       v-if="popUp"
       :index="selectedTaskIndex"

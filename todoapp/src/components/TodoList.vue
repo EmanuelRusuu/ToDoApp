@@ -6,6 +6,7 @@ import DeletePopUP from './DeletePopUP.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 import DoneTodos from './DoneTodos.vue'
+import SearchTodos from './SearchTodos.vue'
 
 const todos = ref<TodoType[]>([])
 const doneTodos = ref<TodoType[]>([])
@@ -91,6 +92,7 @@ function markTodoNotDone(todo: TodoType) {
   </div>
   <div class="todoapp-container">
     <Header @add-todo="addTodo" />
+    <SearchTodos />
     <Todos :todos="todos" @deleteTaskIndex="deleteTaskIndex" @mark-todo-done="markTodoDone" />
     <DoneTodos
       v-if="doneTodos.length > 0"

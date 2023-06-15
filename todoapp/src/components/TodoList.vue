@@ -27,13 +27,11 @@ import DeletePopUP from './DeletePopUP.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 import DoneTodos from './DoneTodos.vue'
-import SearchTodos from './SearchTodos.vue'
 
 const todos = ref<TodoType[]>([])
 const doneTodos = ref<TodoType[]>([])
 const popUp = ref(false)
 const selectedTaskIndex = ref()
-const searchInputContent = ref('')
 
 function addTodo() {
   const currentDate = moment().format('DD.MM.YYYY')
@@ -76,10 +74,6 @@ watch(
 function deleteTaskIndex(index: number) {
   popUp.value = true
   selectedTaskIndex.value = index
-}
-
-function deleteFinishedTodo(index: number) {
-  doneTodos.value.splice(index, 1)
 }
 
 function togglePopUp() {

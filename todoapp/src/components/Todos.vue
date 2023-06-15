@@ -15,11 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import Todo from './Todo.vue'
 import EmptyState from './EmptyState.vue'
 import type { TodoType } from '../types/text'
-const props = defineProps<{
+defineProps<{
   todos: TodoType[]
   searchInputContent: string
 }>()
@@ -29,10 +28,6 @@ const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
   (e: 'markTodoStatus', tddo: TodoType): void
 }>()
-
-function markTodoDone(todo: TodoType) {
-  emit('markTodoDone', todo)
-}
 
 function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)

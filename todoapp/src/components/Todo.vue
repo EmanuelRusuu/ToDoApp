@@ -12,7 +12,7 @@
           <div>
             <input
               v-if="todo.editing"
-              v-model="todo.title"
+              v-model="localTodo.title"
               class="title-input"
               type="text"
               maxlength="19"
@@ -32,7 +32,7 @@
           <div>
             <textarea
               v-if="todo.textEdit && todo.editing"
-              v-model="todo.text"
+              v-model="localTodo.text"
               type="text"
               class="text-input"
               maxlength="160"
@@ -94,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { TodoType } from '../types/text'
 import Incomplete from '../assets/eclipseblack.svg'
 import Complete from '../assets/completedTask.png'
@@ -106,7 +107,17 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
   (e: 'markTodoStatus', todo: TodoType): void
+  (e: 'onTodoUpdate', todo: TodoType): void
 }>()
+
+const localTodo = computed({
+  get() {
+    return props.todo
+  },
+  set(value) {
+    emit('onTodoUpdate', value)
+  }
+})
 
 const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
 

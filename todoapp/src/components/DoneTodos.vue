@@ -8,10 +8,15 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   (e: 'markTodoNotDone', todo: TodoType): void
+  (e: 'deleteFinishedTodo', index: number): void
 }>()
 
 function markTodoNotDone(todo: TodoType) {
   emit('markTodoNotDone', todo)
+}
+
+function deleteFinishedTodo(index: number) {
+  emit('deleteFinishedTodo', index)
 }
 </script>
 <template>
@@ -20,7 +25,11 @@ function markTodoNotDone(todo: TodoType) {
     <p class="no-todos-p">Done todos:</p>
     <ul>
       <li class="done-todo" v-for="(doneTodo, index) in doneTodos" :key="index">
-        <Todo :todos="[doneTodo]" @mark-todo-not-done="markTodoNotDone" />
+        <Todo
+          :todos="[doneTodo]"
+          @deleteFinishedTodo="deleteFinishedTodo"
+          @mark-todo-not-done="markTodoNotDone"
+        />
       </li>
     </ul>
   </div>

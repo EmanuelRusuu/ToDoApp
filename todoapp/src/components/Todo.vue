@@ -8,9 +8,10 @@ const props = defineProps<{
   todos: TodoType[]
 }>()
 const emit = defineEmits<{
-  (e: 'deleteTaskIndex', index: number): void
   (e: 'markTodoDone', todo: TodoType): void
   (e: 'markTodoNotDone', todo: TodoType): void
+  (e: 'deleteTaskIndex', index: number): void
+  (e: 'deleteFinishedTodo', index: number): void
 }>()
 
 const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
@@ -31,7 +32,9 @@ function saveEditing(todo: TodoType) {
 
 function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)
+  emit('deleteFinishedTodo', index)
 }
+
 function changePriority(todo: TodoType) {
   if (todo.editing) {
     todo.priorityChange = !todo.priorityChange
@@ -52,7 +55,7 @@ function markTodoStatus(todo: TodoType) {
     todo.status = true
     setTimeout(() => {
       emit('markTodoDone', todo)
-    }, 600)
+    }, 400)
   }
 }
 

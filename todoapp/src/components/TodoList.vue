@@ -12,6 +12,7 @@ const todos = ref<TodoType[]>([])
 const doneTodos = ref<TodoType[]>([])
 const popUp = ref(false)
 const selectedTaskIndex = ref()
+const searchInputContent = ref('')
 
 function addTodo() {
   const currentDate = moment().format('DD.MM.YYYY')
@@ -56,6 +57,10 @@ function deleteTaskIndex(index: number) {
   selectedTaskIndex.value = index
 }
 
+function deleteFinishedTodo(index: number) {
+  doneTodos.value.splice(index, 1)
+}
+
 function togglePopUp() {
   popUp.value = !popUp.value
 }
@@ -82,22 +87,26 @@ function markTodoNotDone(todo: TodoType) {
 }
 </script>
 <template>
-  <div>
-    <DeletePopUP
-      v-if="popUp"
-      :index="selectedTaskIndex"
-      @toggle-pop-up="togglePopUp"
-      @remove-task="removeTask"
-    />
-  </div>
+  <DeletePopUP
+    v-if="popUp"
+    :index="selectedTaskIndex"
+    @toggle-pop-up="togglePopUp"
+    @remove-task="removeTask"
+  />
   <div class="todoapp-container">
     <Header @add-todo="addTodo" />
-    <SearchTodos />
-    <Todos :todos="todos" @deleteTaskIndex="deleteTaskIndex" @mark-todo-done="markTodoDone" />
+    <SearchTodos v-if="todos.length" v-model="searchInputContent" />
+    <Todos
+      :search-input-content="searchInputContent"
+      :todos="todos"
+      @mark-todo-done="markTodoDone"
+      @deleteTaskIndex="deleteTaskIndex"
+    />
     <DoneTodos
       v-if="doneTodos.length > 0"
       :todos="todos"
       :doneTodos="doneTodos"
+      @deleteFinishedTodo="deleteFinishedTodo"
       @mark-todo-not-done="markTodoNotDone"
     />
   </div>

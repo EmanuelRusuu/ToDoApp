@@ -8,7 +8,10 @@ const props = defineProps<{
   todos: TodoType[]
 }>()
 const emit = defineEmits<{
+  (e: 'markTodoDone', todo: TodoType): void
+  (e: 'markTodoNotDone', todo: TodoType): void
   (e: 'deleteTaskIndex', index: number): void
+  (e: 'deleteFinishedTodo', index: number): void
 }>()
 
 const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
@@ -16,9 +19,7 @@ const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
 function handleImportance(index: keyof typeof priority) {
   return priority[index]
 }
-function toggleTodoState(todo: TodoType) {
-  todo.status = !todo.status
-}
+
 function isEditing(todo: TodoType) {
   todo.editing = true
 }
@@ -31,7 +32,9 @@ function saveEditing(todo: TodoType) {
 
 function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)
+  emit('deleteFinishedTodo', index)
 }
+
 function changePriority(todo: TodoType) {
   if (todo.editing) {
     todo.priorityChange = !todo.priorityChange
@@ -40,6 +43,20 @@ function changePriority(todo: TodoType) {
 function setPriority(todo: TodoType, number: number) {
   todo.priority = number
   todo.priorityChange = false
+}
+
+function markTodoStatus(todo: TodoType) {
+  if (todo.status) {
+    todo.status = false
+    setTimeout(() => {
+      emit('markTodoNotDone', todo)
+    }, 200)
+  } else {
+    todo.status = true
+    setTimeout(() => {
+      emit('markTodoDone', todo)
+    }, 400)
+  }
 }
 
 function textEdit(todo: TodoType) {
@@ -51,9 +68,11 @@ function textEdit(todo: TodoType) {
 <template>
   <div class="todo" @click="isEditing(todo)" v-for="(todo, index) in todos" :key="index">
     <div class="status-content-priority">
-      <div v-if="!todo.editing" @click.stop="toggleTodoState(todo)" class="status-container">
-        <img v-if="!todo.status" :src="Incomplete" alt="incomplete" />
-        <img v-else :src="Complete" alt="complete" />
+      <div v-if="!todo.editing" @click.stop="markTodoStatus(todo)" class="status-container">
+        <img
+          :src="todo.status ? Complete : Incomplete"
+          :alt="todo.status ? 'complete' : 'incomplete'"
+        />
       </div>
       <div class="todo-importance-wrap">
         <div :class="['todo-content', { 'todo-importance-dropdown': todo.priorityChange }]">
@@ -67,12 +86,12 @@ function textEdit(todo: TodoType) {
               placeholder="Add a title"
               @click.stop="isEditing(todo)"
             />
-            <p class="todo-title" v-else>
+            <p v-else class="todo-title">
               {{ todo.title }}
             </p>
           </div>
           <div class="todo-date">
-            <Calendar class="calendar" v-if="todo.editing" />
+            <Calendar :class="['calendar', { 'display-calendar': todo.editing }]" />
             <p class="todo-created_at">
               {{ todo.created_at }}
             </p>
@@ -244,11 +263,15 @@ function textEdit(todo: TodoType) {
 .calendar {
   height: 15px;
   width: 15px;
+  display: none;
+}
+
+.display-calendar {
+  display: block;
 }
 
 .todo-created_at {
   width: 97px;
-  height: 15px;
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
@@ -345,9 +368,68 @@ function textEdit(todo: TodoType) {
 }
 
 @media screen and (min-width: 480px) {
-  .calendar {
-    display: none;
+  .todo {
+    max-width: 500px;
+    width: 100%;
+    min-height: 140px;
+    position: relative;
+    padding: 25px 26px;
   }
+  .todo-title {
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 600;
+    width: fit-content;
+  }
+
+  .title-input {
+    width: 100%;
+    height: 30px;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 30px;
+  }
+  .todo-text {
+    display: block;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 27px;
+    margin-top: 30px;
+  }
+
+  .text-input {
+    height: 5.44rem;
+    width: 100%;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 27px;
+    margin-top: 30px;
+    overflow: hidden;
+  }
+
+  .todo-date {
+    align-items: center;
+    gap: 5px;
+  }
+
+  .calendar {
+    display: block;
+    height: 20px;
+    width: 20px;
+  }
+
+  .todo-created_at {
+    font-size: 18px;
+    color: black;
+    opacity: 1;
+  }
+
+  .todo-importance {
+    display: block;
+    font-size: 18px;
+    line-height: 34px;
+  }
+
   .todo-importance-title {
     position: absolute;
     top: 23px;
@@ -393,66 +475,6 @@ function textEdit(todo: TodoType) {
   .selected {
     border: 0;
   }
-  .todo {
-    max-width: 500px;
-    width: 100%;
-    min-height: 140px;
-    position: relative;
-    padding: 25px 26px;
-  }
-  .todo-title {
-    font-size: 30px;
-    line-height: 30px;
-    font-weight: 600;
-    width: fit-content;
-  }
-
-  .title-input {
-    width: 100%;
-    height: 30px;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 30px;
-  }
-  .todo-text {
-    display: block;
-    font-size: 23px;
-    font-weight: 600;
-    line-height: 27px;
-    margin-top: 30px;
-  }
-
-  .text-input {
-    height: 5.44rem;
-    width: 100%;
-    font-size: 23px;
-    font-weight: 600;
-    line-height: 27px;
-    margin-top: 30px;
-    overflow: hidden;
-  }
-
-  .todo-importance {
-    display: block;
-    font-size: 18px;
-    line-height: 34px;
-  }
-
-  .status-container {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    margin: 0;
-  }
-  .todo-created_at {
-    font-size: 18px;
-    position: absolute;
-    right: 8px;
-    top: 4rem;
-    font-size: 17px;
-  }
 
   .Low,
   .Medium,
@@ -478,6 +500,16 @@ function textEdit(todo: TodoType) {
     width: 91px;
     height: 33px;
   }
+
+  .status-container {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0;
+  }
+
   .delete-btn,
   .save-btn {
     width: 95px;
@@ -532,9 +564,10 @@ function textEdit(todo: TodoType) {
     font-size: 18px;
     line-height: 21px;
   }
-  .todo-created_at {
-    font-size: 18px;
-    top: 4.5rem;
+
+  .calendar {
+    height: 23px;
+    width: 23px;
   }
 }
 </style>

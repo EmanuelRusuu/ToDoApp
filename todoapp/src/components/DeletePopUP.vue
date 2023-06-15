@@ -1,22 +1,3 @@
-<script setup lang="ts">
-import ExclamationIcon from './Icons/ExclamationIcon.vue'
-import CloseIcon from './Icons/CloseIcon.vue'
-
-const props = defineProps<{ index: number }>()
-const emit = defineEmits<{
-  (e: 'togglePopUp'): void
-  (e: 'removeTask', index: number): void
-}>()
-
-function togglePopUp() {
-  emit('togglePopUp')
-}
-
-function removeTask() {
-  emit('removeTask', props.index)
-}
-</script>
-
 <template>
   <div class="confirmation-dialog-container">
     <div class="confirmation-dialog-content">
@@ -37,6 +18,25 @@ function removeTask() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import ExclamationIcon from './Icons/ExclamationIcon.vue'
+import CloseIcon from './Icons/CloseIcon.vue'
+
+const props = defineProps<{ index: number }>()
+const emit = defineEmits<{
+  (e: 'togglePopUp'): void
+  (e: 'removeTask', index: number): void
+}>()
+
+function togglePopUp() {
+  emit('togglePopUp')
+}
+
+function removeTask() {
+  emit('removeTask', props.index)
+}
+</script>
 
 <style scoped>
 .confirmation-dialog-container {

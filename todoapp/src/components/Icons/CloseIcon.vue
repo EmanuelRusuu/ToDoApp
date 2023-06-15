@@ -1,13 +1,3 @@
-<script setup lang="ts">
-const emit = defineEmits<{
-  (e: 'togglePopUp'): void
-}>()
-
-function togglePopUp() {
-  emit('togglePopUp')
-}
-</script>
-
 <template>
   <div class="close-icon" @click="togglePopUp">
     <svg
@@ -22,6 +12,16 @@ function togglePopUp() {
     </svg>
   </div>
 </template>
+
+<script setup lang="ts">
+const emit = defineEmits<{
+  (e: 'togglePopUp'): void
+}>()
+
+function togglePopUp() {
+  emit('togglePopUp')
+}
+</script>
 
 <style scoped>
 .close-icon {

@@ -1,8 +1,3 @@
-<script setup lang="ts">
-const props = defineProps<{
-  priorityChange: boolean
-}>()
-</script>
 <template>
   <svg
     fill="none"
@@ -15,6 +10,13 @@ const props = defineProps<{
     <path d="M19.5 8.25l-8 8-8-8"></path>
   </svg>
 </template>
+
+<script setup lang="ts">
+const props = defineProps<{
+  priorityChange: boolean
+}>()
+</script>
+
 <style scoped>
 @media screen and (min-width: 480px) {
   .todo-importance-title svg {

@@ -1,3 +1,19 @@
+<template>
+  <div class="todos">
+    <ul class="todo-ul">
+      <li v-for="(todo, index) in todos" :key="index">
+        <Todo
+          :todo="todo"
+          :index="index"
+          @deleteTaskIndex="deleteTaskIndex"
+          @mark-todo-status="markTodoStatus"
+        />
+      </li>
+    </ul>
+    <EmptyState v-if="todos.length < 1" :todos="todos" />
+  </div>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue'
 import Todo from './Todo.vue'
@@ -11,6 +27,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'markTodoDone', tddo: TodoType): void
   (e: 'deleteTaskIndex', index: number): void
+  (e: 'markTodoStatus', tddo: TodoType): void
 }>()
 
 function markTodoDone(todo: TodoType) {
@@ -21,27 +38,11 @@ function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)
 }
 
-const searchTodos = computed(() => {
-  return props.todos.filter((todo) =>
-    (todo.title + todo.text).toLowerCase().includes(props.searchInputContent.toLowerCase())
-  )
-})
+function markTodoStatus(todo: TodoType) {
+  emit('markTodoStatus', todo)
+}
 </script>
-<template>
-  <div class="todos">
-    <ul v-if="searchTodos.length" class="todo-ul">
-      <Todo
-        :todos="searchTodos"
-        @deleteTaskIndex="deleteTaskIndex"
-        @mark-todo-done="markTodoDone"
-      />
-    </ul>
-    <p v-else-if="todos.length" class="no-results-message">
-      No matching todos found for: <span>{{ searchInputContent }}</span>
-    </p>
-    <EmptyState v-if="todos.length < 1" :todos="todos" />
-  </div>
-</template>
+
 <style scoped>
 .todos {
   display: flex;
@@ -55,6 +56,7 @@ const searchTodos = computed(() => {
   display: flex;
   flex-direction: column-reverse;
   gap: 30px;
+  list-style: none;
 }
 .todoimage {
   margin-top: 40px;

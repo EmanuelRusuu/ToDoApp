@@ -1,13 +1,13 @@
-<script setup lang="ts">
-import NoTodos from '../assets/notodosimg.svg'
-</script>
-
 <template>
   <div class="no-todos">
     <img class="no-todos-img" :src="NoTodos" />
     <p class="no-todos-p">You have no todos yet</p>
   </div>
 </template>
+
+<script setup lang="ts">
+import NoTodos from '../assets/notodosimg.svg'
+</script>
 
 <style scoped>
 .no-todos {
@@ -24,7 +24,6 @@ import NoTodos from '../assets/notodosimg.svg'
   font-size: 22px;
   line-height: 26px;
   letter-spacing: 0em;
-  text-align: center;
   color: #6d6d6d;
 }
 
@@ -36,8 +35,6 @@ import NoTodos from '../assets/notodosimg.svg'
   }
 
   .no-todos-p {
-    text-align: center;
-    color: #6d6d6d;
     font-size: 30px;
     line-height: 34px;
   }
@@ -51,8 +48,6 @@ import NoTodos from '../assets/notodosimg.svg'
   }
 
   .no-todos-p {
-    text-align: center;
-    color: #6d6d6d;
     font-size: 42px;
     line-height: 50px;
   }

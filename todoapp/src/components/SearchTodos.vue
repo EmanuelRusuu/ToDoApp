@@ -1,12 +1,33 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import searchIcon from '../assets/searchIcon.svg'
+
+const props = defineProps<{
+  modelValue: string
+}>()
+const emit = defineEmits<{ (e: 'update:modelValue', newValue: string): void }>()
+
+const inputValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(newValue) {
+    emit('update:modelValue', newValue)
+  }
+})
 </script>
 
 <template>
   <div class="search-container">
     <div class="search-bar">
       <img class="search-icon" :src="searchIcon" alt="searchicon" />
-      <input class="search-input" type="text" placeholder="Search todos" maxlength="30" />
+      <input
+        class="search-input"
+        type="text"
+        placeholder="Search todos"
+        maxlength="30"
+        v-model="inputValue"
+      />
     </div>
     <button class="search-btn"><p class="search-btn-text">Search</p></button>
   </div>
@@ -32,6 +53,7 @@ import searchIcon from '../assets/searchIcon.svg'
   align-items: center;
   gap: 10px;
   width: 70%;
+  height: 100%;
 }
 
 .search-icon {
@@ -43,6 +65,7 @@ import searchIcon from '../assets/searchIcon.svg'
   border: 0;
   outline: none;
   width: 60%;
+  height: 100%;
 }
 .search-input,
 .search-input::placeholder {
@@ -82,11 +105,11 @@ import searchIcon from '../assets/searchIcon.svg'
   height: 14px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 480px) {
   .search-container {
     height: 68px;
     border-radius: 16px;
-    padding: 18px 30px 18px 17px;
+    padding: 13px 25px 13px 17px;
   }
   .search-icon {
     width: 24px;
@@ -113,6 +136,20 @@ import searchIcon from '../assets/searchIcon.svg'
     color: #4f4f4f;
     mix-blend-mode: normal;
     opacity: 1;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .search-container {
+    padding: 18px 30px 18px 17px;
+  }
+
+  .search-bar {
+    gap: 16px;
   }
 }
 </style>

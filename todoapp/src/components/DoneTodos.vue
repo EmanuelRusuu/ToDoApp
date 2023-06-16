@@ -25,6 +25,10 @@ const emit = defineEmits<{
 function markTodoStatus(todo: TodoType) {
   emit('markTodoStatus', todo)
 }
+
+function deleteFinishedTodo(index: number) {
+  emit('deleteFinishedTodo', index)
+}
 </script>
 
 <style scoped>

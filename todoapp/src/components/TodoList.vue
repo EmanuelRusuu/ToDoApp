@@ -27,6 +27,7 @@ import DeletePopUP from './DeletePopUP.vue'
 import Header from './Header.vue'
 import Todos from './Todos.vue'
 import DoneTodos from './DoneTodos.vue'
+import SearchTodos from './SearchTodos.vue'
 
 const todos = ref<TodoType[]>([])
 const doneTodos = ref<TodoType[]>([])
@@ -102,7 +103,27 @@ function markTodoStatus(todo: TodoType) {
   }
 }
 </script>
-
+<template>
+  <div>
+    <DeletePopUP
+      v-if="popUp"
+      :index="selectedTaskIndex"
+      @toggle-pop-up="togglePopUp"
+      @remove-task="removeTask"
+    />
+  </div>
+  <div class="todoapp-container">
+    <Header @add-todo="addTodo" />
+    <SearchTodos />
+    <Todos :todos="todos" @deleteTaskIndex="deleteTaskIndex" @mark-todo-done="markTodoDone" />
+    <DoneTodos
+      v-if="doneTodos.length > 0"
+      :todos="todos"
+      :doneTodos="doneTodos"
+      @mark-todo-not-done="markTodoNotDone"
+    />
+  </div>
+</template>
 <style scoped>
 .todoapp-container {
   margin-top: 136px;

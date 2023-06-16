@@ -1,3 +1,19 @@
+<template>
+  <div class="todos">
+    <ul class="todo-ul">
+      <li v-for="(todo, index) in todos" :key="index">
+        <Todo
+          :todo="todo"
+          :index="index"
+          @deleteTaskIndex="deleteTaskIndex"
+          @mark-todo-status="markTodoStatus"
+        />
+      </li>
+    </ul>
+    <EmptyState v-if="todos.length < 1" :todos="todos" />
+  </div>
+</template>
+
 <script setup lang="ts">
 import Todo from './Todo.vue'
 import EmptyState from './EmptyState.vue'
@@ -8,25 +24,18 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
-  (e: 'markTodoDone', tddo: TodoType): void
+  (e: 'markTodoStatus', tddo: TodoType): void
 }>()
 
 function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)
 }
 
-function markTodoDone(todo: TodoType) {
-  emit('markTodoDone', todo)
+function markTodoStatus(todo: TodoType) {
+  emit('markTodoStatus', todo)
 }
 </script>
-<template>
-  <div class="todos">
-    <ul class="todo-ul">
-      <Todo :todos="todos" @deleteTaskIndex="deleteTaskIndex" @mark-todo-done="markTodoDone" />
-    </ul>
-    <EmptyState v-if="todos.length < 1" :todos="todos" />
-  </div>
-</template>
+
 <style scoped>
 .todos {
   display: flex;
@@ -40,6 +49,7 @@ function markTodoDone(todo: TodoType) {
   display: flex;
   flex-direction: column-reverse;
   gap: 30px;
+  list-style: none;
 }
 .todoimage {
   margin-top: 40px;

@@ -1,17 +1,29 @@
+<template>
+  <div class="done-todos">
+    <hr v-if="doneTodos.length > 0" class="hr" />
+    <p class="no-todos-p">Done todos:</p>
+    <ul>
+      <li class="done-todo" v-for="(doneTodo, index) in doneTodos" :key="index">
+        <Todo :todo="doneTodo" @mark-todo-status="markTodoStatus" />
+      </li>
+    </ul>
+  </div>
+</template>
+
 <script setup lang="ts">
 import type { TodoType } from '@/types/text'
 import Todo from './Todo.vue'
 
 const props = defineProps<{
-  todos: TodoType[]
+  todo: TodoType
   doneTodos: TodoType[]
 }>()
 const emit = defineEmits<{
   (e: 'markTodoNotDone', todo: TodoType): void
 }>()
 
-function markTodoNotDone(todo: TodoType) {
-  emit('markTodoNotDone', todo)
+function markTodoStatus(todo: TodoType) {
+  emit('markTodoStatus', todo)
 }
 </script>
 <template>

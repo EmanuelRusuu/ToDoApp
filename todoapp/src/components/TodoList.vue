@@ -1,3 +1,24 @@
+<template>
+  <div>
+    <DeletePopUP
+      v-if="popUp"
+      :index="selectedTaskIndex"
+      @toggle-pop-up="togglePopUp"
+      @remove-task="removeTask"
+    />
+  </div>
+  <div class="todoapp-container">
+    <Header @add-todo="addTodo" />
+    <Todos :todos="todos" @delete-task-index="deleteTaskIndex" @mark-todo-status="markTodoStatus" />
+    <DoneTodos
+      v-if="doneTodos.length > 0"
+      :todos="todos"
+      :doneTodos="doneTodos"
+      @mark-todo-status="markTodoStatus"
+    />
+  </div>
+</template>
+
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import moment from 'moment'
@@ -28,11 +49,11 @@ function addTodo() {
 }
 onMounted(() => {
   const storedTodos = localStorage.getItem('todos')
-  if (storedTodos !== null) {
+  if (storedTodos) {
     todos.value = JSON.parse(storedTodos)
   }
   const storedDoneTodos = localStorage.getItem('doneTodos')
-  if (storedDoneTodos !== null) {
+  if (storedDoneTodos) {
     doneTodos.value = JSON.parse(storedDoneTodos)
   }
 })
@@ -63,43 +84,25 @@ function removeTask(index: number) {
   togglePopUp()
 }
 
-function markTodoDone(todo: TodoType) {
-  const index = todos.value.findIndex((item) => item === todo)
-  if (index !== -1) {
-    const doneTodo = todos.value.splice(index, 1)[0]
-    doneTodos.value.push(doneTodo)
-  }
-}
+function markTodoStatus(todo: TodoType) {
+  const todosIndex = todos.value.findIndex((item) => item === todo)
+  const doneTodosIndex = doneTodos.value.findIndex((item) => item === todo)
 
-function markTodoNotDone(todo: TodoType) {
-  const index = doneTodos.value.findIndex((item) => item === todo)
-  if (index !== -1) {
-    const undoneTodo = doneTodos.value.splice(index, 1)[0]
-    undoneTodo.status = false
-    todos.value.push({ ...undoneTodo })
+  if (todosIndex !== -1) {
+    todos.value.splice(todosIndex, 1)
+    todo.status = true
+    doneTodos.value.push(todo)
+    return
+  }
+
+  if (doneTodosIndex !== -1) {
+    doneTodos.value.splice(doneTodosIndex, 1)
+    todo.status = false
+    todos.value.push(todo)
   }
 }
 </script>
-<template>
-  <div>
-    <DeletePopUP
-      v-if="popUp"
-      :index="selectedTaskIndex"
-      @toggle-pop-up="togglePopUp"
-      @remove-task="removeTask"
-    />
-  </div>
-  <div class="todoapp-container">
-    <Header @add-todo="addTodo" />
-    <Todos :todos="todos" @deleteTaskIndex="deleteTaskIndex" @mark-todo-done="markTodoDone" />
-    <DoneTodos
-      v-if="doneTodos.length > 0"
-      :todos="todos"
-      :doneTodos="doneTodos"
-      @mark-todo-not-done="markTodoNotDone"
-    />
-  </div>
-</template>
+
 <style scoped>
 .todoapp-container {
   margin-top: 136px;

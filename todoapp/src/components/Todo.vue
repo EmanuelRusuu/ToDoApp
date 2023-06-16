@@ -1,69 +1,5 @@
-<script setup lang="ts">
-import type { TodoType } from '../types/text'
-import Incomplete from '../assets/eclipseblack.svg'
-import Complete from '../assets/completedTask.png'
-import ArrowDown from './Icons/ArrowDown.vue'
-import Calendar from '../components/Icons/Calendar.vue'
-const props = defineProps<{
-  todos: TodoType[]
-}>()
-const emit = defineEmits<{
-  (e: 'deleteTaskIndex', index: number): void
-  (e: 'markTodoDone', todo: TodoType): void
-  (e: 'markTodoNotDone', todo: TodoType): void
-}>()
-
-const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
-
-function handleImportance(index: keyof typeof priority) {
-  return priority[index]
-}
-
-function isEditing(todo: TodoType) {
-  todo.editing = true
-}
-
-function saveEditing(todo: TodoType) {
-  todo.editing = false
-  todo.priorityChange = false
-  todo.textEdit = false
-}
-
-function deleteTaskIndex(index: number) {
-  emit('deleteTaskIndex', index)
-}
-function changePriority(todo: TodoType) {
-  if (todo.editing) {
-    todo.priorityChange = !todo.priorityChange
-  }
-}
-function setPriority(todo: TodoType, number: number) {
-  todo.priority = number
-  todo.priorityChange = false
-}
-
-function markTodoStatus(todo: TodoType) {
-  if (todo.status) {
-    todo.status = false
-    setTimeout(() => {
-      emit('markTodoNotDone', todo)
-    }, 200)
-  } else {
-    todo.status = true
-    setTimeout(() => {
-      emit('markTodoDone', todo)
-    }, 600)
-  }
-}
-
-function textEdit(todo: TodoType) {
-  if (todo.editing) {
-    todo.textEdit = true
-  }
-}
-</script>
 <template>
-  <div class="todo" @click="isEditing(todo)" v-for="(todo, index) in todos" :key="index">
+  <div class="todo" @click="isEditing(todo)">
     <div class="status-content-priority">
       <div v-if="!todo.editing" @click.stop="markTodoStatus(todo)" class="status-container">
         <img
@@ -156,6 +92,65 @@ function textEdit(todo: TodoType) {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import type { TodoType } from '../types/text'
+import Incomplete from '../assets/eclipseblack.svg'
+import Complete from '../assets/completedTask.png'
+import ArrowDown from './Icons/ArrowDown.vue'
+import Calendar from '../components/Icons/Calendar.vue'
+const props = defineProps<{
+  todo: TodoType
+  index: number
+}>()
+const emit = defineEmits<{
+  (e: 'deleteTaskIndex', index: number): void
+  (e: 'markTodoStatus', todo: TodoType): void
+}>()
+
+const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
+
+function handleImportance(index: keyof typeof priority) {
+  return priority[index]
+}
+
+function isEditing(todo: TodoType) {
+  todo.editing = true
+}
+
+function saveEditing(todo: TodoType) {
+  todo.editing = false
+  todo.priorityChange = false
+  todo.textEdit = false
+}
+
+function deleteTaskIndex(index: number) {
+  emit('deleteTaskIndex', index)
+}
+function changePriority(todo: TodoType) {
+  if (todo.editing) {
+    todo.priorityChange = !todo.priorityChange
+  }
+}
+function setPriority(todo: TodoType, number: number) {
+  todo.priority = number
+  todo.priorityChange = false
+}
+
+function markTodoStatus(todo: TodoType) {
+  todo.status = !todo.status
+  setTimeout(() => {
+    emit('markTodoStatus', todo)
+  }, 200)
+}
+
+function textEdit(todo: TodoType) {
+  if (todo.editing) {
+    todo.textEdit = true
+  }
+}
+</script>
+
 <style scoped>
 .todo {
   display: flex;

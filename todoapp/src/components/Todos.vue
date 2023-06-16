@@ -18,7 +18,7 @@
 import Todo from './Todo.vue'
 import EmptyState from './EmptyState.vue'
 import type { TodoType } from '../types/text'
-const props = defineProps<{
+defineProps<{
   todos: TodoType[]
 }>()
 

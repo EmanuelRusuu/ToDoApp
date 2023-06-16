@@ -1,13 +1,3 @@
-<script setup lang="ts">
-const emit = defineEmits<{
-  (e: 'addTodo'): void
-}>()
-
-function handleAdd() {
-  emit('addTodo')
-}
-</script>
-
 <template>
   <div class="header">
     <h1 class="header-title">To do list</h1>
@@ -18,6 +8,16 @@ function handleAdd() {
     </button>
   </div>
 </template>
+
+<script setup lang="ts">
+const emit = defineEmits<{
+  (e: 'addTodo'): void
+}>()
+
+function handleAdd() {
+  emit('addTodo')
+}
+</script>
 
 <style scoped>
 .header {

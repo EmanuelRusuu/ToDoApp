@@ -1,17 +1,13 @@
-<script setup lang="ts">
-import NoTodos from '../assets/notodosimg.svg'
-import type { TodoType } from '../types/text'
-const props = defineProps<{
-  todos: TodoType[]
-}>()
-</script>
-
 <template>
-  <div v-if="todos.length < 1" class="no-todos">
+  <div class="no-todos">
     <img class="no-todos-img" :src="NoTodos" />
     <p class="no-todos-p">You have no todos yet</p>
   </div>
 </template>
+
+<script setup lang="ts">
+import NoTodos from '../assets/notodosimg.svg'
+</script>
 
 <style scoped>
 .no-todos {
@@ -28,7 +24,6 @@ const props = defineProps<{
   font-size: 22px;
   line-height: 26px;
   letter-spacing: 0em;
-  text-align: center;
   color: #6d6d6d;
 }
 
@@ -40,11 +35,8 @@ const props = defineProps<{
   }
 
   .no-todos-p {
-    text-align: center;
-    color: #6d6d6d;
     font-size: 30px;
     line-height: 34px;
-    text-align: left;
   }
 }
 
@@ -56,11 +48,8 @@ const props = defineProps<{
   }
 
   .no-todos-p {
-    text-align: center;
-    color: #6d6d6d;
     font-size: 42px;
     line-height: 50px;
-    text-align: left;
   }
 }
 </style>

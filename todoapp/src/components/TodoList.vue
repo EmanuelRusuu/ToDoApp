@@ -9,11 +9,18 @@
   </div>
   <div class="todoapp-container">
     <Header @add-todo="addTodo" />
-    <Todos :todos="todos" @delete-task-index="deleteTaskIndex" @mark-todo-status="markTodoStatus" />
+    <SearchTodos v-if="todos.length" v-model="searchInputContent" />
+    <Todos
+      :todos="todos"
+      :searchInputContent="searchInputContent"
+      @delete-task-index="deleteTaskIndex"
+      @mark-todo-status="markTodoStatus"
+    />
     <DoneTodos
       v-if="doneTodos.length > 0"
       :todos="todos"
       :doneTodos="doneTodos"
+      @deleteFinishedTodo="deleteFinishedTodo"
       @mark-todo-status="markTodoStatus"
     />
   </div>
@@ -108,31 +115,7 @@ function markTodoStatus(todo: TodoType) {
   }
 }
 </script>
-<template>
-  <DeletePopUP
-    v-if="popUp"
-    :index="selectedTaskIndex"
-    @toggle-pop-up="togglePopUp"
-    @remove-task="removeTask"
-  />
-  <div class="todoapp-container">
-    <Header @add-todo="addTodo" />
-    <SearchTodos v-if="todos.length" v-model="searchInputContent" />
-    <Todos
-      :search-input-content="searchInputContent"
-      :todos="todos"
-      @mark-todo-done="markTodoDone"
-      @deleteTaskIndex="deleteTaskIndex"
-    />
-    <DoneTodos
-      v-if="doneTodos.length > 0"
-      :todos="todos"
-      :doneTodos="doneTodos"
-      @deleteFinishedTodo="deleteFinishedTodo"
-      @mark-todo-not-done="markTodoNotDone"
-    />
-  </div>
-</template>
+
 <style scoped>
 .todoapp-container {
   margin-top: 136px;

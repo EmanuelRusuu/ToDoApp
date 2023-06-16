@@ -1,3 +1,19 @@
+<template>
+  <div class="search-container">
+    <div class="search-bar">
+      <img class="search-icon" :src="searchIcon" alt="searchicon" />
+      <input
+        class="search-input"
+        type="text"
+        placeholder="Search todos"
+        maxlength="30"
+        v-model="inputValue"
+      />
+    </div>
+    <button class="search-btn"><p class="search-btn-text">Search</p></button>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue'
 import searchIcon from '../assets/searchIcon.svg'
@@ -17,25 +33,8 @@ const inputValue = computed({
 })
 </script>
 
-<template>
-  <div class="search-container">
-    <div class="search-bar">
-      <img class="search-icon" :src="searchIcon" alt="searchicon" />
-      <input
-        class="search-input"
-        type="text"
-        placeholder="Search todos"
-        maxlength="30"
-        v-model="inputValue"
-      />
-    </div>
-    <button class="search-btn"><p class="search-btn-text">Search</p></button>
-  </div>
-</template>
-
 <style scoped>
 .search-container {
-  height: 47px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -43,7 +42,7 @@ const inputValue = computed({
   justify-content: space-between;
   border: 2px solid #040415;
   border-radius: 8px;
-  padding: 0 9px;
+  padding: 7px 9px;
   margin-bottom: 30px;
 }
 

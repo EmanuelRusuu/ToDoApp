@@ -1,5 +1,5 @@
 <template>
-  <div class="todo" @click="isEditing(todo)">
+  <div class="todo-container" @click="isEditing(todo)">
     <div class="status-content-priority">
       <div v-if="!todo.editing" @click.stop="markTodoStatus(todo)" class="status-container">
         <img
@@ -99,7 +99,7 @@ import type { TodoType } from '../types/text'
 import Incomplete from '../assets/eclipseblack.svg'
 import Complete from '../assets/completedTask.png'
 import ArrowDown from './Icons/ArrowDown.vue'
-import Calendar from '../components/Icons/Calendar.vue'
+import Calendar from './Icons/Calendar.vue'
 const props = defineProps<{
   todo: TodoType
   index: number
@@ -108,6 +108,7 @@ const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
   (e: 'markTodoStatus', todo: TodoType): void
   (e: 'onTodoUpdate', todo: TodoType): void
+  (e: 'deleteFinishedTodo', index: number): void
 }>()
 
 const localTodo = computed({
@@ -137,7 +138,9 @@ function saveEditing(todo: TodoType) {
 
 function deleteTaskIndex(index: number) {
   emit('deleteTaskIndex', index)
+  emit('deleteFinishedTodo', index)
 }
+
 function changePriority(todo: TodoType) {
   if (todo.editing) {
     todo.priorityChange = !todo.priorityChange
@@ -163,7 +166,7 @@ function textEdit(todo: TodoType) {
 </script>
 
 <style scoped>
-.todo {
+.todo-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -371,7 +374,7 @@ function textEdit(todo: TodoType) {
 }
 
 @media screen and (min-width: 480px) {
-  .todo {
+  .todo-container {
     max-width: 500px;
     width: 100%;
     min-height: 140px;
@@ -523,7 +526,7 @@ function textEdit(todo: TodoType) {
   }
 }
 @media screen and (min-width: 768px) {
-  .todo {
+  .todo-container {
     max-width: 610px;
     width: 100%;
     min-height: 163px;

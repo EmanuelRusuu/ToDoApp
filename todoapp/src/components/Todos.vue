@@ -1,12 +1,12 @@
 <template>
-  <div class="todos">
-    <ul class="todo-ul">
-      <li v-for="(todo, index) in todos" :key="index">
+  <div class="todos-container">
+    <ul v-if="searchTodos.length" class="todo-ul">
+      <li v-for="(todo, index) in searchTodos" :key="index">
         <Todo
           :todo="todo"
           :index="index"
           @deleteTaskIndex="deleteTaskIndex"
-          @mark-todo-status="markTodoStatus"
+          @markTodoStatus="markTodoStatus"
         />
       </li>
     </ul>
@@ -22,14 +22,15 @@ import { computed } from 'vue'
 import Todo from './Todo.vue'
 import EmptyState from './EmptyState.vue'
 import type { TodoType } from '../types/text'
-defineProps<{
+
+const props = defineProps<{
   todos: TodoType[]
   searchInputContent: string
 }>()
 
 const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
-  (e: 'markTodoStatus', tddo: TodoType): void
+  (e: 'markTodoStatus', todo: TodoType): void
 }>()
 
 function deleteTaskIndex(index: number) {
@@ -39,6 +40,7 @@ function deleteTaskIndex(index: number) {
 function markTodoStatus(todo: TodoType) {
   emit('markTodoStatus', todo)
 }
+
 const searchTodos = computed(() => {
   return props.todos.filter((todo) =>
     (todo.title + todo.text).toLowerCase().includes(props.searchInputContent.toLowerCase())
@@ -47,7 +49,7 @@ const searchTodos = computed(() => {
 </script>
 
 <style scoped>
-.todos {
+.todos-container {
   display: flex;
   flex-direction: column;
   align-items: center;

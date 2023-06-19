@@ -4,7 +4,11 @@
     <p class="no-todos-p">Done todos:</p>
     <ul>
       <li class="done-todo" v-for="(doneTodo, index) in doneTodos" :key="index">
-        <Todo :todo="doneTodo" @mark-todo-status="markTodoStatus" />
+        <Todo
+          :todo="doneTodo"
+          @mark-todo-status="markTodoStatus"
+          @delete-finished-todo="deleteFinishedTodo"
+        />
       </li>
     </ul>
   </div>
@@ -20,10 +24,15 @@ defineProps<{
 }>()
 const emit = defineEmits<{
   (e: 'markTodoStatus', todo: TodoType): void
+  (e: 'deleteFinishedTodo', index: number): void
 }>()
 
 function markTodoStatus(todo: TodoType) {
   emit('markTodoStatus', todo)
+}
+
+function deleteFinishedTodo(index: number) {
+  emit('deleteFinishedTodo', index)
 }
 </script>
 

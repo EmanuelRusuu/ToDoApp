@@ -1,5 +1,5 @@
 <template>
-  <div class="close-icon" @click="togglePopUp">
+  <div class="absolute top-4 right-4 z-10 w-5 h-5 cursor-pointer" @click="togglePopUp">
     <svg
       fill="none"
       stroke="darkgray"
@@ -22,15 +22,3 @@ function togglePopUp() {
   emit('togglePopUp')
 }
 </script>
-
-<style scoped>
-.close-icon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 10;
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: pointer;
-}
-</style>

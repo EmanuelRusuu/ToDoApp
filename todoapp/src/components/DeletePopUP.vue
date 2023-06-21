@@ -1,17 +1,23 @@
 <template>
-  <div class="confirmation-dialog-container">
-    <div class="confirmation-dialog-content">
+  <div
+    class="absolute flex items-center justify-center flex-col inset-0 w-full h-full bg-gray-300 bg-opacity-60 z-10"
+  >
+    <div
+      class="relative flex flex-col items-center bg-white py-8 px-2 rounded-b-md border-t-4 border-solid border-red-500 gap-5 m-4 md:py-10 md:px-12 md:gap-8"
+    >
       <CloseIcon @toggle-pop-up="togglePopUp" />
       <ExclamationIcon />
-      <div class="popup-title-text">
-        <p class="popup-title">Confirm Deletion</p>
-        <p class="popup-text">Are you sure you want to delete the selected task?</p>
+      <div class="flex flex-col items-center">
+        <p class="text-lg font-medium xsm:text-2xl xsm:font-medium">Confirm Deletion</p>
+        <p class="font-medium text-xs text-gray-400 xsm:font-medium xsm:text-base text-center">
+          Are you sure you want to delete the selected task?
+        </p>
       </div>
-      <div class="popup-buttons">
-        <button class="popup-btn delete-btn" @click="removeTask">
-          <p class="btn-text">Delete</p>
+      <div class="flex flex-row items-center gap-2 xsm:gap-4">
+        <button class="popup-btn bg-red-500" @click="removeTask">
+          <p class="btn-text text-white">Delete</p>
         </button>
-        <button class="popup-btn cancel-btn" @click="togglePopUp">
+        <button class="popup-btn bg-gray-300" @click="togglePopUp">
           <p class="btn-text">Cancel</p>
         </button>
       </div>
@@ -37,128 +43,3 @@ function removeTask() {
   emit('removeTask', props.index)
 }
 </script>
-
-<style scoped>
-.confirmation-dialog-container {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(188, 188, 188, 0.6);
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.confirmation-dialog-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  padding: 2rem 0.5rem;
-  border-radius: 5px;
-  border-top: 4px solid #ff481f;
-  gap: 20px;
-  position: relative;
-  margin: 1rem;
-}
-
-.popup-title-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.popup-title {
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.popup-text {
-  font-weight: 500;
-  font-size: 12px;
-  color: rgb(108, 108, 108);
-  text-align: center;
-}
-
-.popup-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.popup-btn {
-  border-radius: 16px;
-  height: 30px;
-  width: 70px;
-  border: 0;
-  outline: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.delete-btn {
-  background-color: #ff481f;
-  color: white;
-}
-
-.cancel-btn {
-  background-color: #e6e6e6;
-}
-
-.btn-text {
-  width: 52px;
-  height: 22px;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 22px;
-}
-
-@media screen and (min-width: 480px) {
-  .confirmation-dialog-content {
-    padding: 2.5rem 3rem;
-    gap: 30px;
-  }
-
-  .x {
-    width: 1.8rem;
-    height: 1.8rem;
-  }
-
-  .popup-title {
-    font-size: 26px;
-    font-weight: 500;
-  }
-
-  .popup-text {
-    font-weight: 500;
-    font-size: 15px;
-  }
-
-  .exclamation {
-    width: 4rem;
-    height: 4rem;
-  }
-
-  .popup-buttons {
-    gap: 1rem;
-  }
-
-  .popup-btn {
-    height: 45px;
-    width: 105px;
-  }
-
-  .btn-text {
-    width: 52px;
-    height: 22px;
-    font-weight: 600;
-    font-size: 17px;
-    line-height: 22px;
-  }
-}
-</style>

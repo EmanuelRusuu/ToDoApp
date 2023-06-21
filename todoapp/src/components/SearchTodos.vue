@@ -1,16 +1,26 @@
 <template>
-  <div class="search-container">
-    <div class="search-bar">
-      <img class="search-icon" :src="searchIcon" alt="searchicon" />
+  <div
+    class="w-full h-12 flex flex-row items-center justify-between border-2 border-black rounded-lg mb-14 py-2 pr-2 pl-4 xsm:py-4 xsm:pr-8 xsm:h-14 xsm:rounded-2xl xsm:px-5 md:pr-8 md:pl-4 md:h-16"
+  >
+    <div class="flex flex-row items-center gap-2 w-3/4 h-full">
+      <img class="s w-5 h-5 xsm:w-6 xsm:h-6" :src="searchIcon" alt="searchicon" />
       <input
-        class="search-input"
+        class="border-0 outline-none w-2/3 h-full font-inter font-medium text-sm tracking-tighter text-black placeholder:opacity-50 xsm:text-lg xsm:text-gray-700 xsm:opacity-100 xsm:w-full xsm:h-13 md:h-14"
         type="text"
         placeholder="Search todos"
         maxlength="30"
         v-model="inputValue"
       />
     </div>
-    <button class="search-btn"><p class="search-btn-text">Search</p></button>
+    <button
+      class="flex justify-center items-center w-16 h-8 bg-black text-white rounded-lg border-0 outline-none cursor-pointer xsm:w-20 xsm:h-8"
+    >
+      <p
+        class="text-xs text-white w-10 h-4 xsm:w-11 xsm:h-4 xsm:text-sm xsm:text-white xsm:flex xsm:items-center"
+      >
+        Search
+      </p>
+    </button>
   </div>
 </template>
 
@@ -32,123 +42,3 @@ const inputValue = computed({
   }
 })
 </script>
-
-<style scoped>
-.search-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  border: 2px solid #040415;
-  border-radius: 8px;
-  padding: 7px 9px;
-  margin-bottom: 30px;
-}
-
-.search-bar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  width: 70%;
-  height: 100%;
-}
-
-.search-icon {
-  width: 20px;
-  height: 20px;
-}
-
-.search-input {
-  border: 0;
-  outline: none;
-  width: 60%;
-  height: 100%;
-}
-.search-input,
-.search-input::placeholder {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.3px;
-  color: #040415;
-  mix-blend-mode: normal;
-}
-
-.search-input::placeholder {
-  opacity: 0.5;
-}
-
-.search-btn {
-  width: 68px;
-  height: 32px;
-  background-color: black;
-  color: white;
-  border-radius: 8px;
-  border: 0;
-  outline: 0;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.search-btn-text {
-  font-size: 12px;
-  line-height: 14px;
-  color: #ffffff;
-  width: 38px;
-  height: 14px;
-}
-
-@media screen and (min-width: 480px) {
-  .search-container {
-    height: 68px;
-    border-radius: 16px;
-    padding: 13px 25px 13px 17px;
-  }
-  .search-icon {
-    width: 24px;
-    height: 24px;
-  }
-  .search-btn {
-    width: 74px;
-  }
-
-  .search-btn-text {
-    width: 44px;
-    height: 17px;
-    font-size: 14px;
-    line-height: 17px;
-    color: #ffffff;
-  }
-
-  .search-input,
-  .search-input::placeholder {
-    font-family: 'Neue Haas Grotesk Display Pro';
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 22px;
-    color: #4f4f4f;
-    mix-blend-mode: normal;
-    opacity: 1;
-  }
-
-  .search-input {
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .search-container {
-    padding: 18px 30px 18px 17px;
-  }
-
-  .search-bar {
-    gap: 16px;
-  }
-}
-</style>

@@ -7,7 +7,9 @@
       @remove-task="removeTask"
     />
   </div>
-  <div class="todoapp-container">
+  <div
+    class="relative flex flex-col items-center mt-32 max-w-288 w-4/5 xsm:max-w-500 xsm:w-11/12 xsm:mt-44 md:max-w-610 md:w-4/5 md:mt-48"
+  >
     <Header @add-todo="addTodo" />
     <SearchTodos v-if="todos.length" v-model="searchInputContent" />
     <Todos
@@ -18,7 +20,6 @@
     />
     <DoneTodos
       v-if="doneTodos.length > 0"
-      :todos="todos"
       :doneTodos="doneTodos"
       @deleteFinishedTodo="deleteFinishedTodo"
       @mark-todo-status="markTodoStatus"
@@ -115,29 +116,3 @@ function markTodoStatus(todo: TodoType) {
   }
 }
 </script>
-
-<style scoped>
-.todoapp-container {
-  margin-top: 136px;
-  max-width: 288px;
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-@media screen and (min-width: 480px) {
-  .todoapp-container {
-    max-width: 500px;
-    width: 90%;
-    margin-top: 180px;
-  }
-}
-@media screen and (min-width: 768px) {
-  .todoapp-container {
-    max-width: 610px;
-    width: 80%;
-    margin-top: 190px;
-  }
-}
-</style>

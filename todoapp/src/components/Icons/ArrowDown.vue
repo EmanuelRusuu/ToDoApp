@@ -1,5 +1,6 @@
 <template>
   <svg
+    class="xsm:w-5 xsm:h-5"
     fill="none"
     :stroke="priorityChange ? 'black' : 'white'"
     stroke-width="2.5"
@@ -16,12 +17,3 @@ const props = defineProps<{
   priorityChange: boolean
 }>()
 </script>
-
-<style scoped>
-@media screen and (min-width: 480px) {
-  .todo-importance-title svg {
-    width: 20px;
-    height: 20px;
-  }
-}
-</style>

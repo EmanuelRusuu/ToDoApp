@@ -1,6 +1,9 @@
 <template>
-  <div class="todos-container">
-    <ul v-if="searchTodos.length" class="todo-ul">
+  <div class="flex flex-col items-center w-full pb-20">
+    <ul
+      v-if="searchTodos.length"
+      class="w-full flex flex-col-reverse gap-7 list-none xsm:gap-10 md:gap-12"
+    >
       <li v-for="(todo, index) in searchTodos" :key="index">
         <Todo
           :todo="todo"
@@ -10,8 +13,8 @@
         />
       </li>
     </ul>
-    <p v-else-if="todos.length" class="no-results-message">
-      No matching todos found for: <span>{{ searchInputContent }}</span>
+    <p v-else-if="todos.length" class="text-2xl text-gray-500 xsm:text-3xl">
+      No matching todos found for: <span class="text-black"> {{ searchInputContent }}</span>
     </p>
     <EmptyState v-if="todos.length < 1" :todos="todos" />
   </div>
@@ -47,61 +50,3 @@ const searchTodos = computed(() => {
   )
 })
 </script>
-
-<style scoped>
-.todos-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding-bottom: 73px;
-}
-.todo-ul {
-  width: 100%;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 30px;
-  list-style: none;
-}
-.todoimage {
-  margin-top: 40px;
-  width: 100%;
-}
-
-.no-results-message {
-  font-size: 22px;
-  line-height: 26px;
-  letter-spacing: 0em;
-  text-align: center;
-  color: #6d6d6d;
-}
-
-.no-results-message span {
-  color: black;
-}
-
-@media screen and (min-width: 480px) {
-  .todoimage {
-    margin-top: 60px;
-    width: 60%;
-  }
-  .todo-ul {
-    gap: 40px;
-  }
-  .no-results-message {
-    text-align: center;
-    color: #6d6d6d;
-    font-size: 30px;
-    line-height: 34px;
-  }
-}
-@media screen and (min-width: 768px) {
-  .todoimage {
-    margin-top: 72px;
-    width: 65%;
-  }
-  .todo-ul {
-    gap: 50px;
-  }
-}
-</style>

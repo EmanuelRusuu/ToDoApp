@@ -2,7 +2,7 @@
   <div>
     <svg
       fill="red"
-      class="exclamation"
+      class="w-8 h-8 xsm:w-16 xsm:h-16"
       stroke="white"
       stroke-width="1.5"
       viewBox="0 0 24 24"
@@ -17,17 +17,3 @@
     </svg>
   </div>
 </template>
-
-<style scoped>
-.exclamation {
-  width: 2rem;
-  height: 2rem;
-}
-
-@media screen and (min-width: 480px) {
-  .exclamation {
-    height: 4rem;
-    width: 4rem;
-  }
-}
-</style>

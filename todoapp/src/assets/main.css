@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* background-color:  */
-:root {
-  --add-todo-btn: #38cb89;
-  --save-btn: #38cb89;
-  --log-out-btn: #e6e6e6;
-  --delete-btn: #e5e5e5;
-  --todo: #ffffff;
-}
-/* color:  */
-:root {
-  --white: #fff;
-  --black: #000;
-}
 *,
 *::before,
 *::after {
@@ -23,4 +10,72 @@
   padding: 0;
   font-weight: 600;
   font-family: 'Neue Haas Grotesk Display Pro';
+}
+
+@layer components {
+  .popup-btn {
+    @apply flex justify-center items-center cursor-pointer rounded-2xl h-8 w-16 border-0 outline-0  xsm:h-11 xsm:w-28;
+  }
+  .btn-text {
+    @apply flex justify-center items-center w-12 h-5 font-medium text-xs xsm:w-12 xsm:h-6 xsm:font-semibold xsm:text-base;
+  }
+  .priority-option {
+    @apply xsm:rounded-2xl xsm:flex xsm:items-center xsm:justify-center xsm:text-white;
+  }
+  .todo-title {
+    @apply max-w-14-rem flex !items-center w-full h-5 border-0 outline-none font-medium text-lg xsm:w-full xsm:h-7 xsm:font-semibold xsm:text-3xl md:max-w-22-rem md:w-full md:h-12 md:text-42;
+  }
+  .todo-text {
+    @apply w-full mt-4 text-gray-500 font-normal text-sm xsm:w-11/12 xsm:font-semibold xsm:text-xl md:text-3xl md:mt-10;
+  }
+  .priority-mobile {
+    @apply w-h-10 rounded-full gap-2 flex items-center xsm:bg-transparent cursor-pointer;
+  }
+  .priority-option-mobile {
+    @apply xsm:text-lg xsm:h-8 xsm:w-full;
+  }
+  .priority-selection {
+    @apply border border-black xsm:border-none;
+  }
+  .priority-text {
+    @apply hidden xsm:block xsm:text-lg xsm:text-black xsm:w-full xsm:cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .max-w-288 {
+    max-width: 288px;
+  }
+  .max-w-500 {
+    max-width: 500px;
+  }
+  .max-w-610 {
+    max-width: 610px;
+  }
+  .max-w-14-rem {
+    max-width: 14rem;
+  }
+  .max-w-22-rem {
+    max-width: 22rem;
+  }
+  .w-h-10 {
+    width: 10px;
+    height: 10px;
+  }
+  .gap-38 {
+    gap: 38px;
+  }
+  .min-h-82 {
+    min-height: 82px;
+  }
+  .min-h-140 {
+    min-height: 140px;
+  }
+  .text-42 {
+    font-size: 42px;
+    line-height: 50px;
+  }
+  .border-6 {
+    border: 6px solid;
+  }
 }

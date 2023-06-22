@@ -3,16 +3,13 @@
     <input
       v-if="todo.editing"
       v-model="localTodo.title"
-      class="max-w-14-rem flex !items-center w-full h-5 bg-white border-0 outline-none font-medium text-lg xsm:w-full xsm:h-7 xsm:font-semibold xsm:text-3xl md:max-w-22-rem md:w-full md:h-12 md:text-42"
+      class="bg-white todo-title"
       type="text"
       maxlength="19"
       placeholder="Add a title"
       @click.stop="isEditing(todo)"
     />
-    <p
-      v-else
-      class="max-w-14-rem flex !items-center w-full h-5 border-0 outline-none font-medium text-lg xsm:w-full xsm:h-7 xsm:font-semibold xsm:text-3xl md:max-w-22-rem md:w-full md:h-12 md:text-42"
-    >
+    <p v-else class="todo-title">
       {{ todo.title }}
     </p>
   </div>

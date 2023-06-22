@@ -4,16 +4,13 @@
       v-if="todo.textEdit && todo.editing"
       v-model="localTodo.text"
       type="text"
-      class="flex text-start border-0 outline-none text-sm font-normal text-gray-500 mt-4 resize-none h-24 w-full xsm:h-36 xsm:w-11/12 xsm:text-xl xsm:font-semibold xsm:mt-7 md:h-44 md:w-full md:text-3xl md:mt-10"
+      class="todo-text flex text-start border-0 outline-none resize-none h-24 xsm:h-36 xsm:mt-7 md:h-44 md:w-full"
       maxlength="160"
     ></textarea>
     <p
       v-if="!todo.textEdit"
       @click="textEdit(todo)"
-      :class="[
-        'text-sm font-normal text-gray-500 w-full mt-4 xsm:block xsm:text-xl xsm:font-semibold xsm:mt-7 xsm:w-11/12  md:text-3xl md:mt-10',
-        todo.editing ? 'block' : 'hidden'
-      ]"
+      :class="['todo-text  xsm:block  xsm:mt-7 ', todo.editing ? 'block' : 'hidden']"
     >
       {{ todo.text }}
     </p>

@@ -76,6 +76,8 @@ const sortedAndFilteredTodos = computed(() => {
       )
       return dateA.getTime() - dateB.getTime()
     })
+  } else if (selectedButton === 'priority' && selectedSortingButtons.priority.order) {
+    return filteredTodos.value.slice().sort((a, b) => a.priority - b.priority)
   }
 
   return filteredTodos.value

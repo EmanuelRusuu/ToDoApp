@@ -62,6 +62,20 @@ const sortedAndFilteredTodos = computed(() => {
     return filteredTodos.value.slice().sort((a, b) => a.title.localeCompare(b.title))
   } else if (selectedButton === 'description' && selectedSortingButtons.description.order) {
     return filteredTodos.value.slice().sort((a, b) => a.text.localeCompare(b.text))
+  } else if (selectedButton === 'date' && selectedSortingButtons.date.order) {
+    return filteredTodos.value.slice().sort((a, b) => {
+      const dateA = new Date(
+        parseInt(a.createdAt.slice(6, 10)),
+        parseInt(a.createdAt.slice(3, 5)) - 1,
+        parseInt(a.createdAt.slice(0, 2))
+      )
+      const dateB = new Date(
+        parseInt(b.createdAt.slice(6, 10)),
+        parseInt(b.createdAt.slice(3, 5)) - 1,
+        parseInt(b.createdAt.slice(0, 2))
+      )
+      return dateA.getTime() - dateB.getTime()
+    })
   }
 
   return filteredTodos.value

@@ -16,6 +16,7 @@
     <Todos
       :todos="todos"
       :searchInputContent="searchInputContent"
+      :selected-sorting-buttons="selectedSortingButtons"
       @delete-task-index="deleteTaskIndex"
       @mark-todo-status="markTodoStatus"
     />

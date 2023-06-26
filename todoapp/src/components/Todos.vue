@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col items-center w-full pb-20">
     <ul
-      v-if="searchTodos.length"
-      class="w-full flex flex-col-reverse gap-7 list-none xsm:gap-10 md:gap-12"
+      v-if="filteredTodos.length"
+      class="w-full flex flex-col gap-7 list-none xsm:gap-10 md:gap-12"
     >
-      <li v-for="(todo, index) in searchTodos" :key="index">
+      <li v-for="(todo, index) in sortedAndFilteredTodos" :key="index">
         <Todo
           :todo="todo"
           :index="index"
@@ -25,10 +25,12 @@ import { computed } from 'vue'
 import Todo from './Todo.vue'
 import EmptyState from './EmptyState.vue'
 import type { TodoType } from '../types/text'
+import type { SelectedState } from '@/types/selected'
 
 const props = defineProps<{
   todos: TodoType[]
   searchInputContent: string
+  selectedSortingButtons: SelectedState
 }>()
 
 const emit = defineEmits<{
@@ -44,9 +46,24 @@ function markTodoStatus(todo: TodoType) {
   emit('markTodoStatus', todo)
 }
 
-const searchTodos = computed(() => {
+const filteredTodos = computed(() => {
   return props.todos.filter((todo) =>
     (todo.title + todo.text).toLowerCase().includes(props.searchInputContent.toLowerCase())
   )
+})
+
+const sortedAndFilteredTodos = computed(() => {
+  const { selectedSortingButtons } = props
+  const selectedButton = Object.keys(selectedSortingButtons).find(
+    (key) => selectedSortingButtons[key as keyof SelectedState].selected
+  )
+
+  if (selectedButton === 'title' && selectedSortingButtons.title.order) {
+    return filteredTodos.value.slice().sort((a, b) => a.title.localeCompare(b.title))
+  } else if (selectedButton === 'description' && selectedSortingButtons.description.order) {
+    return filteredTodos.value.slice().sort((a, b) => a.text.localeCompare(b.text))
+  }
+
+  return filteredTodos.value
 })
 </script>

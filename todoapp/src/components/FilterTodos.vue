@@ -4,9 +4,10 @@
       <button
         v-for="button in buttons"
         :key="button.key"
-        class="sorting-btn"
+        class="sorting-btn border-black"
         :class="{
-          'bg-emerald-400 border-emerald-400 text-white': button.selected && button.order
+          'bg-emerald-400 border-emerald-400 text-white': button.selected && button.order,
+          'bg-black text-white border-black': !button.order && button.selected
         }"
         @click="toggleSelected(button.key)"
       >
@@ -14,7 +15,7 @@
       </button>
     </div>
     <div class="ordering-options flex gap-2 items-center">
-      <button class="sorting-btn bg-emerald-400">
+      <button @click="toggleOrder" class="sorting-btn bg-emerald-400">
         <img :src="Arrow" />
       </button>
       <button class="sorting-btn bg-black">
@@ -26,24 +27,31 @@
 
 <script setup lang="ts">
 import Arrow from '../assets/arrow.svg'
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import type { SelectedState } from '../types/selected'
 
 const props = defineProps<{ selectedSortingButtons: SelectedState }>()
 
+const reactiveButtons = reactive(props.selectedSortingButtons)
+
 const buttons = computed(() =>
-  Object.keys(props.selectedSortingButtons).map((key) => ({
+  Object.keys(reactiveButtons).map((key) => ({
     key: key as keyof SelectedState,
     label: key.charAt(0).toUpperCase() + key.slice(1),
-    selected: props.selectedSortingButtons[key as keyof SelectedState].selected,
-    order: props.selectedSortingButtons[key as keyof SelectedState].order
+    selected: reactiveButtons[key as keyof SelectedState].selected,
+    order: reactiveButtons[key as keyof SelectedState].order
   }))
 )
 
 function toggleSelected(key: keyof SelectedState) {
-  const updatedButtons = { ...props.selectedSortingButtons }
-  Object.keys(updatedButtons).forEach((buttonKey) => {
-    updatedButtons[buttonKey as keyof SelectedState].selected = buttonKey === key
+  Object.keys(reactiveButtons).forEach((buttonKey) => {
+    reactiveButtons[buttonKey as keyof SelectedState].selected = buttonKey === key
+  })
+}
+
+function toggleOrder() {
+  Object.keys(reactiveButtons).forEach((buttonKey) => {
+    reactiveButtons[buttonKey as keyof SelectedState].order = true
   })
 }
 </script>

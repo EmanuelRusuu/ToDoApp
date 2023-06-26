@@ -1,7 +1,7 @@
 <template>
   <div>
     <input
-      v-if="todo.editing"
+      v-if="todo.isEditing"
       v-model="localTodo.title"
       class="bg-white todo-title"
       type="text"

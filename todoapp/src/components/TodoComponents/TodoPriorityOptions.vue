@@ -1,7 +1,7 @@
 <template>
   <div
-    v-if="todo.editing"
-    :class="{ absolute: todo.priorityChange, 'flex xsm:hidden': !todo.priorityChange }"
+    v-if="todo.isEditing"
+    :class="{ absolute: todo.isPriorityChange, 'flex xsm:hidden': !todo.isPriorityChange }"
     class="flex-row absolute top-2 right-5 gap-2 xsm:w-32 xsm:h-28 xsm:flex-col xsm:top-16 xsm:right-5 xsm:border-2 xsm:border-black xsm:bg-white xsm:rounded-2xl xsm:px-4 xsm:py-2"
   >
     <div
@@ -32,6 +32,6 @@ const priorityItems = [
 
 function setPriority(todo: TodoType, number: number) {
   todo.priority = number
-  todo.priorityChange = false
+  todo.isPriorityChange = false
 }
 </script>

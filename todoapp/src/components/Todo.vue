@@ -7,7 +7,7 @@
       <TodoStatus @markTodoStatus="markTodoStatus" :todo="todo" />
       <div class="flex items-center justify-between flex-grow">
         <div
-          :class="['flex flex-col justify-between w-full', { 'opacity-30': todo.priorityChange }]"
+          :class="['flex flex-col justify-between w-full', { 'opacity-30': todo.isPriorityChange }]"
         >
           <TodoTitle @isEditing="isEditing" :todo="todo" />
           <TodoCreatedAt :todo="todo" />
@@ -18,10 +18,10 @@
       </div>
     </div>
     <div
-      v-if="todo.editing"
+      v-if="todo.isEditing"
       :class="[
         'flex flex-row gap-2 flex-wrap mb-4 xsm:mb-0',
-        { 'opacity-30': todo.priorityChange }
+        { 'opacity-30': todo.isPriorityChange }
       ]"
     >
       <TodoSave :todo="todo" />
@@ -53,7 +53,7 @@ const emit = defineEmits<{
 }>()
 
 function isEditing(todo: TodoType) {
-  todo.editing = true
+  todo.isEditing = true
 }
 
 function markTodoStatus(todo: TodoType) {

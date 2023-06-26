@@ -12,6 +12,7 @@
   >
     <Header @add-todo="addTodo" />
     <SearchTodos v-if="todos.length" v-model="searchInputContent" />
+    <FilterTodos :selectedSortingButtons="selectedSortingButtons" />
     <Todos
       :todos="todos"
       :searchInputContent="searchInputContent"
@@ -26,7 +27,6 @@
     />
   </div>
 </template>
-
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import moment from 'moment'
@@ -36,25 +36,33 @@ import Header from './Header.vue'
 import Todos from './Todos.vue'
 import DoneTodos from './DoneTodos.vue'
 import SearchTodos from './SearchTodos.vue'
+import FilterTodos from './FilterTodos.vue'
 
 const todos = ref<TodoType[]>([])
 const doneTodos = ref<TodoType[]>([])
 const popUp = ref(false)
 const selectedTaskIndex = ref()
 const searchInputContent = ref('')
+const selectedSortingButtons = ref({
+  title: { selected: true, order: true },
+  description: { selected: false, order: true },
+  priority: { selected: false, order: true },
+  date: { selected: false, order: true }
+})
 
 function addTodo() {
   const currentDate = moment().format('DD.MM.YYYY')
   const newTodo: TodoType = {
     title: 'Add a title',
     text: 'Add a description',
-    textEdit: false,
+    isTextEdit: false,
     priority: 0,
-    priorityChange: false,
-    status: false,
-    created_at: ` ${currentDate}`,
-    editing: false
+    isPriorityChange: false,
+    isStatus: false,
+    createdAt: currentDate,
+    isEditing: false
   }
+
   todos.value.push(newTodo)
 }
 onMounted(() => {
@@ -85,11 +93,9 @@ function deleteTaskIndex(index: number) {
   popUp.value = true
   selectedTaskIndex.value = index
 }
-
 function deleteFinishedTodo(index: number) {
   doneTodos.value.splice(index, 1)
 }
-
 function togglePopUp() {
   popUp.value = !popUp.value
 }
@@ -97,21 +103,18 @@ function removeTask(index: number) {
   todos.value.splice(index, 1)
   togglePopUp()
 }
-
 function markTodoStatus(todo: TodoType) {
   const todosIndex = todos.value.findIndex((item) => item === todo)
   const doneTodosIndex = doneTodos.value.findIndex((item) => item === todo)
-
   if (todosIndex !== -1) {
     todos.value.splice(todosIndex, 1)
-    todo.status = true
+    todo.isStatus = true
     doneTodos.value.push(todo)
     return
   }
-
   if (doneTodosIndex !== -1) {
     doneTodos.value.splice(doneTodosIndex, 1)
-    todo.status = false
+    todo.isStatus = false
     todos.value.push(todo)
   }
 }

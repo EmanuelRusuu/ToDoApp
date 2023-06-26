@@ -1,11 +1,11 @@
 <template>
   <div
-    v-if="!todo.editing"
+    v-if="!todo.isEditing"
     @click.stop="markTodoStatus(todo)"
     class="w-6 h-6 mr-4 cursor-pointer xsm:absolute xsm:w-8 xsm:h-8 bottom-4 right-4 xsm:m-0 md:w-10 md:h-10"
   >
     <div
-      v-if="!todo.status"
+      v-if="!todo.isStatus"
       class="w-full h-full border-2 border-black rounded-full xsm:border-4 md:border-6"
     ></div>
     <div v-else class="w-full h-full relative">
@@ -24,7 +24,7 @@ defineProps<{ todo: TodoType }>()
 const emit = defineEmits<{ (e: 'markTodoStatus', todo: TodoType): void }>()
 
 function markTodoStatus(todo: TodoType) {
-  todo.status = !todo.status
+  todo.isStatus = !todo.isStatus
   setTimeout(() => {
     emit('markTodoStatus', todo)
   }, 200)

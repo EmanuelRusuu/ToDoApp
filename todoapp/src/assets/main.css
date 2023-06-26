@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 *,
 *::before,
 *::after {
@@ -11,7 +10,6 @@
   font-weight: 600;
   font-family: 'Neue Haas Grotesk Display Pro';
 }
-
 @layer components {
   .popup-btn {
     @apply flex justify-center items-center cursor-pointer rounded-2xl h-8 w-16 border-0 outline-0  xsm:h-11 xsm:w-28;
@@ -40,8 +38,10 @@
   .priority-text {
     @apply hidden xsm:block xsm:text-lg xsm:text-black xsm:w-full xsm:cursor-pointer;
   }
+  .sorting-btn {
+    @apply h-7 py-1 px-3 border rounded-lg outline-none flex items-center justify-center text-xs md:text-sm md:h-8 md:px-4 md:py-2;
+  }
 }
-
 @layer utilities {
   .max-w-288 {
     max-width: 288px;

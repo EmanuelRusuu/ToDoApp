@@ -12,8 +12,8 @@ import type { TodoType } from '@/types/text'
 defineProps<{ todo: TodoType }>()
 
 function saveEditing(todo: TodoType) {
-  todo.editing = false
-  todo.priorityChange = false
-  todo.textEdit = false
+  todo.isEditing = false
+  todo.isPriorityChange = false
+  todo.isTextEdit = false
 }
 </script>

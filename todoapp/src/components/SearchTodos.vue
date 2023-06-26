@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-12 flex flex-row items-center justify-between border-2 border-black rounded-lg mb-14 py-2 pr-2 pl-4 xsm:py-4 xsm:pr-8 xsm:h-14 xsm:rounded-2xl xsm:px-5 md:pr-8 md:pl-4 md:h-16"
+    class="w-full h-12 flex flex-row items-center justify-between border-2 border-black rounded-lg mb-7 py-2 pr-2 pl-4 xsm:py-4 xsm:pr-8 xsm:h-14 xsm:rounded-2xl xsm:px-5 md:pr-8 md:pl-4 md:h-16"
   >
     <div class="flex flex-row items-center gap-2 w-3/4 h-full">
       <img class="s w-5 h-5 xsm:w-6 xsm:h-6" :src="searchIcon" alt="searchicon" />
@@ -23,16 +23,13 @@
     </button>
   </div>
 </template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import searchIcon from '../assets/searchIcon.svg'
-
 const props = defineProps<{
   modelValue: string
 }>()
 const emit = defineEmits<{ (e: 'update:modelValue', newValue: string): void }>()
-
 const inputValue = computed({
   get() {
     return props.modelValue

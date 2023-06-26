@@ -1,10 +1,12 @@
+import type moment from 'moment'
+
 export type TodoType = {
   title: string
   text: string
-  textEdit: boolean
+  isTextEdit: boolean
   priority: tuple
-  priorityChange: boolean
-  status: boolean
-  created_at: string
-  editing: boolean
+  isPriorityChange: boolean
+  isStatus: boolean
+  createdAt: moment
+  isEditing: boolean
 }

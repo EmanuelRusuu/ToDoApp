@@ -57,12 +57,23 @@ const sortedAndFilteredTodos = computed(() => {
   const selectedButton = Object.keys(selectedSortingButtons).find(
     (key) => selectedSortingButtons[key as keyof SelectedState].selected
   )
-
-  if (selectedButton === 'title' && selectedSortingButtons.title.order) {
-    return filteredTodos.value.slice().sort((a, b) => a.title.localeCompare(b.title))
-  } else if (selectedButton === 'description' && selectedSortingButtons.description.order) {
-    return filteredTodos.value.slice().sort((a, b) => a.text.localeCompare(b.text))
-  } else if (selectedButton === 'date' && selectedSortingButtons.date.order) {
+  if (selectedButton === 'title') {
+    return filteredTodos.value
+      .slice()
+      .sort((a, b) =>
+        selectedSortingButtons.title.order
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title)
+      )
+  } else if (selectedButton === 'description') {
+    return filteredTodos.value
+      .slice()
+      .sort((a, b) =>
+        selectedSortingButtons.description.order
+          ? a.text.localeCompare(b.text)
+          : b.text.localeCompare(a.text)
+      )
+  } else if (selectedButton === 'date') {
     return filteredTodos.value.slice().sort((a, b) => {
       const dateA = new Date(
         parseInt(a.createdAt.slice(6, 10)),
@@ -74,12 +85,17 @@ const sortedAndFilteredTodos = computed(() => {
         parseInt(b.createdAt.slice(3, 5)) - 1,
         parseInt(b.createdAt.slice(0, 2))
       )
-      return dateA.getTime() - dateB.getTime()
+      return selectedSortingButtons.date.order
+        ? dateA.getTime() - dateB.getTime()
+        : dateB.getTime() - dateA.getTime()
     })
-  } else if (selectedButton === 'priority' && selectedSortingButtons.priority.order) {
-    return filteredTodos.value.slice().sort((a, b) => a.priority - b.priority)
+  } else if (selectedButton === 'priority') {
+    return filteredTodos.value
+      .slice()
+      .sort((a, b) =>
+        selectedSortingButtons.priority.order ? a.priority - b.priority : b.priority - a.priority
+      )
   }
-
   return filteredTodos.value
 })
 </script>

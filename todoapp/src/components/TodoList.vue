@@ -12,7 +12,7 @@
   >
     <Header @add-todo="addTodo" />
     <SearchTodos v-if="todos.length" v-model="searchInputContent" />
-    <FilterTodos :selectedSortingButtons="selectedSortingButtons" />
+    <FilterTodos v-if="todos.length" :selectedSortingButtons="selectedSortingButtons" />
     <Todos
       :todos="todos"
       :searchInputContent="searchInputContent"

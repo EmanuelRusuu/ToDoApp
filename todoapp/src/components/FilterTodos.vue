@@ -15,10 +15,10 @@
       </button>
     </div>
     <div class="ordering-options flex gap-2 items-center">
-      <button @click="toggleOrder" class="sorting-btn bg-emerald-400">
+      <button @click="toggleOrder(true)" class="sorting-btn bg-emerald-400">
         <img :src="Arrow" />
       </button>
-      <button class="sorting-btn bg-black">
+      <button @click="toggleOrder(false)" class="sorting-btn bg-black">
         <img class="rotate-180" :src="Arrow" />
       </button>
     </div>
@@ -49,9 +49,9 @@ function toggleSelected(key: keyof SelectedState) {
   })
 }
 
-function toggleOrder() {
+function toggleOrder(value: boolean) {
   Object.keys(reactiveButtons).forEach((buttonKey) => {
-    reactiveButtons[buttonKey as keyof SelectedState].order = true
+    reactiveButtons[buttonKey as keyof SelectedState].order = value
   })
 }
 </script>

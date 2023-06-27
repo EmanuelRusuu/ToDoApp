@@ -4,12 +4,12 @@
     @click="isEditing(todo)"
   >
     <div class="flex items-center w-full">
-      <TodoStatus @markTodoStatus="markTodoStatus" :todo="todo" />
+      <TodoStatus @mark-todo-status="markTodoStatus" :todo="todo" />
       <div class="flex items-center justify-between flex-grow">
         <div
           :class="['flex flex-col justify-between w-full', { 'opacity-30': todo.isPriorityChange }]"
         >
-          <TodoTitle @isEditing="isEditing" :todo="todo" />
+          <TodoTitle :todo="todo" @is-editing="isEditing" />
           <TodoCreatedAt :todo="todo" />
           <TodoText :todo="todo" />
         </div>
@@ -25,7 +25,7 @@
       ]"
     >
       <TodoSave :todo="todo" />
-      <TodoDelete @deleteTaskIndex="deleteTaskIndex" :index="index" />
+      <TodoDelete @delete-task-index="deleteTaskIndex" :index="index" />
     </div>
   </div>
 </template>
@@ -45,6 +45,7 @@ defineProps<{
   todo: TodoType
   index: number
 }>()
+
 const emit = defineEmits<{
   (e: 'deleteTaskIndex', index: number): void
   (e: 'markTodoStatus', todo: TodoType): void

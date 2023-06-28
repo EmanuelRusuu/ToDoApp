@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-4 right-4 z-10 w-5 h-5 cursor-pointer" @click="togglePopUp">
+  <div class="cursor-pointer w-5 h-5 z-10">
     <svg
       fill="none"
       stroke="darkgray"
@@ -12,13 +12,3 @@
     </svg>
   </div>
 </template>
-
-<script setup lang="ts">
-const emit = defineEmits<{
-  (e: 'togglePopUp'): void
-}>()
-
-function togglePopUp() {
-  emit('togglePopUp')
-}
-</script>

@@ -7,7 +7,8 @@
       ]"
     />
     <p
-      class="w-24 h-4 font-normal text-xs text-gray-700 opacity-30 xsm:h-5 xsm:text-base xsm:text-black xsm:opacity-100 md:text-lg md:h-6"
+      class="w-24 h-4 font-normal text-xs xsm:h-5 xsm:text-base xsm:opacity-100 md:text-lg md:h-6"
+      :class="todo.isEditing ? 'text-black' : 'opacity-30 text-gray-700 xsm:text-black'"
     >
       {{ todo.createdAt }}
     </p>

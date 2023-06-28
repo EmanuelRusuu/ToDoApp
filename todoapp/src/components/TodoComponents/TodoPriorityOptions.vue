@@ -23,15 +23,18 @@
 import type { TodoType } from '@/types/text'
 
 defineProps<{ todo: TodoType }>()
-
+const emit = defineEmits<{
+  (e: 'selectedPriority', selectedPriority: number): void
+}>()
 const priorityItems = [
-  { value: 2, label: 'High', colorClass: 'bg-orange-600 xsm:bg-white priority-option-mobile' },
+  { value: 0, label: 'Low', colorClass: 'bg-teal-400 xsm:bg-white priority-option-mobile' },
   { value: 1, label: 'Medium', colorClass: 'bg-amber-400 xsm:bg-white priority-option-mobile' },
-  { value: 0, label: 'Low', colorClass: 'bg-teal-400 xsm:bg-white priority-option-mobile' }
+  { value: 2, label: 'High', colorClass: 'bg-orange-600 xsm:bg-white priority-option-mobile' }
 ]
 
 function setPriority(todo: TodoType, number: number) {
   todo.priority = number
   todo.isPriorityChange = false
+  emit('selectedPriority', todo.priority)
 }
 </script>

@@ -10,5 +10,5 @@
 </template>
 
 <script setup lang="ts">
-import NoTodos from '../assets/notodosimg.svg'
+import NoTodos from '../../assets/notodosimg.svg'
 </script>

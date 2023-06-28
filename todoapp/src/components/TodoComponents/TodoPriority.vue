@@ -20,6 +20,7 @@ import type { TodoType } from '@/types/text'
 import ArrowDown from '../Icons/ArrowDown.vue'
 
 const props = defineProps<{ todo: TodoType }>()
+defineEmits<{ (e: 'changePriority', isPriorityChange: boolean): void }>()
 
 const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
 
@@ -34,7 +35,6 @@ const colorMaps: Record<number, string> = {
 }
 
 const getPriorityColor = computed(() => colorMaps[props.todo.priority as keyof typeof colorMaps])
-
 function changePriority(todo: TodoType) {
   if (todo.isEditing) {
     todo.isPriorityChange = !todo.isPriorityChange

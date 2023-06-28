@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import TodoList from './components/TodoList.vue'
+import TodoApp from './components/TodoApp.vue'
 </script>
 
 <template>
   <div class="app w-screen h-screen flex justify-center overflow-x-hidden">
-    <TodoList />
+    <TodoApp />
   </div>
 </template>
 

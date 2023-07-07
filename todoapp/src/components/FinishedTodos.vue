@@ -1,8 +1,9 @@
 <template>
-  <div class="flex flex-col items-center w-full">
-    <ul v-if="searchTodos.length" class="w-full flex flex-col list-none gap-7 xsm:gap-10 md:gap-12">
+  <div class="w-full flex flex-col pb-20 gap-7 xsm:gap-10 md:gap-12">
+    <hr v-if="isActiveSearch" class="border-t border-dotted border-gray-300" />
+    <ul class="opacity-30 flex flex-col list-none gap-8 xsm:gap-10 md:gap-12">
       <TodoList
-        :searchTodos="searchTodos"
+        :searchTodos="searchFinishedTodos"
         :currentEditedTodo="currentEditedTodo"
         :searchInput="searchInput"
         :selectedSortingButtons="selectedSortingButtons"
@@ -12,26 +13,21 @@
         @onTodoUpdate="updateTodo"
       />
     </ul>
-    <NoTodosFound
-      v-else-if="todos.length"
-      :search-input-content="searchInput"
-      @add-search-todo="addSearchTodo"
-    />
-    <EmptyState v-if="!todos.length" :todos="todos" />
+    <p v-if="isEmptySearch" class="text-xl text-gray-500 xsm:text-2xl md:text-3xl text-center">
+      No finished todos matching.
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import TodoList from '../TodoList.vue'
-import EmptyState from '../EmptyState/EmptyState.vue'
-import type { TodoType } from '../../types/text'
-import type { SelectedState } from '../../types/selected'
-import NoTodosFound from '../EmptyState/NoTodosFound.vue'
+import { computed } from 'vue'
+import type { TodoType } from '../types/text'
+import type { SelectedState } from '../types/selected'
+import TodoList from './TodoList.vue'
 
-defineProps<{
-  todos: TodoType[]
+const props = defineProps<{
   searchInput: string
-  searchTodos: TodoType[]
+  searchFinishedTodos: TodoType[]
   selectedSortingButtons: SelectedState
   currentEditedTodo: number | null
 }>()
@@ -41,6 +37,8 @@ const emit = defineEmits<{
   (e: 'displayPopup', isFinishedTodo: boolean): void
   (e: 'markTodoStatus', todo: TodoType): void
   (e: 'onTodoUpdate', todo: TodoType): void
+
+  (e: 'clearSearchInput'): void
   (e: 'addSearchTodo'): void
 }>()
 
@@ -56,11 +54,9 @@ function updateTodo(todo: TodoType) {
   emit('onTodoUpdate', todo)
 }
 
-function addSearchTodo() {
-  emit('addSearchTodo')
-}
-
 function getTodoId(id: number) {
   emit('getTodoId', id)
 }
+const isActiveSearch = computed(() => props.searchFinishedTodos.length || props.searchInput)
+const isEmptySearch = computed(() => !props.searchFinishedTodos.length && props.searchInput)
 </script>

@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import ExclamationIcon from '../Icons/ExclamationIcon.vue'
-import CloseIcon from '../Icons/CloseIcon.vue'
+import ExclamationIcon from './Icons/ExclamationIcon.vue'
+import CloseIcon from './Icons/CloseIcon.vue'
 
 const props = defineProps<{ id: number }>()
 const emit = defineEmits<{

@@ -1,25 +1,27 @@
 <template>
-  <DeletePopup
-    v-if="isPopupDisplayed"
-    :is-pop-up="isPopUp"
-    :selected-todo-id="selectedTodoId"
-    :is-finished-todo-pop-up="isFinishedTodoPopUp"
-    :selected-finished-todo-id="selectedFinishedTodoId"
+  <PopupTodo
+    v-if="isPopUp"
     @remove-task="removeTask"
     @close-pop-up="closePopUp"
+    :id="currentEditedTodo ?? -1"
   />
   <div
-    class="relative flex flex-col items-center mt-32 max-w-288 w-4/5 xsm:max-w-500 xsm:w-11/12 xsm:mt-44 md:max-w-610 md:w-4/5 md:mt-48"
+    class="relative flex flex-col items-center mt-32 h-fit max-w-288 w-4/5 xsm:max-w-500 xsm:w-11/12 xsm:mt-44 md:max-w-610 md:w-4/5 md:mt-48"
   >
     <Header @add-todo="addTodo" />
-    <SearchTodos
-      v-if="todos.length"
-      v-model="localSearchInput"
-      @clearSearchInput="clearSearchInput"
-      @doSearch="doSearch"
-    />
-    <FilterTodos v-if="todos.length" :selectedSortingButtons="selectedSortingButtons" />
-    <div class="flex flex-col w-full gap-7 xsm:gap-10 md:gap-12">
+    <div v-if="todos.length" class="flex flex-col w-full">
+      <SearchTodos
+        v-model="localSearchInput"
+        @clearSearchInput="clearSearchInput"
+        @doSearch="doSearch"
+      />
+      <FilterTodos :selectedSortingButtons="selectedSortingButtons" />
+    </div>
+
+    <div
+      class="flex flex-col w-full gap-7 xsm:gap-10 md:gap-12"
+      :class="!finishedTodos.length ? 'pb-10 xsm:pb-20 md:pb-40' : ''"
+    >
       <Todos
         :todos="todos"
         :search-input="searchInput"
@@ -35,7 +37,6 @@
       <FinishedTodos
         v-if="finishedTodos.length"
         :search-input="searchInput"
-        :finished-todos="finishedTodos"
         :current-edited-todo="currentEditedTodo"
         :search-finished-todos="searchFinishedTodos"
         :selected-sorting-buttons="selectedSortingButtons"
@@ -50,25 +51,23 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
-import moment from 'moment'
 import type { TodoType } from '../types/text'
+import { findItemIndex } from '../helpers/findItemIndex'
+import { getLocalStorageData } from '../helpers/getLocal'
+import moment from 'moment'
 import Header from './Header.vue'
 import Todos from './Todos/Todos.vue'
-import FinishedTodos from './FinishedTodos/FinishedTodos.vue'
+import FinishedTodos from './FinishedTodos.vue'
 import SearchTodos from './SearchTodos.vue'
 import FilterTodos from './FilterTodos.vue'
-import DeletePopup from './DeletePopup.vue'
+import PopupTodo from './PopupTodo.vue'
 
 const todos = ref<TodoType[]>([])
 const finishedTodos = ref<TodoType[]>([])
 const isPopUp = ref(false)
-const isFinishedTodoPopUp = ref(false)
-const selectedTodoId = ref()
-const selectedFinishedTodoId = ref()
 const searchInput = ref('')
 const localSearchInput = ref('')
 const currentEditedTodo = ref<number | null>(null)
-
 const selectedSortingButtons = ref({
   title: { selected: true, order: true },
   description: { selected: false, order: true },
@@ -84,33 +83,27 @@ const commonTodoProperties = {
   isEditing: false
 }
 
-function addTodo() {
+function createNewTodo(title: string) {
   const currentDate = moment().format('DD.MM.YYYY')
   const customId = createId()
 
-  const newTodo = {
-    title: 'Add a title',
+  return {
+    title: title,
     createdAt: currentDate,
     id: customId,
     ...commonTodoProperties
   }
+}
 
+function addTodo() {
+  const newTodo = createNewTodo('Add a title')
   todos.value.push(newTodo)
   localStorage.setItem('todos', JSON.stringify(todos.value))
 }
 
 function addSearchTodo() {
-  const currentDate = moment().format('DD.MM.YYYY')
-  const customId = createId()
   const searchInputValue = searchInput.value.trim()
-
-  const newTodo = {
-    title: searchInputValue,
-    createdAt: currentDate,
-    id: customId,
-    ...commonTodoProperties
-  }
-
+  const newTodo = createNewTodo(searchInputValue)
   todos.value.push(newTodo)
   localStorage.setItem('todos', JSON.stringify(todos.value))
   clearSearchInput()
@@ -123,59 +116,56 @@ function clearSearchInput() {
 
 function closePopUp() {
   isPopUp.value = false
-  isFinishedTodoPopUp.value = false
 }
 
 function createId() {
-  const timestamp = Date.now()
+  const timestamp = moment().valueOf()
   const randomNum = Math.floor(Math.random() * 1000)
   return timestamp + randomNum
 }
 
-function displayPopup(isFinishedTodo: boolean) {
-  if (isFinishedTodo) {
-    isFinishedTodoPopUp.value = true
-  } else {
-    isPopUp.value = true
-  }
+function displayPopup() {
+  isPopUp.value = true
 }
 
 function doSearch() {
   searchInput.value = localSearchInput.value
 }
 
-function getTodoId(id: number, isFinishedTodo: boolean) {
-  currentEditedTodo.value = id
-  if (isFinishedTodo) {
-    selectedFinishedTodoId.value = id
-  } else {
-    selectedTodoId.value = id
-  }
+function filterTodosBySearchInput(todosArray: TodoType[], searchInput: string) {
+  return todosArray.filter(
+    (todo) =>
+      todo.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+      todo.text.toLowerCase().includes(searchInput.toLowerCase())
+  )
 }
 
-const isPopupDisplayed = computed(() => isPopUp.value || isFinishedTodoPopUp.value)
+function getTodoId(id: number) {
+  currentEditedTodo.value = id
+}
 
 function markTodoStatus(todo: TodoType) {
+  const updatedFinishedTodos = finishedTodos.value.filter((item) => item.id !== todo.id)
+  const updatedTodos = todos.value.filter((item) => item.id !== todo.id)
+
   if (todo.isChecked) {
-    const updatedFinishedTodos = [...finishedTodos.value, todo]
-    const updatedTodos = todos.value.filter((item) => item.id !== todo.id)
-    finishedTodos.value = updatedFinishedTodos
-    todos.value = updatedTodos
+    updatedFinishedTodos.push(todo)
   } else {
-    const updatedTodos = [...todos.value, todo]
-    const updatedFinishedTodos = finishedTodos.value.filter((item) => item.id !== todo.id)
-    todos.value = updatedTodos
-    finishedTodos.value = updatedFinishedTodos
+    updatedTodos.push(todo)
   }
+
+  finishedTodos.value = updatedFinishedTodos
+  todos.value = updatedTodos
 
   localStorage.setItem('todos', JSON.stringify(todos.value))
   localStorage.setItem('finishedTodos', JSON.stringify(finishedTodos.value))
 }
 
-function removeTask(ids: { selectedTodoId: number; selectedFinishedTodoId: number }) {
-  const { selectedTodoId: todoId, selectedFinishedTodoId: finishedTodoId } = ids
-  const todoIndex = todos.value.findIndex((todo) => todo.id === todoId)
-  const finishedTodoIndex = finishedTodos.value.findIndex((todo) => todo.id === finishedTodoId)
+function removeTask() {
+  const todoId = currentEditedTodo.value
+
+  const todoIndex = findItemIndex(todos.value, (todo) => todo.id === todoId)
+  const finishedTodoIndex = findItemIndex(finishedTodos.value, (todo) => todo.id === todoId)
 
   if (todoIndex !== -1) {
     todos.value.splice(todoIndex, 1)
@@ -184,17 +174,16 @@ function removeTask(ids: { selectedTodoId: number; selectedFinishedTodoId: numbe
   } else if (finishedTodoIndex !== -1) {
     finishedTodos.value.splice(finishedTodoIndex, 1)
     localStorage.setItem('finishedTodos', JSON.stringify(finishedTodos.value))
-    finishedTodos.value = finishedTodos.value.filter((todo) => todo.id !== finishedTodoId)
+    finishedTodos.value = finishedTodos.value.filter((todo) => todo.id !== todoId)
   }
+
   closePopUp()
-  selectedTodoId.value = null
-  selectedFinishedTodoId.value = null
   currentEditedTodo.value = null
 }
 
 function updateTodo(updatedTodo: TodoType) {
-  const todoIndex = todos.value.findIndex((todo) => todo.id === updatedTodo.id)
-  const finishedTodoIndex = finishedTodos.value.findIndex((todo) => todo.id === updatedTodo.id)
+  const todoIndex = findItemIndex(todos.value, (todo) => todo.id === updatedTodo.id)
+  const finishedTodoIndex = findItemIndex(finishedTodos.value, (todo) => todo.id === updatedTodo.id)
 
   if (todoIndex !== -1) {
     const editingTodo = { ...todos.value[todoIndex], ...updatedTodo }
@@ -210,34 +199,14 @@ function updateTodo(updatedTodo: TodoType) {
   currentEditedTodo.value = null
 }
 
-const searchTodos = computed(() => {
-  return todos.value.filter(
-    (todo) =>
-      todo.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-      todo.text.toLowerCase().includes(searchInput.value.toLowerCase())
-  )
-})
+const searchTodos = computed(() => filterTodosBySearchInput(todos.value, searchInput.value))
 
-const searchFinishedTodos = computed(() => {
-  return finishedTodos.value.filter(
-    (finishedTodos) =>
-      finishedTodos.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-      finishedTodos.text.toLowerCase().includes(searchInput.value.toLowerCase())
-  )
-})
+const searchFinishedTodos = computed(() =>
+  filterTodosBySearchInput(finishedTodos.value, searchInput.value)
+)
 
 onMounted(() => {
-  const storedTodos = localStorage.getItem('todos')
-  if (storedTodos) {
-    todos.value = JSON.parse(storedTodos).map((todo: TodoType) => {
-      return { ...todo, isEditing: false }
-    })
-  }
-  const storedFinishedTodos = localStorage.getItem('finishedTodos')
-  if (storedFinishedTodos) {
-    finishedTodos.value = JSON.parse(storedFinishedTodos).map((finishedTodo: TodoType) => {
-      return { ...finishedTodo, isEditing: false }
-    })
-  }
+  getLocalStorageData('todos', todos, 'todo')
+  getLocalStorageData('finishedTodos', finishedTodos, 'finishedTodo')
 })
 </script>

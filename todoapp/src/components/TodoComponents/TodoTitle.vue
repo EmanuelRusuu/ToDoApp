@@ -3,7 +3,7 @@
     <textarea
       v-if="todo.isEditing"
       v-model="localTitle"
-      class="bg-white todo-title h-24 resize-none"
+      class="bg-white todo-title h-12 resize-none"
       type="text"
       placeholder="Add a title"
     ></textarea>

@@ -1,11 +1,11 @@
 <template>
   <div
     class="relative flex flex-col justify-center gap-38 border-2 border-black rounded-2xl p-4 max-w-288 w-full min-h-82 xsm:max-w-500 xsm:w-full xsm:min-h-140 xsm:py-5 xsm:px-6 md:max-w-610 md:w-full md:min-h-163 md:p-6"
-    @click="editTodo(todo.id, false)"
+    @click="editTodo(todo.id)"
   >
-    <div class="flex items-center gap-4 justify-between w-full">
+    <div class="flex items-center justify-between w-full">
       <TodoStatus @mark-todo-status="markTodoStatus" :todo="localTodo" />
-      <div class="flex items-center justify-between w-11/12">
+      <div class="flex items-center justify-between w-5/6">
         <div
           :class="[
             'flex flex-col justify-between w-full xsm:pr-11 md:p-0',
@@ -27,7 +27,7 @@
         { 'opacity-30': localTodo.isPriorityChange }
       ]"
     >
-      <TodoSave @onTodoSave="onSave" />
+      <TodoSave @onTodoSave="onTodoUpdate" />
       <TodoDelete @click="displayPopup(false)" />
     </div>
   </div>
@@ -63,16 +63,16 @@ const localTodo = reactive({
 })
 
 const emit = defineEmits<{
-  (e: 'getTodoId', id: number, isFinishedTodo: boolean): void
+  (e: 'getTodoId', id: number): void
   (e: 'displayPopup', isFinishedTodo: boolean): void
   (e: 'markTodoStatus', todo: TodoType): void
   (e: 'onTodoUpdate', todo: TodoType): void
 }>()
 
-function editTodo(id: number, isFinishedTodo: boolean) {
-  if (props.currentEditedTodo === null) {
+function editTodo(id: number) {
+  if (props.todo.id === props.currentEditedTodo || !props.currentEditedTodo) {
     localTodo.isEditing = true
-    emit('getTodoId', id, isFinishedTodo)
+    emit('getTodoId', id)
   }
 }
 
@@ -101,7 +101,7 @@ function updateTodoPriorityValue(selectedPriority: number) {
   localTodo.priority = selectedPriority
 }
 
-function onSave() {
+function onTodoUpdate() {
   localTodo.isEditing = false
   emit('onTodoUpdate', localTodo)
 }

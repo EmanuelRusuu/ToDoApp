@@ -5,7 +5,7 @@
     <div
       class="relative flex flex-col items-center bg-white py-8 px-2 rounded-b-md border-t-4 border-solid border-red-500 gap-5 m-4 md:py-10 md:px-12 md:gap-8"
     >
-      <CloseIcon @toggle-pop-up="togglePopUp" />
+      <CloseIcon class="absolute top-4 right-4" @click="closePopUp" />
       <ExclamationIcon />
       <div class="flex flex-col items-center">
         <p class="text-lg font-medium xsm:text-2xl xsm:font-medium">Confirm Deletion</p>
@@ -17,7 +17,7 @@
         <button class="popup-btn bg-red-500" @click="removeTask">
           <p class="btn-text text-white">Delete</p>
         </button>
-        <button class="popup-btn bg-gray-300" @click="togglePopUp">
+        <button class="popup-btn bg-gray-300" @click="closePopUp">
           <p class="btn-text">Cancel</p>
         </button>
       </div>
@@ -29,17 +29,17 @@
 import ExclamationIcon from './Icons/ExclamationIcon.vue'
 import CloseIcon from './Icons/CloseIcon.vue'
 
-const props = defineProps<{ index: number }>()
+const props = defineProps<{ id: number }>()
 const emit = defineEmits<{
-  (e: 'togglePopUp'): void
-  (e: 'removeTask', index: number): void
+  (e: 'removeTask', id: number): void
+  (e: 'closePopUp'): void
 }>()
 
-function togglePopUp() {
-  emit('togglePopUp')
+function removeTask() {
+  emit('removeTask', props.id)
 }
 
-function removeTask() {
-  emit('removeTask', props.index)
+function closePopUp() {
+  emit('closePopUp')
 }
 </script>

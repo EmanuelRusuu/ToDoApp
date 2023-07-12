@@ -1,118 +1,103 @@
 <template>
-  <div>
-    <DeletePopUP
-      v-if="popUp"
-      :index="selectedTaskIndex"
-      @toggle-pop-up="togglePopUp"
-      @remove-task="removeTask"
-    />
-  </div>
-  <div
-    class="relative flex flex-col items-center mt-32 max-w-288 w-4/5 xsm:max-w-500 xsm:w-11/12 xsm:mt-44 md:max-w-610 md:w-4/5 md:mt-48"
-  >
-    <Header @add-todo="addTodo" />
-    <SearchTodos v-if="todos.length" v-model="searchInputContent" />
-    <Todos
-      :todos="todos"
-      :searchInputContent="searchInputContent"
-      @delete-task-index="deleteTaskIndex"
+  <li v-for="(todo, index) in sortedAndFilteredTodos" :key="todo.id">
+    <Todo
+      :todo="todo"
+      :index="index"
+      :current-edited-todo="currentEditedTodo"
+      @get-todo-id="getTodoId"
+      @on-todo-update="onTodoUpdate"
+      @display-popup="displayPopup"
       @mark-todo-status="markTodoStatus"
+      @onTodoUpdate="onTodoUpdate"
     />
-    <DoneTodos
-      v-if="doneTodos.length > 0"
-      :doneTodos="doneTodos"
-      @deleteFinishedTodo="deleteFinishedTodo"
-      @mark-todo-status="markTodoStatus"
-    />
-  </div>
+  </li>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import moment from 'moment'
-import type { TodoType } from '../types/text'
-import DeletePopUP from './DeletePopUP.vue'
-import Header from './Header.vue'
-import Todos from './Todos.vue'
-import DoneTodos from './DoneTodos.vue'
-import SearchTodos from './SearchTodos.vue'
+import type { TodoType } from '@/types/text'
+import type { SelectedState } from '@/types/selected'
+import { computed } from 'vue'
+import { trimWhiteSpace } from '../helpers/trim'
+import Todo from './Todos/Todo.vue'
 
-const todos = ref<TodoType[]>([])
-const doneTodos = ref<TodoType[]>([])
-const popUp = ref(false)
-const selectedTaskIndex = ref()
-const searchInputContent = ref('')
+const props = defineProps<{
+  searchInput: string
+  currentEditedTodo: number | null
+  selectedSortingButtons: SelectedState
+  searchTodos: TodoType[]
+}>()
 
-function addTodo() {
-  const currentDate = moment().format('DD.MM.YYYY')
-  const newTodo: TodoType = {
-    title: 'Add a title',
-    text: 'Add a description',
-    textEdit: false,
-    priority: 0,
-    priorityChange: false,
-    status: false,
-    created_at: ` ${currentDate}`,
-    editing: false
-  }
-  todos.value.push(newTodo)
-}
-onMounted(() => {
-  const storedTodos = localStorage.getItem('todos')
-  if (storedTodos) {
-    todos.value = JSON.parse(storedTodos)
-  }
-  const storedDoneTodos = localStorage.getItem('doneTodos')
-  if (storedDoneTodos) {
-    doneTodos.value = JSON.parse(storedDoneTodos)
-  }
-})
-watch(
-  todos,
-  (newVal) => {
-    localStorage.setItem('todos', JSON.stringify(newVal))
-  },
-  { deep: true }
-)
-watch(
-  doneTodos,
-  (newVal) => {
-    localStorage.setItem('doneTodos', JSON.stringify(newVal))
-  },
-  { deep: true }
-)
-function deleteTaskIndex(index: number) {
-  popUp.value = true
-  selectedTaskIndex.value = index
-}
+const emit = defineEmits<{
+  (e: 'getTodoId', id: number): void
+  (e: 'markTodoStatus', todo: TodoType): void
+  (e: 'displayPopup', todo: boolean): void
+  (e: 'onTodoUpdate', todo: TodoType): void
+  (e: 'createDateObject', date: string): void
+}>()
 
-function deleteFinishedTodo(index: number) {
-  doneTodos.value.splice(index, 1)
-}
-
-function togglePopUp() {
-  popUp.value = !popUp.value
-}
-function removeTask(index: number) {
-  todos.value.splice(index, 1)
-  togglePopUp()
+function getTodoId(id: number) {
+  emit('getTodoId', id)
 }
 
 function markTodoStatus(todo: TodoType) {
-  const todosIndex = todos.value.findIndex((item) => item === todo)
-  const doneTodosIndex = doneTodos.value.findIndex((item) => item === todo)
-
-  if (todosIndex !== -1) {
-    todos.value.splice(todosIndex, 1)
-    todo.status = true
-    doneTodos.value.push(todo)
-    return
-  }
-
-  if (doneTodosIndex !== -1) {
-    doneTodos.value.splice(doneTodosIndex, 1)
-    todo.status = false
-    todos.value.push(todo)
-  }
+  emit('markTodoStatus', todo)
 }
+
+function displayPopup(isFinishedTodo: boolean) {
+  emit('displayPopup', isFinishedTodo)
+}
+
+function onTodoUpdate(todo: TodoType) {
+  emit('onTodoUpdate', todo)
+}
+
+function createDateObject(date: string) {
+  return new Date(
+    parseInt(date.slice(6, 10)),
+    parseInt(date.slice(3, 5)) - 1,
+    parseInt(date.slice(0, 2))
+  )
+}
+
+const sortedAndFilteredTodos = computed(() => {
+  const selectedButton = Object.keys(props.selectedSortingButtons).find(
+    (key) => props.selectedSortingButtons[key as keyof SelectedState].selected
+  )
+
+  if (selectedButton === 'title') {
+    return props.searchTodos
+      .slice()
+      .sort((a, b) =>
+        props.selectedSortingButtons.title.order
+          ? trimWhiteSpace(a.title).localeCompare(trimWhiteSpace(b.title))
+          : trimWhiteSpace(b.title).localeCompare(trimWhiteSpace(a.title))
+      )
+  } else if (selectedButton === 'description') {
+    return props.searchTodos
+      .slice()
+      .sort((a, b) =>
+        props.selectedSortingButtons.description.order
+          ? trimWhiteSpace(a.text).localeCompare(trimWhiteSpace(b.text))
+          : trimWhiteSpace(b.text).localeCompare(trimWhiteSpace(a.text))
+      )
+  } else if (selectedButton === 'date') {
+    return props.searchTodos.slice().sort((a, b) => {
+      const dateA = createDateObject(a.createdAt)
+      const dateB = createDateObject(b.createdAt)
+      return props.selectedSortingButtons.date.order
+        ? dateA.getTime() - dateB.getTime()
+        : dateB.getTime() - dateA.getTime()
+    })
+  } else if (selectedButton === 'priority') {
+    return props.searchTodos
+      .slice()
+      .sort((a, b) =>
+        props.selectedSortingButtons.priority.order
+          ? a.priority - b.priority
+          : b.priority - a.priority
+      )
+  }
+
+  return props.searchTodos
+})
 </script>

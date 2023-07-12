@@ -1,14 +1,12 @@
 <template>
   <div>
-    <input
-      v-if="todo.editing"
-      v-model="localTodo.title"
-      class="bg-white todo-title"
+    <textarea
+      v-if="todo.isEditing"
+      v-model="localTitle"
+      class="bg-white todo-title h-12 resize-none"
       type="text"
-      maxlength="19"
       placeholder="Add a title"
-      @click.stop="isEditing(todo)"
-    />
+    ></textarea>
     <p v-else class="todo-title">
       {{ todo.title }}
     </p>
@@ -22,20 +20,15 @@ import { computed } from 'vue'
 const props = defineProps<{ todo: TodoType }>()
 
 const emit = defineEmits<{
-  (e: 'onTodoUpdate', todo: TodoType): void
-  (e: 'isEditing', todo: TodoType): void
+  (e: 'onTitleUpdate', title: string): void
 }>()
 
-const localTodo = computed({
+const localTitle = computed({
   get() {
-    return props.todo
+    return props.todo.title
   },
   set(value) {
-    emit('onTodoUpdate', value)
+    emit('onTitleUpdate', value)
   }
 })
-
-function isEditing(todo: TodoType) {
-  emit('isEditing', todo)
-}
 </script>

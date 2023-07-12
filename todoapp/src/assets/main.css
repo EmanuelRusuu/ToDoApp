@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 *,
 *::before,
 *::after {
@@ -11,37 +10,48 @@
   font-weight: 600;
   font-family: 'Neue Haas Grotesk Display Pro';
 }
-
 @layer components {
   .popup-btn {
-    @apply flex justify-center items-center cursor-pointer rounded-2xl h-8 w-16 border-0 outline-0  xsm:h-11 xsm:w-28;
+    @apply flex justify-center items-center cursor-pointer rounded-2xl h-8 w-16 border-0 outline-0  
+    xsm:h-11 xsm:w-28;
   }
   .btn-text {
-    @apply flex justify-center items-center w-12 h-5 font-medium text-xs xsm:w-12 xsm:h-6 xsm:font-semibold xsm:text-base;
+    @apply flex justify-center items-center w-12 h-5 font-medium text-xs 
+    xsm:w-12 xsm:h-6 xsm:font-semibold xsm:text-base;
   }
   .priority-option {
     @apply xsm:rounded-2xl xsm:flex xsm:items-center xsm:justify-center xsm:text-white;
   }
   .todo-title {
-    @apply max-w-14-rem flex !items-center w-full h-5 border-0 outline-none font-medium text-lg xsm:w-full xsm:h-7 xsm:font-semibold xsm:text-3xl md:max-w-22-rem md:w-full md:h-12 md:text-42;
+    @apply flex !items-center w-11/12 border-0 outline-none font-medium text-lg 
+    xsm:w-10/12 xsm:font-semibold xsm:text-3xl xsm:max-w-19 
+    md:xsm:w-11/12 md:text-42 md:max-w-27;
   }
   .todo-text {
-    @apply w-full mt-4 text-gray-500 font-normal text-sm xsm:w-11/12 xsm:font-semibold xsm:text-xl md:text-3xl md:mt-10;
+    @apply w-full mt-4 text-gray-500 font-normal text-sm 
+    xsm:w-11/12 xsm:font-semibold xsm:text-xl xsm:mt-7
+    md:text-3xl md:mt-10;
   }
   .priority-mobile {
-    @apply w-h-10 rounded-full gap-2 flex items-center xsm:bg-transparent cursor-pointer;
+    @apply w-h-10 rounded-full gap-2 flex items-center cursor-pointer 
+    xsm:bg-transparent;
   }
   .priority-option-mobile {
     @apply xsm:text-lg xsm:h-8 xsm:w-full;
   }
   .priority-selection {
-    @apply border border-black xsm:border-none;
+    @apply border border-black 
+    xsm:border-none;
   }
   .priority-text {
-    @apply hidden xsm:block xsm:text-lg xsm:text-black xsm:w-full xsm:cursor-pointer;
+    @apply hidden 
+    xsm:block xsm:text-lg xsm:text-black xsm:w-full xsm:cursor-pointer;
+  }
+  .sorting-btn {
+    @apply h-7 py-1 px-3 border rounded-lg outline-none flex items-center justify-center text-xs 
+    md:text-sm md:h-8 md:px-4 md:py-2;
   }
 }
-
 @layer utilities {
   .max-w-288 {
     max-width: 288px;
@@ -52,11 +62,11 @@
   .max-w-610 {
     max-width: 610px;
   }
-  .max-w-14-rem {
-    max-width: 14rem;
+  .max-w-27 {
+    max-width: 27rem;
   }
-  .max-w-22-rem {
-    max-width: 22rem;
+  .max-w-19 {
+    max-width: 19rem;
   }
   .w-h-10 {
     width: 10px;

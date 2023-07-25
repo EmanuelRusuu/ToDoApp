@@ -1,7 +1,7 @@
 <template>
   <div
     class="relative flex flex-col justify-center gap-38 border-2 border-black rounded-2xl p-4 max-w-288 w-full min-h-82 xsm:max-w-500 xsm:w-full xsm:min-h-140 xsm:py-5 xsm:px-6 md:max-w-610 md:w-full md:min-h-163 md:p-6"
-    @click="editTodo(todo.id)"
+    @click="editTodo(todo._id)"
   >
     <div class="flex items-center justify-between w-full">
       <TodoStatus @mark-todo-status="markTodoStatus" :todo="localTodo" />
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import type { TodoType } from '../../types/text'
+import type { TodoType } from '../../types/todo'
 import TodoPriority from '../TodoComponents/TodoPriority.vue'
 import TodoPriorityOptions from '../TodoComponents/TodoPriorityOptions.vue'
 import TodoDelete from '../TodoComponents/TodoDelete.vue'
@@ -48,7 +48,7 @@ import TodoStatus from '../TodoComponents/TodoStatus.vue'
 const props = defineProps<{
   todo: TodoType
   index: number
-  currentEditedTodo: number | null
+  currentEditedTodo: string
 }>()
 
 const localTodo = reactive({
@@ -59,21 +59,25 @@ const localTodo = reactive({
   isChecked: props.todo.isChecked,
   createdAt: props.todo.createdAt,
   isEditing: props.todo.isEditing,
-  id: props.todo.id
+  _id: props.todo._id
 })
 
 const emit = defineEmits<{
-  (e: 'getTodoId', id: number): void
+  (e: 'getTodoId', id: string): void
   (e: 'displayPopup', isFinishedTodo: boolean): void
   (e: 'markTodoStatus', todo: TodoType): void
   (e: 'onTodoUpdate', todo: TodoType): void
 }>()
 
-function editTodo(id: number) {
-  if (props.todo.id === props.currentEditedTodo || !props.currentEditedTodo) {
+function editTodo(id: string) {
+  if (props.todo._id === props.currentEditedTodo || !props.currentEditedTodo) {
     localTodo.isEditing = true
-    emit('getTodoId', id)
+    getTodoId(id)
   }
+}
+
+function getTodoId(id: string) {
+  emit('getTodoId', id)
 }
 
 function markTodoStatus(isChecked: boolean) {
@@ -97,7 +101,7 @@ function updateTodoPriorityChange(changedPriority: boolean) {
   localTodo.isPriorityChange = changedPriority
 }
 
-function updateTodoPriorityValue(selectedPriority: number) {
+function updateTodoPriorityValue(selectedPriority: string) {
   localTodo.priority = selectedPriority
 }
 
@@ -106,3 +110,4 @@ function onTodoUpdate() {
   emit('onTodoUpdate', localTodo)
 }
 </script>
+../../types/todo

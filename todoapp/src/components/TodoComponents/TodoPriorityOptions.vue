@@ -8,7 +8,7 @@
       v-for="item in priorityItems"
       :key="item.value"
       :class="[
-        'priority-mobile',
+        'priority-mobile w-h-10 xsm:w-full xsm:h-1/3',
         item.colorClass,
         { 'priority-selection': todo.priority === item.value }
       ]"
@@ -20,20 +20,24 @@
 </template>
 
 <script setup lang="ts">
-import type { TodoType } from '@/types/text'
+import type { TodoType } from '@/types/todo'
 
 defineProps<{ todo: TodoType }>()
 const emit = defineEmits<{
-  (e: 'selectedPriority', selectedPriority: number): void
+  (e: 'selectedPriority', selectedPriority: string): void
 }>()
 const priorityItems = [
-  { value: 0, label: 'Low', colorClass: 'bg-teal-400 xsm:bg-white priority-option-mobile' },
-  { value: 1, label: 'Medium', colorClass: 'bg-amber-400 xsm:bg-white priority-option-mobile' },
-  { value: 2, label: 'High', colorClass: 'bg-orange-600 xsm:bg-white priority-option-mobile' }
+  { value: 'low', label: 'Low', colorClass: 'bg-teal-400 xsm:bg-white priority-option-mobile' },
+  {
+    value: 'medium',
+    label: 'Medium',
+    colorClass: 'bg-amber-400 xsm:bg-white priority-option-mobile'
+  },
+  { value: 'high', label: 'High', colorClass: 'bg-orange-600 xsm:bg-white priority-option-mobile' }
 ]
 
-function setPriority(todo: TodoType, number: number) {
-  todo.priority = number
+function setPriority(todo: TodoType, value: string) {
+  todo.priority = value
   todo.isPriorityChange = false
   emit('selectedPriority', todo.priority)
 }

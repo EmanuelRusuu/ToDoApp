@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { TodoType } from '../types/text'
+import type { TodoType } from '../types/todo'
 import type { SelectedState } from '../types/selected'
 import TodoList from './TodoList.vue'
 
@@ -29,11 +29,11 @@ const props = defineProps<{
   searchInput: string
   searchFinishedTodos: TodoType[]
   selectedSortingButtons: SelectedState
-  currentEditedTodo: number | null
+  currentEditedTodo: string
 }>()
 
 const emit = defineEmits<{
-  (e: 'getTodoId', id: number): void
+  (e: 'getTodoId', id: string): void
   (e: 'displayPopup', isFinishedTodo: boolean): void
   (e: 'markTodoStatus', todo: TodoType): void
   (e: 'onTodoUpdate', todo: TodoType): void
@@ -54,9 +54,10 @@ function updateTodo(todo: TodoType) {
   emit('onTodoUpdate', todo)
 }
 
-function getTodoId(id: number) {
+function getTodoId(id: string) {
   emit('getTodoId', id)
 }
 const isActiveSearch = computed(() => props.searchFinishedTodos.length || props.searchInput)
 const isEmptySearch = computed(() => !props.searchFinishedTodos.length && props.searchInput)
 </script>
+../types/todo

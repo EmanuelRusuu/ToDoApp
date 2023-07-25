@@ -10,14 +10,20 @@
       class="w-24 h-4 font-normal text-xs xsm:h-5 xsm:text-base xsm:opacity-100 md:text-lg md:h-6"
       :class="todo.isEditing ? 'text-black' : 'opacity-30 text-gray-700 xsm:text-black'"
     >
-      {{ todo.createdAt }}
+      {{ formattedDate }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { TodoType } from '@/types/text'
+import type { TodoType } from '@/types/todo'
 import Calendar from '../Icons/Calendar.vue'
+import moment from 'moment'
+import { computed } from 'vue'
 
-defineProps<{ todo: TodoType }>()
+const props = defineProps<{ todo: TodoType }>()
+
+const formattedDate = computed(() => {
+  return moment(props.todo.createdAt).format('DD.MM.YYYY')
+})
 </script>

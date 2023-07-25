@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TodoType } from '@/types/text'
+import type { TodoType } from '@/types/todo'
 import { computed } from 'vue'
 
 const props = defineProps<{ todo: TodoType }>()

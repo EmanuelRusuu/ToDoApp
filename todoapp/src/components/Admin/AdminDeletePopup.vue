@@ -14,7 +14,7 @@
         </p>
       </div>
       <div class="flex flex-row items-center gap-2 xsm:gap-4">
-        <button class="popup-btn bg-red-500" @click="removeTask">
+        <button class="popup-btn bg-red-500" @click="deleteAllTodos">
           <p class="btn-text text-white">Delete</p>
         </button>
         <button class="popup-btn bg-gray-300" @click="closePopUp">
@@ -26,20 +26,19 @@
 </template>
 
 <script setup lang="ts">
-import ExclamationIcon from './Icons/ExclamationIcon.vue'
-import CloseIcon from './Icons/CloseIcon.vue'
+import ExclamationIcon from '../Icons/ExclamationIcon.vue'
+import CloseIcon from '../Icons/CloseIcon.vue'
 
-const props = defineProps<{ id: number }>()
 const emit = defineEmits<{
-  (e: 'removeTask', id: number): void
   (e: 'closePopUp'): void
+  (e: 'deleteAllTodos'): void
 }>()
-
-function removeTask() {
-  emit('removeTask', props.id)
-}
 
 function closePopUp() {
   emit('closePopUp')
+}
+
+function deleteAllTodos() {
+  emit('deleteAllTodos')
 }
 </script>

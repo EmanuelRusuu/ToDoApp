@@ -1,5 +1,5 @@
 <template>
-  <li v-for="(todo, index) in sortedAndFilteredTodos" :key="todo.id">
+  <li v-for="(todo, index) in sortedAndFilteredTodos" :key="todo._id">
     <Todo
       :todo="todo"
       :index="index"
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TodoType } from '@/types/text'
+import type { TodoType } from '@/types/todo'
 import type { SelectedState } from '@/types/selected'
 import { computed } from 'vue'
 import { trimWhiteSpace } from '../helpers/trim'
@@ -22,20 +22,20 @@ import Todo from './Todos/Todo.vue'
 
 const props = defineProps<{
   searchInput: string
-  currentEditedTodo: number | null
+  currentEditedTodo: string
   selectedSortingButtons: SelectedState
   searchTodos: TodoType[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'getTodoId', id: number): void
+  (e: 'getTodoId', id: string): void
   (e: 'markTodoStatus', todo: TodoType): void
   (e: 'displayPopup', todo: boolean): void
   (e: 'onTodoUpdate', todo: TodoType): void
   (e: 'createDateObject', date: string): void
 }>()
 
-function getTodoId(id: number) {
+function getTodoId(id: string) {
   emit('getTodoId', id)
 }
 

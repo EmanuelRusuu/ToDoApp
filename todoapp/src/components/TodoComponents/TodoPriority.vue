@@ -16,22 +16,22 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { TodoType } from '@/types/text'
+import type { TodoType } from '@/types/todo'
 import ArrowDown from '../Icons/ArrowDown.vue'
 
 const props = defineProps<{ todo: TodoType }>()
 defineEmits<{ (e: 'changePriority', isPriorityChange: boolean): void }>()
 
-const priority = { 0: 'Low', 1: 'Medium', 2: 'High' }
+const priority = { low: 'Low', medium: 'Medium', high: 'High' }
 
 function handleImportance(index: keyof typeof priority) {
   return priority[index]
 }
 
-const colorMaps: Record<number, string> = {
-  0: 'bg-teal-400',
-  1: 'bg-amber-400',
-  2: 'bg-orange-600'
+const colorMaps: Record<string, string> = {
+  low: 'bg-teal-400',
+  medium: 'bg-amber-400',
+  high: 'bg-orange-600'
 }
 
 const getPriorityColor = computed(() => colorMaps[props.todo.priority as keyof typeof colorMaps])

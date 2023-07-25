@@ -1,12 +1,12 @@
-<script setup lang="ts">
-import TodoApp from './components/TodoApp.vue'
-</script>
-
 <template>
   <div class="app w-screen h-screen flex justify-center overflow-x-hidden">
-    <TodoApp />
+    <AuthTodo />
   </div>
 </template>
+
+<script setup lang="ts">
+import AuthTodo from './components/AuthTodo.vue'
+</script>
 
 <style scoped>
 ::-webkit-scrollbar {

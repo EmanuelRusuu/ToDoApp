@@ -1,6 +1,8 @@
 import type moment from 'moment'
 
 export type TodoType = {
+  _id?: string
+  userId: string
   title: string
   text: string
   priority: tuple
@@ -8,5 +10,4 @@ export type TodoType = {
   isChecked: boolean
   createdAt: moment
   isEditing: boolean
-  id: number
 }

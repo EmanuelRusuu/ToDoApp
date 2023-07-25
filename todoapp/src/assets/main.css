@@ -24,8 +24,8 @@
   }
   .todo-title {
     @apply flex !items-center w-11/12 border-0 outline-none font-medium text-lg 
-    xsm:w-10/12 xsm:font-semibold xsm:text-3xl xsm:max-w-19 
-    md:xsm:w-11/12 md:text-42 md:max-w-27;
+    xsm:w-10/12 xsm:font-semibold xsm:text-3xl xsm:max-w-19
+    md:xsm:w-11/12  md:max-w-27 md:text-42;
   }
   .todo-text {
     @apply w-full mt-4 text-gray-500 font-normal text-sm 
@@ -33,7 +33,7 @@
     md:text-3xl md:mt-10;
   }
   .priority-mobile {
-    @apply w-h-10 rounded-full gap-2 flex items-center cursor-pointer 
+    @apply rounded-full gap-2 flex items-center cursor-pointer 
     xsm:bg-transparent;
   }
   .priority-option-mobile {
@@ -52,6 +52,7 @@
     md:text-sm md:h-8 md:px-4 md:py-2;
   }
 }
+
 @layer utilities {
   .max-w-288 {
     max-width: 288px;

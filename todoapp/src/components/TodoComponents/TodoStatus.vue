@@ -15,7 +15,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { TodoType } from '@/types/text'
+import type { TodoType } from '@/types/todo'
 import circle from '../../assets/circle.svg'
 import check from '../../assets/check.svg'
 

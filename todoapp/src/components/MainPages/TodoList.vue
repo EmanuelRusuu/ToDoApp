@@ -17,8 +17,8 @@
 import type { TodoType } from '@/types/todo'
 import type { SelectedState } from '@/types/selected'
 import { computed } from 'vue'
-import { trimWhiteSpace } from '../helpers/trim'
-import Todo from './Todos/Todo.vue'
+import { trimWhiteSpace } from '../../helpers/trim'
+import Todo from '../Todos/Todo.vue'
 
 const props = defineProps<{
   searchInput: string

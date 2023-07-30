@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import Logout from '../../assets/logout.svg'
+import Logout from '../../../assets/logout.svg'
 
 const emit = defineEmits<{ (e: 'logOut'): void }>()
 

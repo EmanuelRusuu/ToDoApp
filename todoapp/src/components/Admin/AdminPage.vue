@@ -18,8 +18,8 @@
     </div>
     <div class="w-full">
       <Users v-if="isUsers" />
-      <UsersTodos v-if="isUsersTodos" />
-      <UsersFinishedTodos v-if="isUsersFinishedTodos" />
+      <UsersTodos v-if="isUsersTodos" :api-url="'todos'" :comp-text="'Todos'" />
+      <UsersTodos v-if="isUsersFinishedTodos" :api-url="'finished'" :comp-text="'Finished Todos'" />
     </div>
   </div>
 </template>
@@ -27,8 +27,7 @@
 <script setup lang="ts">
 import Users from './Users.vue'
 import UsersTodos from './UsersTodos.vue'
-import UsersFinishedTodos from './UsersFinishedTodos.vue'
-import Logout from '../Authentication/Logout.vue'
+import Logout from '../Authentication/LoggedIn/Logout.vue'
 import { ref } from 'vue'
 
 const emit = defineEmits<{ (e: 'logOut'): void }>()

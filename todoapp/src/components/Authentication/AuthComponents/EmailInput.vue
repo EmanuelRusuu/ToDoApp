@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import Email from '../Icons/Email.vue'
+import Email from '../../Icons/Email.vue'
 import { computed } from 'vue'
 
 const props = defineProps<{ email: string }>()

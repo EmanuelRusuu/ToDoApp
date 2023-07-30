@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import Logout from '../Authentication/Logout.vue'
-import Welcome from '../Authentication/Welcome.vue'
+import Logout from './Logout.vue'
+import Welcome from './Welcome.vue'
 
 defineProps<{ isLoggedIn: boolean; username: string }>()
 const emit = defineEmits<{ (e: 'logOut'): void }>()

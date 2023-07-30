@@ -3,18 +3,8 @@
     <div class="flex justify-between items-center">
       <h2 class="text-lg font-semibold">Users</h2>
       <div class="flex gap-5">
-        <button
-          @click="fetchUsers"
-          class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow"
-        >
-          Refresh
-        </button>
-        <button
-          @click="deleteAllUsers"
-          class="px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow"
-        >
-          Delete All
-        </button>
+        <AdminButton :text="'Refresh'" @do-action="fetchUsers" />
+        <AdminButton :text="'Delete All'" @do-action="deleteAllUsers" />
       </div>
     </div>
     <table class="w-full table-fixed border-collapse border border-gray-400">
@@ -48,6 +38,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import type { UserType } from '@/types/user'
+import AdminButton from './AdminButton.vue'
 
 const users = ref<UserType[]>([])
 

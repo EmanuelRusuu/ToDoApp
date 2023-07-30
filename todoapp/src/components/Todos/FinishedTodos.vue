@@ -21,9 +21,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { TodoType } from '../types/todo'
-import type { SelectedState } from '../types/selected'
-import TodoList from './TodoList.vue'
+import type { TodoType } from '../../types/todo'
+import type { SelectedState } from '../../types/selected'
+import TodoList from '../MainPages/TodoList.vue'
 
 const props = defineProps<{
   searchInput: string

@@ -30,9 +30,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { debounce } from '../helpers/debounce'
-import searchIcon from '../assets/searchIcon.svg'
-import CloseIcon from './Icons/CloseIcon.vue'
+import { debounce } from '../../helpers/debounce'
+import searchIcon from '../../assets/searchIcon.svg'
+import CloseIcon from './../Icons/CloseIcon.vue'
 
 const props = defineProps<{
   modelValue: string

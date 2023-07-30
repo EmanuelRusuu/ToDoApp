@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import Person from '../Icons/Person.vue'
+import Person from '../../Icons/Person.vue'
 import { computed } from 'vue'
 
 const props = defineProps<{ username: string }>()

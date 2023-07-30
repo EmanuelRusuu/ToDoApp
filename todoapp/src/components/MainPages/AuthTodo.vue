@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import TodoApp from '../components/TodoApp.vue'
-import Login from '../components/Authentication/Login.vue'
-import SignUp from '../components/Authentication/SignUp.vue'
-import AdminPage from '../components/Admin/AdminPage.vue'
+import TodoApp from '../../components/MainPages/TodoApp.vue'
+import Login from '../../components/Authentication/Login/Login.vue'
+import SignUp from '../../components/Authentication/Signup/SignUp.vue'
+import AdminPage from '../../components/Admin/AdminPage.vue'
 import { ref, computed } from 'vue'
 
 const isLoggedIn = ref(false)

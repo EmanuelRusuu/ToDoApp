@@ -26,9 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import Arrow from '../assets/arrow.svg'
+import Arrow from '../../assets/arrow.svg'
 import { computed, reactive } from 'vue'
-import type { SelectedState } from '../types/selected'
+import type { SelectedState } from '../../types/selected'
 
 const props = defineProps<{ selectedSortingButtons: SelectedState }>()
 

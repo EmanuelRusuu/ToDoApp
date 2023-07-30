@@ -52,16 +52,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
-import type { TodoType } from '../types/todo'
-import { findItemIndex } from '../helpers/findItemIndex'
+import type { TodoType } from '../../types/todo'
+import { findItemIndex } from '../../helpers/findItemIndex'
 import moment from 'moment'
-import Header from './Header.vue'
-import Todos from './Todos/Todos.vue'
-import FinishedTodos from './FinishedTodos.vue'
-import SearchTodos from './SearchTodos.vue'
-import FilterTodos from './FilterTodos.vue'
-import DeletePopup from './DeletePopup.vue'
-import LoggedIn from './Authentication/LoggedIn.vue'
+import Header from '../MainPageComponents/Header.vue'
+import Todos from '../Todos/Todos.vue'
+import FinishedTodos from '../Todos/FinishedTodos.vue'
+import SearchTodos from '../HandleTodos/SearchTodos.vue'
+import FilterTodos from '../HandleTodos/FilterTodos.vue'
+import DeletePopup from '../MainPageComponents/DeletePopup.vue'
+import LoggedIn from '../Authentication/LoggedIn/LoggedIn.vue'
 import axios from 'axios'
 
 defineProps<{ isLoggedIn: boolean }>()

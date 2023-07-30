@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import AuthTodo from './components/AuthTodo.vue'
+import AuthTodo from './components/MainPages/AuthTodo.vue'
 </script>
 
 <style scoped>

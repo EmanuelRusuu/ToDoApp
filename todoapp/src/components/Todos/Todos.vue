@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import TodoList from '../TodoList.vue'
+import TodoList from '../MainPages/TodoList.vue'
 import EmptyState from '../EmptyState/EmptyState.vue'
 import type { TodoType } from '../../types/todo'
 import type { SelectedState } from '../../types/selected'

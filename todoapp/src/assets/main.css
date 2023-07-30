@@ -51,6 +51,15 @@
     @apply h-7 py-1 px-3 border rounded-lg outline-none flex items-center justify-center text-xs 
     md:text-sm md:h-8 md:px-4 md:py-2;
   }
+  .admin-button {
+    @apply px-4 py-2  text-white font-semibold rounded-md;
+  }
+  .refresh {
+    @apply bg-blue-500 admin-button;
+  }
+  .delete {
+    @apply bg-red-500 admin-button;
+  }
 }
 
 @layer utilities {
